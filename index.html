@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/responsive.css" />
     <link rel="stylesheet" href="./swiper/swiper-bundle.min.css" />
     <title>وبسایت رسمی هنرستان خوارزمی</title>
   </head>
@@ -47,8 +48,8 @@
             </li>
           </ul>
           <div class="ms-auto">
-            <a href="/signup.html" class="btn btn-success me-2">ثبت نام</a>
-            <a href="/login.html" class="btn btn-outline-danger me-4">ورود</a>
+            <a href="/signup.html" class="btn btn-outline-success me-2">ثبت نام</a>
+            <a href="/login.html" class="btn text-secondary me-4">ورود</a>
             <a href="tel:07138728292" class="btn btn-primary text-light"
               >07138728292
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,15 +68,14 @@
 
     <!-- Header -->
     <header class="landing-header d-flex align-items-center justify-content-center flex-column position-relative shadowlg">
-      <h1 class="text-center text-white font-black">ما بر رشد فرزندان شما متمرکز میشویم! ( هنرستان خوارزمی )</h1>
-      <p class="text-light font-light mt-2">
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و
-        سطرآنچنان که لازم است،
+      <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان خوارزمی )</span></h1>
+      <p class="text-light text-center font-light mt-2 px-2 px-lg-0">
+        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است
       </p>
       <a href="#" class="btn btn-outline-light shadow-sm d-block mx-auto mt-3">لیست پذیرش ها</a>
-      <div class="row position-absolute w-75 services">
-        <div class="col-4">
-          <div class="text-center py-4 rounded-3 shadow bg-light service">
+      <div class="row position-absolute mx-auto services">
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
             <span class="bg-primary rounded-pill p-3 d-inline-block">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M24 0H0V24H24V0Z" />
@@ -99,8 +99,8 @@
             <p class="text-secondary mb-0">شنبه تا چهارشنبه : 08:00 صبح تا 14:00 عصر</p>
           </div>
         </div>
-        <div class="col-4">
-          <div class="text-center py-4 rounded-3 shadow bg-light service">
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
             <span class="bg-primary rounded-pill p-3 d-inline-block">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -119,8 +119,8 @@
             <p class="text-secondary mb-0">فارس فیروزآباد بلوار امام حسین کوچه 85</p>
           </div>
         </div>
-        <div class="col-4">
-          <div class="text-center py-4 rounded-3 shadow bg-light service">
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
             <span class="bg-primary rounded-pill p-3 d-inline-block"
               ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -139,7 +139,7 @@
     <!--/ Header -->
 
     <!-- honors -->
-    <section class="honors-area mb-5 mt-10 container" id="honors">
+    <section class="honors-area mb-5 mt-10 container-lg" id="honors">
       <div class="d-flex align-items-center justify-content-between title position-relative mx-4">
         <h1 class="font-black text-center mb-4">سری افتخارات هنرستان</h1>
       </div>
@@ -154,6 +154,7 @@
                   <p class="card-text font-light text-secondary text-justify">
                     دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
                   </p>
+                  <a href="#" class="text-decoration-none">اطلاعات بیشتر...</a>
                 </div>
               </div>
             </div>
@@ -167,6 +168,7 @@
                   <p class="card-text font-light text-secondary text-justify">
                     دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
                   </p>
+                  <a href="#" class="text-decoration-none">اطلاعات بیشتر...</a>
                 </div>
               </div>
             </div>
@@ -180,6 +182,7 @@
                   <p class="card-text font-light text-secondary text-justify">
                     دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
                   </p>
+                  <a href="#" class="text-decoration-none">اطلاعات بیشتر...</a>
                 </div>
               </div>
             </div>
@@ -193,6 +196,7 @@
                   <p class="card-text font-light text-secondary text-justify">
                     دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
                   </p>
+                  <a href="#" class="text-decoration-none">اطلاعات بیشتر...</a>
                 </div>
               </div>
             </div>
@@ -227,23 +231,22 @@
     <!--/ honors -->
 
     <!-- Sessions-slider -->
-    <section class="session-slider mt-10 mb-5 container rounded-3">
+    <section class="session-slider mt-10 mb-5 container-xl rounded-3">
       <div class="swiper-container sessions-slider h-100">
         <div class="swiper-wrapper">
-          <div class="session d-flex align-items-center justify-content-between h-100 py-4 px-3 swiper-slide">
-            <div class="h-100">
+          <div class="session d-lg-flex align-items-center justify-content-between h-100 py-4 px-3 swiper-slide">
+            <div class="h-100 d-flex align-items-center">
               <img src="./images/bg.jpg" class="rounded-3 shadow fit-cover" alt="" />
             </div>
-            <div class="ms-5">
-              <h1 class="font-black text-white">لورم ایپسوم متنی بی معنیه!</h1>
+            <div class="ms-lg-4 mt-4 mt-lg-0 ms-xxl-5 d-flex justify-content-between flex-column h-100">
+              <h1 class="font-black m-0 text-white">لورم ایپسوم متنی بی معنیه!</h1>
               <p class="text-light font-light my-4 text-justify">
-                علاوه بر این مدارس اصلی ، دانش آموزان یک کشور خاص ممکن است در مدارس قبل و بعد از ابتدایی در دوره متوسطه و متوسطه نیز در آموزش ما شرکت
-                کنند.علاوه بر این مدارس اصلی ، دانش آموزان یک کشور خاص ممکن است در مدارس قبل و بعد از ابتدایی در دوره متوسطه و متوسطه نیز در آموزش ما
-                شرکت کنند.علاوه بر این مدارس اصلی ، دانش آموزان یک کشور خاص ممکن است در مدارس قبل و بعد از ابتدایی در دوره متوسطه و متوسطه نیز در
-                آموزش ما شرکت کنند.علاوه بر این مدارس اصلی ، دانش آموزان یک کشور خاص ممکن است در مدارس قبل و بعد از ابتدایی در دوره متوسطه و متوسطه
-                نیز در آموزش ما شرکت کنند.
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
+                ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
+                زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
+                رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که
               </p>
-              <a href="#" class="btn btn-outline-light">ثبت نام کنید</a>
+              <a href="#" class="btn btn-outline-light align-self-start">ثبت نام کنید</a>
             </div>
           </div>
         </div>
@@ -277,9 +280,9 @@
 
     <!-- School blog -->
     <section class="blogs-area bg-light py-5 mt-10 mb-5">
-      <div class="container">
-        <div class="d-flex align-items-center justify-content-between title position-relative mx-4">
-          <h1 class="font-black text-center mb-4">آخرین بلاگ های وبسایت</h1>
+      <div class="container-lg">
+        <div class="d-flex align-items-center justify-content-between title position-relative mx-4 pb-4">
+          <h1 class="font-black text-center m-0">آخرین بلاگ های وبسایت</h1>
           <a href="#" class="text-primary text-decoration-none">تمامی بلاگ ها</a>
         </div>
         <div class="swiper-container blogs p-3 mt-5">
@@ -475,7 +478,7 @@
 
     <!-- Masters -->
     <section class="masters-area mt-10 pb-5" id="masters">
-      <div class="container">
+      <div class="container-lg">
         <div class="d-flex align-items-center justify-content-between title position-relative mx-4">
           <h1 class="font-black mb-4">مدرسان مدرسه</h1>
           <a href="#" class="text-primary text-decoration-none">تمامی مدرسان</a>
@@ -566,24 +569,24 @@
 
     <!-- Contact US -->
     <section class="contact-us mt-4 mb-5 py-5" id="contact-us">
-      <div class="container d-flex align-content-center justify-content-center">
-        <form class="w-50">
+      <div class="container-lg d-flex align-content-center justify-content-center">
+        <form>
           <h1 class="font-black mb-5 mt-5 text-center">با ما تماس بگیرید</h1>
           <div class="row">
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3" placeholder="نام و نام خانوادگی" />
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="نام و نام خانوادگی" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3" placeholder="ایمیل" />
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="ایمیل" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3" placeholder="شماره تماس" />
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="شماره تماس" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3" placeholder="موضوع" />
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="موضوع" />
             </div>
             <div class="mb-3 col-12">
-              <textarea class="form-control pt-3" rows="8" placeholder="لطفا پیام خود را نوشته کنید"></textarea>
+              <textarea class="form-control pt-3 text-secondary font-light" rows="8" placeholder="لطفا پیام خود را نوشته کنید"></textarea>
             </div>
           </div>
           <div class="text-center mt-3">
@@ -597,9 +600,9 @@
 
     <!-- Footer -->
     <footer class="pt-5 mt-10 position-relative">
-      <div class="container">
-        <div class="row mb-4">
-          <div class="col-4">
+      <div class="container-lg">
+        <div class="row mb-4 mx-2 mx-lg-3 mx-lg-0">
+          <div class="col-12 col-sm-6 col-lg-4">
             <h4 class="font-black my-4 text-white">لـیـنـک هـای سـریـع</h4>
             <ul class="ps-0">
               <li class="my-3 ms-3 text-light position-relative">وبسایت شاد</li>
@@ -607,7 +610,7 @@
               <li class="my-3 ms-3 text-light position-relative">دسترسی به کارنامه ها</li>
             </ul>
           </div>
-          <div class="col-4">
+          <div class="col-12 col-sm-6 col-lg-4">
             <h4 class="font-black my-4 text-white">تـمـاس بـا مـا</h4>
             <ul class="ps-0">
               <li class="my-3 ms-3 text-light position-relative">شماره تلفن: 07138729482</li>
@@ -615,7 +618,7 @@
               <li class="my-3 ms-3 text-light position-relative">شماره موبایل: 09337856295</li>
             </ul>
           </div>
-          <div class="col-4">
+          <div class="col-12 col-sm-6 col-lg-4">
             <h4 class="font-black my-4 text-white">دسـتـرسـی سـریـع</h4>
             <ul class="ps-0">
               <li class="my-3 ms-3 text-light position-relative">وبلاگ مدرسه</li>

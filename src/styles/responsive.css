@@ -1,0 +1,130 @@
+@media (max-width: 1400px) {
+  .session-slider h1 {
+    font-size: 30px;
+  }
+  .session-slider .next-slide.btn {
+    right: 91%;
+  }
+  .session-slider .session img {
+    width: 400px;
+  }
+}
+@media (max-width: 1200px) {
+  .landing-header .services {
+    width: 98%;
+  }
+  .session-slider {
+    width: 90%;
+  }
+  .session-slider .session img {
+    width: 350px;
+  }
+  .session-slider .session p {
+    font-size: 14px;
+  }
+}
+@media (max-width: 991px) {
+  .landing-header h1 {
+    font-size: 1.8rem;
+  }
+  .session-slider .session img {
+    width: 100%;
+    height: 300px;
+  }
+  .session-slider {
+    height: auto;
+  }
+  .contact-us form {
+    width: 70%;
+  }
+  footer::before {
+    height: 650px;
+  }
+  .blog-info .blog-img {
+    height: 400px;
+  }
+}
+@media (max-width: 768px) {
+  .landing-header {
+    height: 550px;
+  }
+  .landing-header h1 {
+    font-size: 2.3rem;
+    line-height: 55px;
+  }
+  .landing-header h1 span {
+    display: block;
+  }
+  .landing-header > p {
+    font-size: 0.9rem;
+  }
+  .services {
+    display: none;
+  }
+  .honors-area {
+    margin-top: 5em;
+  }
+  .contact-us form {
+    width: 85%;
+  }
+  footer > div > div:nth-child(2) p {
+    font-size: 14px;
+  }
+  .blogs-nav .input-group {
+    width: 100%;
+  }
+  .signup-form,
+  .login-form {
+    width: 100%;
+  }
+}
+@media (max-width: 576px) {
+  .landing-header h1 {
+    font-size: 1.8rem;
+  }
+  .contact-us form {
+    width: 95%;
+  }
+  footer::before {
+    height: 800px;
+  }
+  footer > div > div:nth-child(2) p {
+    font-size: 12px;
+  }
+  .title h1,
+  .session-slider h1 {
+    font-size: 1.5rem;
+  }
+  header.header-small {
+    height: 300px;
+  }
+}
+@media (max-width: 499px) {
+  .landing-header h1 {
+    font-size: 1.6rem;
+    line-height: 45px;
+  }
+  .landing-header > p {
+    font-size: 0.8rem;
+  }
+  .blog-info .blog-img {
+    height: 320px;
+  }
+  .blog-info > h1 {
+    font-size: 1.5rem;
+  }
+  .blog-info .blog-feedbacks {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 1em;
+  }
+}
+@media (max-width: 399px) {
+  .landing-header h1 {
+    font-size: 1.28rem;
+    line-height: 45px;
+  }
+  .blog-info > h1 {
+    font-size: 1.3rem;
+  }
+}

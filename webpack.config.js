@@ -87,6 +87,16 @@ const configs = {
       template: "./src/templates/signup.html",
       minify: false,
     }),
+    new HtmlWebpackPlugin({
+      filename: "about.html",
+      template: "./src/templates/about.html",
+      minify: false,
+    }),
+    new HtmlWebpackPlugin({
+      filename: "blog.html",
+      template: "./src/templates/blog.html",
+      minify: false,
+    }),
   ],
 };
 

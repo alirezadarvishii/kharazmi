@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/dashboard-8a45f27b824f987de70e.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Main Container -->
+    <section class="container-fluid dashboard py-3 px-0">
+      <!-- Row -->
+      <div class="row m-0">
+        <%- include("../includes/admin-panel-aside.ejs") %>
+        <!-- Main -->
+        <main class="col-10 px-3">
+          <div class="bg-light rounded-8 p-3 pb-0">
+            <!-- Some info of website -->
+            <div class="row">
+              <div class="col">
+                <div class="card border-primary shadow-sm mb-3">
+                  <div class="card-header bg-primary text-light font-bold">کاربران وبسایت</div>
+                  <div class="card-body text-primary d-flex justify-content-between">
+                    <div class="d-flex">
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span class="p-2 bg-primary rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="مدیر"></span>
+                        6
+                      </div>
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="معلم"></span>
+                        25
+                      </div>
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span class="p-2 bg-warning rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="کاربر عادی"></span>
+                        242
+                      </div>
+                    </div>
+                    <h3 class="font-black text-primary mb-0">385</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-success shadow-sm mb-3">
+                  <div class="card-header bg-success text-light font-bold">تعداد بلاگ های سایت</div>
+                  <div class="card-body text-success d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span
+                          class="p-2 bg-success rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="بلاگ های تأیید شده"
+                        ></span>
+                        12
+                      </div>
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span
+                          class="p-2 bg-danger rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="بلاگ های در انتظار تأیید"
+                        ></span>
+                        23
+                      </div>
+                    </div>
+                    <h3 class="font-black mb-0">55</h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card border-info shadow-sm mb-3">
+                  <div class="card-header bg-info text-light font-bold">تعداد کامنت های منتشر شده</div>
+                  <div class="card-body text-info d-flex justify-content-between align-items-center">
+                    <div class="d-flex">
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span
+                          class="p-2 bg-success rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="کامنت های تأیید شده"
+                        ></span>
+                        12
+                      </div>
+                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
+                        <span
+                          class="p-2 bg-danger rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="کامنت های در انتظار تأیید"
+                        ></span>
+                        23
+                      </div>
+                    </div>
+                    <h3 class="font-black mb-0">85</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ Some info of website -->
+            <!-- Users that waiting for approval -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="card border shadow-sm mb-3">
+                  <div class="card-header font-bold">
+                    معلم یا مدیران جدیدی که در انتظار تأیید از سوی شما هستند
+                    <span class="text-secondary font-light">( <%= notApprovedUsers.length %> کاربر )</span>
+                  </div>
+                  <div class="card-body pt-0 pb-0">
+                    <ul class="list-unstyled row border-bottom mb-0 pb-3 text-dark mt-3">
+                      <li class="col">نام و نام خانوادگی</li>
+                      <li class="col">ایمیل</li>
+                      <li class="col text-center">نقش</li>
+                      <li class="col text-center">تأیید \ حذف</li>
+                    </ul>
+                    <ul class="list-unstyled">
+                      <% if(notApprovedUsers) { %> <% notApprovedUsers.forEach(user => { %>
+                      <li class="row py-3 border-bottom">
+                        <div class="col text-primary"><%= user.fullname %></div>
+                        <div class="col text-secondary"><%= user.email %></div>
+                        <div class="col text-center">
+                          <span class="badge <%= user.role === 'admin' ? 'bg-primary' : 'bg-success' %>"
+                            ><%= user.role === "admin" ? "مدیر" : "معلم" %>
+                          </span>
+                        </div>
+                        <div class="col text-center">
+                          <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                          <a href="#" class="text-decoration-none text-danger">حذف</a>
+                        </div>
+                      </li>
+                      <% }) %> <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ Users that waiting for approval -->
+            <!-- Blogs and Comments that waiting for approval -->
+            <div class="row mt-2">
+              <!-- Blogs -->
+              <div class="row col">
+                <div class="col">
+                  <div class="card border shadow-sm mb-3">
+                    <div class="card-header font-bold">بلاگ های در انتظار تأیید</div>
+                    <div class="card-body py-0">
+                      <ul class="list-unstyled row border-bottom mb-0 pb-3 text-dark mt-3">
+                        <li class="col">نویسنده</li>
+                        <li class="col text-center">خواندن بلاگ</li>
+                        <li class="col text-end">تأیید \ حذف</li>
+                      </ul>
+                      <ul class="list-unstyled mb-0">
+                        <li class="row py-3 border-bottom">
+                          <div class="col text-primary">امیررضا درویشی</div>
+                          <div class="col text-primary text-center"><a href="#" class="text-decoration-none">خواندن</a></div>
+                          <div class="col text-end">
+                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                            <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          </div>
+                        </li>
+                        <li class="row py-3">
+                          <div class="col text-primary">امیررضا درویشی</div>
+                          <div class="col text-primary text-center"><a href="#" class="text-decoration-none">خواندن</a></div>
+                          <div class="col text-end">
+                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                            <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/ Blogs -->
+              <!-- Comments -->
+              <div class="row col">
+                <div class="col">
+                  <div class="card border shadow-sm mb-3">
+                    <div class="card-header font-bold">کامنت های در انتظار تأیید</div>
+                    <div class="card-body py-0">
+                      <ul class="list-unstyled row border-bottom mb-0 pb-3 text-dark mt-3">
+                        <li class="col">نام و نام خانوادگی</li>
+                        <li class="col">متن کامنت</li>
+                        <li class="col">پست مربوطه</li>
+                        <li class="col text-end">تأیید \ حذف</li>
+                      </ul>
+                      <ul class="list-unstyled mb-0">
+                        <li class="row py-3 border-bottom">
+                          <div class="col text-primary">امیررضا درویشی</div>
+                          <div class="col text-secondary"><a href="#" class="text-decoration-none">خواندن</a></div>
+                          <div class="col"><span class="badge bg-primary">@blog-230233</span></div>
+                          <div class="col text-end">
+                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                            <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          </div>
+                        </li>
+                        <li class="row py-3">
+                          <div class="col text-primary">امیررضا درویشی</div>
+                          <div class="col text-secondary"><a href="#" class="text-decoration-none">خواندن</a></div>
+                          <div class="col"><span class="badge bg-primary">@blog-230233</span></div>
+                          <div class="col text-end">
+                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                            <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/ Comments -->
+            </div>
+            <!--/ Blogs and Comments that waiting for approval -->
+          </div>
+        </main>
+        <!--/ Main -->
+      </div>
+      <!--/ Row -->
+    </section>
+    <!--/ Main Container -->
+  </body>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</html>

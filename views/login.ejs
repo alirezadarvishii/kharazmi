@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <title><%= title %></title>
+    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
+    <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+  </head>
+  <body>
+    <%- include("./includes/nav.ejs") %>
+
+    <!-- Form -->
+    <section class="container">
+      <div class="login-form mb-5 p-0 overflow-hidden shadow-lg rounded-3 bg-light mx-auto">
+        <div class="form-img p-5 w-100">
+          <div class="d-flex justify-content-center flex-column h-100">
+            <h1 class="text-white font-black text-center mb-3">خــوش آمــدیــد</h1>
+            <p class="text-light text-center m-0 font-light">با ورود به سایت از مزایای کاربران وبسایت بهرمند شوید!</p>
+          </div>
+        </div>
+        <div class="px-3 px-md-5">
+          <form action="" class="d-flex flex-wrap" method="POST">
+            <div class="w-100 mt-4">
+              <label for="" class="d-block mb-2 font-regular">ورود به عنوان</label>
+              <div class="d-flex align-items-center justify-content-between mt-3 text-secondary font-regular">
+                <div>مدیریت <input type="radio" name="loginType" value="admin" class="form-check-input" /></div>
+                <div>معلم <input type="radio" name="loginType" value="teacher" class="form-check-input" /></div>
+                <div>کاربر عادی <input type="radio" name="loginType" value="user" class="form-check-input" /></div>
+              </div>
+            </div>
+            <div class="w-100 mt-4">
+              <label for="" class="d-block mb-2 font-regular">ایمیل</label>
+              <input
+                type="email"
+                name="email"
+                class="w-100 form-control py-2 text-secondary font-light text-start"
+                placeholder="alireza@yahoo.com :مثال"
+              />
+            </div>
+            <div class="w-100 mt-4">
+              <label for="" class="d-block mb-2 font-regular">رمز عبور</label>
+              <input type="password" name="password" class="w-100 form-control py-2 text-secondary font-light" placeholder="********" />
+            </div>
+            <div class="d-flex align-items-center mt-4 w-50 form-check">
+              <input type="checkbox" name="rememberme" class="form-check-input" />
+              <label class="text-secondary font-regular ms-2">منو یادت بمونه!</label>
+            </div>
+            <a href="#" class="text-decoration-none mt-4 font-regular text-end w-50 text-danger">رمز عبورم رو فراموش کردم!</a>
+            <button class="btn btn-outline-primary mt-5 mb-4 mx-auto">ورود به سایت</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!--/ Form -->
+    <%- include("./includes/footer.ejs") %>
+  </body>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
+</html>

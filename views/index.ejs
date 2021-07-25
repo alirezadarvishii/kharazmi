@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
+    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
+    <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+  </head>
+  <body>
+    <%- include("./includes/nav.ejs") %>
+    <!-- Header -->
+    <header class="landing-header d-flex align-items-center justify-content-center flex-column position-relative shadowlg">
+      <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان خوارزمی )</span></h1>
+      <p class="text-light text-center font-light mt-2 px-2 px-lg-0">
+        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است
+      </p>
+      <a href="#" class="btn btn-outline-light shadow-sm d-block mx-auto mt-3">لیست پذیرش ها</a>
+      <div class="row position-absolute mx-auto services">
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
+            <span class="bg-primary rounded-pill p-3 d-inline-block">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 0H0V24H24V0Z" />
+                <path
+                  d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <h4 class="font-bold mt-3">سـاعـت کـاری</h4>
+            <p class="text-secondary mb-0">شنبه تا چهارشنبه : 08:00 صبح تا 14:00 عصر</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
+            <span class="bg-primary rounded-pill p-3 d-inline-block">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 13.4C13.7121 13.4 15.1 12.012 15.1 10.3C15.1 8.58787 13.7121 7.19995 12 7.19995C10.2879 7.19995 8.9 8.58787 8.9 10.3C8.9 12.012 10.2879 13.4 12 13.4Z"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+                <path
+                  d="M3.6 8.49998C5.6 -0.200025 18.4 -0.200025 20.4 8.49998C21.5 13.6 18.4 17.9 15.6 20.5C13.6 22.4 10.4 22.4 8.4 20.5C5.6 17.9 2.5 13.6 3.6 8.49998Z"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+              </svg>
+            </span>
+            <h4 class="font-bold mt-3">آدرس</h4>
+            <p class="text-secondary mb-0">فارس فیروزآباد بلوار امام حسین کوچه 85</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mt-5 mt-md-0">
+          <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
+            <span class="bg-primary rounded-pill p-3 d-inline-block"
+              ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M15.1653 20.8835C16.0469 21.0388 16.9531 21.0388 17.8347 20.8835C19.2516 20.6338 20.3929 19.6826 20.786 18.4236L20.8694 18.1565C20.956 17.879 21 17.5919 21 17.3034C21 16.0313 19.8623 15 18.4589 15H14.5411C13.1377 15 12 16.0313 12 17.3034C12 17.5919 12.044 17.879 12.1306 18.1565L12.214 18.4236C12.6071 19.6826 13.7484 20.6338 15.1653 20.8835ZM15.1653 20.8835C9.04195 19.7489 4.25108 14.958 3.1165 8.83468M3.1165 8.83468C2.96117 7.95315 2.96117 7.04686 3.1165 6.16532C3.36618 4.74842 4.31744 3.60713 5.57641 3.21402L5.84345 3.13063C6.12103 3.04396 6.40813 3 6.69661 3C7.96874 3 9.00001 4.13768 9 5.54106L9 9.45894C9.00001 10.8623 7.96874 12 6.69661 12C6.40813 12 6.12103 11.956 5.84345 11.8694L5.57641 11.786C4.31744 11.3929 3.36618 10.2516 3.1165 8.83468Z"
+                  stroke="#fff"
+                  stroke-width="2"
+                />
+              </svg>
+            </span>
+            <h4 class="font-bold mt-3">تـلـفـن</h4>
+            <p class="text-secondary mb-0">071-38729357</p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--/ Header -->
+
+    <!-- gallery -->
+    <section class="gallery-area mb-5 mt-10 container-lg" id="honors">
+      <div class="d-flex align-items-center justify-content-between title position-relative mx-4 pb-4">
+        <h1 class="font-black text-center m-0">گالری عکس مدرسه</h1>
+        <a href="#" class="text-primary text-decoration-none">تمامی افتخارات</a>
+      </div>
+      <div class="mx-auto mt-5 gallery gallery-slider swiper-container p-3 mt-5">
+        <div class="swiper-wrapper">
+          <% if(galleryImages.length) { %> <% galleryImages.forEach(image => { %>
+          <div class="swiper-slide">
+            <div class="h-100 border-0 shadow-md rounded-8">
+              <img src="http://localhost:3000/gallery/<%= image.img %>" class="card-img-top p-1 rounded-8 fit-cover" alt="" />
+            </div>
+          </div>
+          <% }) %> <% } %>
+        </div>
+        <button class="next-slide btn btn-warning position-absolute">
+          <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button class="prev-slide btn btn-warning position-absolute">
+          <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </section>
+    <!--/ honors -->
+
+    <!-- Sessions-slider -->
+    <section class="session-slider mt-10 mb-5 container-xl rounded-3">
+      <div class="swiper-container sessions-slider h-100">
+        <div class="swiper-wrapper">
+          <div class="session d-lg-flex align-items-center justify-content-between h-100 py-4 px-3 swiper-slide">
+            <div class="h-100 d-flex align-items-center">
+              <img src="./images/bg.jpg" class="rounded-3 shadow fit-cover" alt="" />
+            </div>
+            <div class="ms-lg-4 mt-4 mt-lg-0 ms-xxl-5 d-flex justify-content-between flex-column h-100">
+              <h1 class="font-black m-0 text-white">لورم ایپسوم متنی بی معنیه!</h1>
+              <p class="text-light font-light my-4 text-justify">
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
+                ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
+                زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
+                رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که
+              </p>
+              <a href="#" class="btn btn-outline-light align-self-start">ثبت نام کنید</a>
+            </div>
+          </div>
+        </div>
+        <button class="next-slide btn btn-warning position-absolute">
+          <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <button class="prev-slide btn btn-warning position-absolute">
+          <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </section>
+    <!--/ Session sliders -->
+
+    <!-- School blog -->
+    <section class="blogs-area bg-light py-5 mt-10 mb-5">
+      <div class="container-lg">
+        <div class="d-flex align-items-center justify-content-between title position-relative mx-4 pb-4">
+          <h1 class="font-black text-center m-0">برخی از مقالات</h1>
+          <a href="#" class="text-primary text-decoration-none">تمامی بلاگ ها</a>
+        </div>
+        <div class="swiper-container blogs p-3 mt-5">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img-7.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="next-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button class="prev-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!--/ School blog -->
+
+    <!-- Masters -->
+    <section class="masters-area mt-10 pb-5" id="masters">
+      <div class="container-lg">
+        <div class="d-flex align-items-center justify-content-between title position-relative mx-4">
+          <h1 class="font-black mb-4">مدرسان مدرسه</h1>
+          <a href="#" class="text-primary text-decoration-none">تمامی مدرسان</a>
+        </div>
+        <div class="masters-slider mt-3 swiper-container px-3 py-5">
+          <div class="swiper-wrapper py-1">
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="card h-100 border-0 position-relative">
+                  <div class="master-img position-relative overflow-hidden">
+                    <img src="./images/uesr-1.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                  </div>
+                  <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
+                    <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
+                    <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="card h-100 border-0 position-relative">
+                  <div class="master-img position-relative overflow-hidden">
+                    <img src="./images/user-2.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                  </div>
+                  <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
+                    <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
+                    <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="card h-100 border-0 position-relative">
+                  <div class="master-img position-relative overflow-hidden">
+                    <img src="./images/user-3.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                  </div>
+                  <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
+                    <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
+                    <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#">
+                <div class="card h-100 border-0 position-relative">
+                  <div class="master-img position-relative overflow-hidden">
+                    <img src="./images/user-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                  </div>
+                  <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
+                    <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
+                    <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <button class="next-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button class="prev-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!--/ Masters -->
+
+    <!-- Contact US -->
+    <section class="contact-us mt-4 mb-5 py-5" id="contact-us">
+      <div class="container-lg d-flex align-content-center justify-content-center">
+        <form>
+          <h1 class="font-black mb-5 mt-5 text-center">با ما تماس بگیرید</h1>
+          <div class="row">
+            <div class="mb-5 col-6">
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="نام و نام خانوادگی" />
+            </div>
+            <div class="mb-5 col-6">
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="ایمیل" />
+            </div>
+            <div class="mb-5 col-6">
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="شماره تماس" />
+            </div>
+            <div class="mb-5 col-6">
+              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="موضوع" />
+            </div>
+            <div class="mb-3 col-12">
+              <textarea class="form-control pt-3 text-secondary font-light" rows="8" placeholder="لطفا پیام خود را نوشته کنید"></textarea>
+            </div>
+          </div>
+          <div class="text-center mt-3">
+            <button class="btn me-2 btn-outline-primary" type="submit">ارســال</button>
+            <button class="btn ms-2 btn-outline-danger" type="reset">ریــســت</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!--/ Contact US -->
+    <%- include("./includes/footer.ejs") %>
+  </body>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/swiper/swiper-bundle.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
+</html>
+
+<!-- Coding and Designing with 💛 and ☕ -->
+<!--
+  Developed by: Alireza Darvishi 🤞
+  instagram: @CodeWithMaster 🤸
+ -->

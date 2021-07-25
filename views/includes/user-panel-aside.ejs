@@ -1,0 +1,130 @@
+<aside class="col-12 col-lg-3 shadow-sm p-0 rounded-3">
+  <div>
+    <div class="d-flex align-items-center justify-content-around py-4 flex-column bg-light position-relative">
+      <a href="/logout" class="position-absolute logout-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M18.364 5.36374C19.6226 6.64472 20.4798 8.27679 20.8271 10.0536C21.1743 11.8303 20.9961 13.672 20.3149 15.3457C19.6337 17.0194 18.4802 18.4499 17.0001 19.4563C15.5201 20.4628 13.78 21 12 21C10.22 21 8.47992 20.4628 6.99988 19.4563C5.51984 18.4499 4.36628 17.0194 3.68509 15.3457C3.0039 13.672 2.82567 11.8303 3.17293 10.0536C3.5202 8.2768 4.37736 6.64474 5.63603 5.36375M12 3V7.72749"
+            stroke="#6c757d"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </a>
+      <div class="p-1 bg-white rounded-pill overflow-hidden profile-img shadow">
+        <img src="http://localhost:3000/users/<%= user.profileImg %>" class="rounded-pill w-100 h-100 fit-cover" alt="" />
+      </div>
+      <p class="mt-3 text-primary font-bold"><%= user.fullname %></p>
+    </div>
+    <ul class="ps-5 my-4 list-unstyled">
+      <li class="my-3">
+        <a href="/" class="font-regular text-decoration-none text-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M9.02 2.85005L3.63 7.05005C2.73 7.75005 2 9.24005 2 10.3701V17.7801C2 20.1001 3.89 22 6.21 22H17.79C20.11 22 22 20.1001 22 17.7901V10.5101C22 9.30005 21.19 7.75005 20.2 7.06005L14.02 2.73005C12.62 1.75005 10.37 1.80005 9.02 2.85005Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M12 18V15" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+
+          صفحه اصلی</a
+        >
+      </li>
+      <li class="my-3">
+        <a href="/me" class="font-regular text-decoration-none text-secondary">
+          <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M19 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M19 11C20.6569 11 22 9.65685 22 8C22 6.34315 20.6569 5 19 5C17.3431 5 16 6.34315 16 8C16 9.65685 17.3431 11 19 11Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M12 22V19" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 10V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M12 19C13.6569 19 15 17.6569 15 16C15 14.3431 13.6569 13 12 13C10.3431 13 9 14.3431 9 16C9 17.6569 10.3431 19 12 19Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M5 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M5 11C6.65685 11 8 9.65685 8 8C8 6.34315 6.65685 5 5 5C3.34315 5 2 6.34315 2 8C2 9.65685 3.34315 11 5 11Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          پنل کاربری</a
+        >
+      </li>
+      <li class="my-3">
+        <a href="/me/edit" class="font-regular text-decoration-none text-secondary">
+          <svg class="me-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.25 10.9921C15.129 11.6991 12.3009 8.87105 13.0079 6.75M13.8793 5.87857L9.30971 10.4482C7.3231 12.4348 5.91376 14.924 5.23236 17.6496L5.01156 18.5328C4.94276 18.808 5.19204 19.0572 5.46723 18.9884L6.35044 18.7676C9.07604 18.0862 11.5652 16.6769 13.5518 14.6903L18.1214 10.1207C18.684 9.55813 19 8.79516 19 7.99962C19 6.34297 17.657 5 16.0004 5C15.2048 5 14.4419 5.31603 13.8793 5.87857Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+            />
+          </svg>
+          تغییر اطلاعات</a
+        >
+      </li>
+      <li class="my-3">
+        <a href="/me/change-password" class="font-regular text-decoration-none text-secondary">
+          <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M19.79 14.9299C17.73 16.9799 14.78 17.6099 12.19 16.7999L7.47999 21.4999C7.13999 21.8499 6.46999 22.0599 5.98999 21.9899L3.80999 21.6899C3.08999 21.5899 2.41999 20.9099 2.30999 20.1899L2.00999 18.0099C1.93999 17.5299 2.16999 16.8599 2.49999 16.5199L7.19999 11.8199C6.39999 9.21995 7.01999 6.26995 9.07999 4.21995C12.03 1.26995 16.82 1.26995 19.78 4.21995C22.74 7.16995 22.74 11.9799 19.79 14.9299Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M6.89001 17.49L9.19001 19.79"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M14.5 11C15.3284 11 16 10.3284 16 9.5C16 8.67157 15.3284 8 14.5 8C13.6716 8 13 8.67157 13 9.5C13 10.3284 13.6716 11 14.5 11Z"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          تغییر رمز عبور</a
+        >
+      </li> 
+      <li class="my-3">
+        <a href="/logout" class="font-regular text-decoration-none text-secondary">
+          <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M18.364 5.36374C19.6226 6.64472 20.4798 8.27679 20.8271 10.0536C21.1743 11.8303 20.9961 13.672 20.3149 15.3457C19.6337 17.0194 18.4802 18.4499 17.0001 19.4563C15.5201 20.4628 13.78 21 12 21C10.22 21 8.47992 20.4628 6.99988 19.4563C5.51984 18.4499 4.36628 17.0194 3.68509 15.3457C3.0039 13.672 2.82567 11.8303 3.17293 10.0536C3.5202 8.2768 4.37736 6.64474 5.63603 5.36375M12 3V7.72749"
+              stroke="#6c757d"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          خروج از حساب کاربری</a
+        >
+      </li>
+    </ul>
+  </div>
+</aside>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles/dashboard-8a45f27b824f987de70e.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Main Container -->
+    <section class="container-fluid dashboard py-3 px-0">
+      <!-- Row -->
+      <div class="row m-0">
+        <%- include("../includes/admin-panel-aside.ejs") %>
+        <!-- Main -->
+        <main class="col-10 px-3">
+          <div class="bg-light rounded-8 p-3 pb-0">
+            <!-- Users that waiting for approval -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="card border shadow-sm mb-3">
+                  <div class="card-header font-bold">
+                    مدیریت ادمین های وبسایت
+                    <span class="text-secondary font-light">( <%= admins.length %> ادمین )</span>
+                  </div>
+                  <div class="card-body pt-0 pb-0">
+                    <ul class="list-unstyled row border-bottom mb-0 pb-3 text-dark mt-3">
+                      <li class="col-1">#</li>
+                      <li class="col">نام و نام خانوادگی</li>
+                      <li class="col">ایمیل</li>
+                      <li class="col text-center">وضعیت</li>
+                      <li class="col text-end">تأیید \ حذف</li>
+                    </ul>
+                    <ul class="list-unstyled">
+                      <% if(admins) { %> <% admins.forEach((admin, index) => { %>
+                      <li class="row py-3 border-bottom">
+                        <div class="col-1 text-secondary"><%= ++index %></div>
+                        <div class="col text-primary"><%= admin.fullname %></div>
+                        <div class="col text-secondary"><%= admin.email %></div>
+                        <div class="col text-center">
+                          <span class="badge <%= admin.status === 'approved' ? 'bg-success': 'bg-danger' %>">
+                            <%= admin.status === "approved" ? "تأیید شده": "در انتظار" %>
+                          </span>
+                        </div>
+                        <div class="col text-end text-secondary">
+                          <% if(admin.status === "approved") { %>
+                          <a href="/admin/users/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a> \ <% } else { %>
+                          <a href="/admin/users/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a> \ <% } %>
+                          <a href="#" class="text-decoration-none text-danger">حذف</a>
+                        </div>
+                      </li>
+                      <% }) %> <% } %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <!--/ Main -->
+      </div>
+      <!--/ Row -->
+    </section>
+    <!--/ Main Container -->
+  </body>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
+</html>

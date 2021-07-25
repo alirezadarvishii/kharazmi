@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.rtl.min.css" />
+    <title><%= title %></title>
+    <script defer src="./js/app-ffbfe456f36267f13b08.js"></script>
+    <link href="./styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+  </head>
+  <body>
+    <%- include("./includes/nav.ejs") %>
+
+    <!-- Form -->
+    <section class="container">
+      <div class="signup-form mb-5 p-0 overflow-hidden shadow-lg rounded-3 bg-light mx-auto">
+        <div class="w-100 form-img p-5">
+          <div class="d-flex justify-content-center flex-column h-100">
+            <h1 class="text-white font-black text-center mb-3">خــوش آمــدیـد</h1>
+            <span class="font-light d-block text-center text-light mb-3">
+              ( ورود به عنوان <% if(registerType === "admin") { %> مدیریت مدرسه <% } else if(registerType === "teacher") { %> هنرآموز مدرسه <% } else
+              { %> افراد متفرقه <% } %> )
+            </span>
+            <p class="text-light m-0 text-center font-light">با ثبت نام در سایت از مزایای کاربران وبسایت بهرمند شوید!</p>
+          </div>
+        </div>
+        <div class="px-4">
+          <form action="/register/<%= registerType %>" class="row" method="POST" enctype="multipart/form-data">
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">نام و نام خانوادگی</label>
+              <input type="text" class="w-100 form-control py-2 font-light" name="fullname" placeholder="مثال: علیرضا درویشی" />
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">ایمیل</label>
+              <input
+                type="email"
+                class="w-100 form-control py-2 font-light text-start"
+                name="email"
+                placeholder="alireza@yahoo.com :مثال"
+              />
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">موبایل</label>
+              <input type="text" class="w-100 form-control py-2 font-light" name="phoneNumber" placeholder="مثال: 09178506183" />
+            </div>
+            <% if(registerType === "teacher") { %>
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">زمینه کاری</label>
+              <select name="lesson" class="w-100 form-control py-2 font-light text-secondary">
+                <option value="">لطفا گزینه ای را انتخاب کنید</option>
+                <option value="specialist">معلم دروس تخصصی</option>
+                <option value="general">معلم دروس عمومی</option>
+                <option value="both">معلم دروس تخصصی و عمومی</option>
+              </select>
+            </div>
+            <% } %>
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">تصویر پروفایل ( دلخواه )</label>
+              <input type="file" class="w-100 form-control py-2 font-light" name="profileImg" />
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+              <label for="" class="d-block text-secondary mb-2 font-regular">رمز عبور</label>
+              <input type="password" class="w-100 form-control py-2 font-light" name="password" placeholder="********" />
+            </div>
+            <div class="col-12 text-center pb-4">
+              <button class="btn btn-outline-primary mt-5 mx-auto w-auto">ثـبـت نـام</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!--/ Form -->
+
+    <%- include("./includes/footer.ejs") %>
+  </body>
+  <script src="./bootstrap/js/bootstrap.min.js"></script>
+</html>

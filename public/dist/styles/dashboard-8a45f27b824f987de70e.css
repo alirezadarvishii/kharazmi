@@ -1,0 +1,145 @@
+@font-face {
+  font-family: vazir-black;
+  src: url(../fonts/Vazir-Black-FD.ttf) format("truetype");
+}
+@font-face {
+  font-family: vazir-bold;
+  src: url(../fonts/Vazir-Bold-FD.ttf) format("truetype");
+}
+@font-face {
+  font-family: vazir-medium;
+  src: url(../fonts/Vazir-Medium-FD.ttf) format("truetype");
+}
+@font-face {
+  font-family: vazir-regular;
+  src: url(../fonts/Vazir-regular-FD.ttf) format("truetype");
+}
+@font-face {
+  font-family: vazir-light;
+  src: url(../fonts/Vazir-Light-FD.ttf) format("truetype");
+}
+@font-face {
+  font-family: vazir-thin;
+  src: url(../fonts/Vazir-thin-FD.ttf) format("truetype");
+}
+.font-black {
+  font-family: vazir-black;
+}
+.font-bold {
+  font-family: vazir-bold;
+}
+.font-medium {
+  font-family: vazir-medium;
+}
+.font-regular {
+  font-family: vazir-regular;
+}
+.font-light {
+  font-family: vazir-light;
+}
+.font-thin {
+  font-family: vazir-thin;
+}
+.text-justify {
+  text-align: justify;
+}
+body {
+  font-family: vazir-medium;
+  font-size: 16px;
+  direction: rtl;
+}
+.mt-10 {
+  margin-top: 10em;
+}
+.rounded-8 {
+  border-radius: 0.8rem;
+}
+.rounded-10 {
+  border-radius: 1rem;
+}
+.fit-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.tooltip {
+  font-family: vazir-regular;
+}
+
+.dashboard aside {
+  height: 100vh;
+}
+.dashboard aside li.active a,
+.dashboard aside li.active a::before,
+.dashboard aside li.active a path {
+  color: #0d6efd !important;
+  stroke: #0d6efd;
+  opacity: 1;
+}
+.dashboard aside li a {
+  -webkit-transition: color 0.4s;
+  transition: color 0.4s;
+}
+.dashboard aside li a::before {
+  position: absolute;
+  content: "";
+  right: -23px;
+  z-index: 1000;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 3px;
+  height: 30px;
+  background: #0d6efd;
+  border-radius: 100px;
+  opacity: 0;
+  -webkit-transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.dashboard aside li a path {
+  -webkit-transition: stroke 0.4s;
+  transition: stroke 0.4s;
+}
+.dashboard aside li a:hover {
+  color: #0d6efd !important;
+}
+.dashboard aside li a:hover::before {
+  opacity: 1;
+}
+.dashboard aside li a:hover path {
+  stroke: #0d6efd;
+}
+.dashboard .profile-img {
+  width: 75px;
+  height: 75px;
+}
+.manage-gallery img {
+  height: 250px;
+}
+.manage-gallery > div > div::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(34,34,34,0.69804);
+  opacity: 0;
+  -webkit-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+}
+.manage-gallery div:hover::before {
+  opacity: 1;
+}
+.manage-gallery div.btns {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: none;
+}
+.manage-gallery div:hover div.btns {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
+    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
+    <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+  </head>
+  <body>
+    <%- include("../includes/nav.ejs") %>
+
+    <!-- Blog -->
+    <section class="container-lg px-2 mx-auto blog mb-5">
+      <!-- Blog Info -->
+      <div class="blog-info border-bottom pb-5">
+        <div class="blog-img w-100">
+          <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="w-100 h-100 rounded-3" alt="" />
+        </div>
+        <h1 class="font-black mt-4 text-dark"><%= blog.title %></h1>
+        <div class="d-flex align-items-center justify-content-between mt-4 flex-wrap">
+          <div class="bloger-info d-flex align-items-center">
+            <div class="bloger-avatar shadow-lg">
+              <img src="http://localhost:3000/users/<%= blog.author.profileImg %>" class="w-100 h-100" alt="" />
+            </div>
+            <div class="ms-2">
+              <h6 class="font-black text-primary"><%= blog.author.fullname %></h6>
+              <p class="m-0 text-black-50"><%= moment(blog.createdAt) %> / <%= momentTime(blog.createdAt) %></p>
+            </div>
+          </div>
+          <div class="blog-feedbacks d-flex align-items-center text-secondary font-regular">
+            <div class="likes">
+              <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M11.6 18.8C11.3 18.9 10.7 18.9 10.4 18.8C7.5 17.8 1 13.7 1 6.69998C1 3.59998 3.5 1.09998 6.6 1.09998C8.4 1.09998 10 1.99998 11 3.29998C12 1.89998 13.6 1.09998 15.4 1.09998C18.5 1.09998 21 3.59998 21 6.69998C21 13.7 14.5 17.8 11.6 18.8Z"
+                  stroke="#6c757d"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>87</span>
+            </div>
+            <div class="ms-2 comments">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12.3142 19.4902L11.6158 19.217L12.3142 19.4902ZM3.77909 14.1378L3.04815 14.3058L3.77909 14.1378ZM3.77571 9.22642L3.04477 9.05841L3.77571 9.22642ZM20.2476 9.44741L20.9786 9.2794L20.2476 9.44741ZM20.2476 13.9021L19.5167 13.7341L20.2476 13.9021ZM9.31593 20.8233L9.61076 20.1337L9.61076 20.1337L9.31593 20.8233ZM9.68953 3.27141L9.86413 4.00081H9.86413L9.68953 3.27141ZM14.283 3.27141L14.1084 4.00081L14.283 3.27141ZM9.19777 20.7728L8.90294 21.4624H8.90294L9.19777 20.7728ZM14.6641 3.36264L14.8387 2.63325L14.6641 3.36264ZM20.1588 9.06088L19.4279 9.22889V9.22889L20.1588 9.06088ZM9.46648 3.32481L9.29188 2.59541V2.59541L9.46648 3.32481ZM8.69628 8.30793C8.28207 8.30793 7.94628 8.64372 7.94628 9.05793C7.94628 9.47215 8.28207 9.80793 8.69628 9.80793V8.30793ZM14.7279 9.80793C15.1422 9.80793 15.4779 9.47215 15.4779 9.05793C15.4779 8.64372 15.1422 8.30793 14.7279 8.30793V9.80793ZM8.69628 11.7641C8.28207 11.7641 7.94628 12.0999 7.94628 12.5141C7.94628 12.9283 8.28207 13.2641 8.69628 13.2641V11.7641ZM12.5346 13.2641C12.9488 13.2641 13.2846 12.9283 13.2846 12.5141C13.2846 12.0999 12.9488 11.7641 12.5346 11.7641V13.2641ZM9.64108 4.0542L9.86413 4.00081L9.51493 2.54202L9.29188 2.59541L9.64108 4.0542ZM14.1084 4.00081L14.4895 4.09204L14.8387 2.63325L14.4576 2.54202L14.1084 4.00081ZM9.61076 20.1337L9.4926 20.0832L8.90294 21.4624L9.0211 21.5129L9.61076 20.1337ZM19.4279 9.22889L19.5167 9.61542L20.9786 9.2794L20.8897 8.89287L19.4279 9.22889ZM14.1721 18.1768H13.1107V19.6768H14.1721V18.1768ZM13.1107 18.1768C12.4324 18.1768 11.8529 18.6108 11.6158 19.217L13.0127 19.7634C13.0406 19.6921 13.092 19.6768 13.1107 19.6768V18.1768ZM4.51003 13.9698C4.16535 12.4702 4.16244 10.8919 4.50665 9.39443L3.04477 9.05841C2.64926 10.7791 2.65311 12.5871 3.04815 14.3058L4.51003 13.9698ZM19.5167 9.61542C19.8278 10.9687 19.8278 12.3808 19.5167 13.7341L20.9786 14.0701C21.3405 12.4957 21.3405 10.8538 20.9786 9.2794L19.5167 9.61542ZM9.0211 21.5129C10.6131 22.1936 12.3891 21.3576 13.0127 19.7634L11.6158 19.217C11.2766 20.084 10.365 20.4561 9.61076 20.1337L9.0211 21.5129ZM9.86413 4.00081C11.2611 3.6664 12.7114 3.6664 14.1084 4.00081L14.4576 2.54202C12.8311 2.15266 11.1415 2.15266 9.51493 2.54202L9.86413 4.00081ZM9.4926 20.0832C7.01453 19.0237 5.14644 16.7384 4.51003 13.9698L3.04815 14.3058C3.78571 17.5145 5.95924 20.2039 8.90294 21.4624L9.4926 20.0832ZM19.5167 13.7341C18.912 16.3647 16.6859 18.1768 14.1721 18.1768V19.6768C17.4318 19.6768 20.2281 17.3351 20.9786 14.0701L19.5167 13.7341ZM14.4895 4.09204C16.91 4.67142 18.8349 6.64932 19.4279 9.22889L20.8897 8.89287C20.1765 5.78984 17.8441 3.35266 14.8387 2.63325L14.4895 4.09204ZM9.29188 2.59541C6.18969 3.338 3.78134 5.85397 3.04477 9.05841L4.50665 9.39443C5.1229 6.71346 7.12384 4.65676 9.64108 4.0542L9.29188 2.59541ZM8.69628 9.80793H14.7279V8.30793H8.69628V9.80793ZM8.69628 13.2641H12.5346V11.7641H8.69628V13.2641Z"
+                  fill="#6c757d"
+                />
+              </svg>
+              <span>37</span>
+            </div>
+            <div class="ms-2 visits">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M15.6 12C15.6 14 14 15.6 12 15.6C9.99999 15.6 8.39999 14 8.39999 12C8.39999 10 9.99999 8.40002 12 8.40002C14 8.40002 15.6 10 15.6 12Z"
+                  stroke="#6c757d"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 20.2999C15.5 20.2999 18.8 18.2 21.1 14.6C22 13.2 22 10.8 21.1 9.39995C18.8 5.79995 15.5 3.69995 12 3.69995C8.50001 3.69995 5.20001 5.79995 2.90001 9.39995C2.00001 10.8 2.00001 13.2 2.90001 14.6C5.20001 18.2 8.50001 20.2999 12 20.2999Z"
+                  stroke="#6c757d"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>27</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Blog Info -->
+      <div class="blog-body">
+        <p class="paragraph text-secondary text-justify mt-5"><%- blog.body %></p>
+      </div>
+      <div class="tags mt-5">
+        <ul class="list-unstyled d-flex align-content-center">
+          <li class="font-light bg-light text-dark me-2 rounded-3 py-1 px-3">#لورم</li>
+          <li class="font-light bg-light text-dark me-2 rounded-3 py-1 px-3">#لورم</li>
+        </ul>
+      </div>
+      <!-- Related blogs -->
+      <div class="related-blogs">
+        <div class="d-flex align-items-center justify-content-between title position-relative mt-10 mx-3">
+          <h1 class="title text-dark font-black pb-3">مقالات مرتبط</h1>
+          <a href="#" class="text-primary text-decoration-none">تمامی بلاگ ها</a>
+        </div>
+        <div class="swiper-container blogs p-3 mx-auto mt-5">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card h-100 shadow-md">
+                <img src="./images/img-7.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <div class="card-body pt-2">
+                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
+                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                    <span class="text-secondary font-light d-block pt-1"
+                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 0H0V24H24V0Z" />
+                        <path
+                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      23 اردیبهشت 1400</span
+                    >
+                    <span class="text-secondary font-light">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                          stroke="#6c757d"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      علیرضا درویشی
+                    </span>
+                  </div>
+                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
+                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
+                  </p>
+                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="next-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button class="prev-slide btn btn-warning position-absolute">
+            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!--/ Related blogs -->
+    </section>
+    <!--/ Blog -->
+
+    <%- include("../includes/footer.ejs") %>
+  </body>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/swiper/swiper-bundle.min.js"></script>
+</html>

@@ -1,0 +1,20 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "semi": "warn",
+    "array-callback-return": "warn",
+    "prefer-destructuring": "warn",
+    "quotes": "warn",
+    "prefer-template": "warn",
+    "template-curly-spacing": "warn",
+    "no-eval": "warn",
+    "no-useless-escape": "warn",
+    "no-loop-func": "warn"
+  },
+  "env": {
+    "node": true
+  }
+}

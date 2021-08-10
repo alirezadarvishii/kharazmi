@@ -8,7 +8,6 @@ exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
   const notApprovedTeachers = await Teacher.find({ status: "notApproved" });
   const notApprovedUsers = [...notApprovedAdmins, ...notApprovedTeachers];
-  console.log(notApprovedUsers);
   res.render("dashboard/admin-panel", {
     title: "پنل ادمین",
     notApprovedUsers,
@@ -52,5 +51,11 @@ exports.manageGallery = async (req, res) => {
   res.render("dashboard/manage-gallery.ejs", {
     title: "مدیریت گالری وبسایت",
     images,
+  });
+};
+
+exports.manageEvents = async (req, res) => {
+  res.render("dashboard/manage-events", {
+    title: "مدیریت رویداد ها",
   });
 };

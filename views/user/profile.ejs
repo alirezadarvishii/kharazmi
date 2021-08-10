@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/styles/app-2940de3c8d4c5a1e20a6.css" />
+  </head>
+  <body>
+    <%- include("../includes/nav.ejs") %> <%- include("../includes/small-header.ejs") %>
+    <section class="container px-4 px-lg-0 mt-5 user-panel mb-5">
+      <div class="shadow profile rounded-3 p-3">
+        <div class="user d-flex align-items-center">
+          <div class="profile-img shadow rounded-pill me-3">
+            <img src="http://localhost:3000/users/<%= user.profileImg %>" class="p-1 rounded-pill fit-cover w-100 h-100" alt="" />
+          </div>
+          <div class="d-block">
+            <h4 class="font-black text-primary"><%= user.fullname %></h4>
+            <% if(user.role === "admin") { %>
+            <span class="badge bg-danger">مدیریت</span>
+            <% } else if(user.role === "teacher") { %>
+            <span class="badge bg-warning">معلم</span>
+            <% } else if(user.role === "user") { %>
+            <span class="badge bg-success">کاربر عادی</span>
+            <% } %>
+          </div>
+        </div>
+        <p class="text-justify text-secondary mt-3"><%= user.bio.length ? user.bio : "بیو تنظیم نشده!" %></p>
+      </div>
+    </section>
+    <%- include("../includes/footer.ejs") %>
+  </body>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
+</html>

@@ -2,19 +2,25 @@ const { Router } = require("express");
 
 const router = Router();
 
-const AdminController = require("../controller/admin");
+const adminController = require("../controller/admin");
 const asyncHandler = require("../middleware/asyncHandler");
 
-router.get("/blog/release/:blogId", asyncHandler(AdminController.blogChangeReleaseStatus));
+router.get("/blog/release/:blogId", asyncHandler(adminController.blogChangeReleaseStatus));
 
-router.get("/users/approve-admin/:adminId", asyncHandler(AdminController.approveAdmin));
+router.get("/users/approve-admin/:adminId", asyncHandler(adminController.approveAdmin));
 
-router.get("/users/unapprove-admin/:adminId", asyncHandler(AdminController.unApproveAdmin));
+router.get("/users/unapprove-admin/:adminId", asyncHandler(adminController.unApproveAdmin));
 
-router.get("/users/approve-teachers/:teacherId", asyncHandler(AdminController.approveTeacher));
+router.get("/users/approve-teachers/:teacherId", asyncHandler(adminController.approveTeacher));
 
-router.get("/users/unapprove-teachers/:teacherId", asyncHandler(AdminController.unApproveTeacher));
+router.get("/users/unapprove-teachers/:teacherId", asyncHandler(adminController.unApproveTeacher));
 
-router.post("/gallery/new", asyncHandler(AdminController.addNewImageToGallery));
+router.get("/blog/delete/:blogId", asyncHandler(adminController.deleteBlog));
+
+router.get("/gallery/delete/:imgId", asyncHandler(adminController.deleteGalleryImg));
+
+router.post("/gallery/new", asyncHandler(adminController.addNewImageToGallery));
+
+router.post("/gallery/edit", asyncHandler(adminController.editGalleryImg));
 
 module.exports = router;

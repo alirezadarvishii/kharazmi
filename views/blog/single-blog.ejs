@@ -6,285 +6,409 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
-    <link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
-    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
     <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="bg-light">
     <%- include("../includes/nav.ejs") %>
 
     <!-- Blog -->
     <section class="container-lg px-2 mx-auto blog mb-5">
-      <!-- Blog Info -->
-      <div class="blog-info border-bottom pb-5">
-        <div class="blog-img w-100">
-          <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="w-100 h-100 rounded-3" alt="" />
-        </div>
-        <h1 class="font-black mt-4 text-dark"><%= blog.title %></h1>
-        <div class="d-flex align-items-center justify-content-between mt-4 flex-wrap">
-          <div class="bloger-info d-flex align-items-center">
+      <div class="row">
+        <!-- Main -->
+        <main class="col-12 col-xl-9 p-3 rounded-3 bg-white shadow">
+          <!-- Blog Info -->
+          <div class="blog-info border-bottom pb-5">
+            <div class="blog-img w-100">
+              <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="w-100 h-100 rounded-3" alt="" />
+            </div>
+            <h1 class="font-black mt-4 text-dark"><%= blog.title %></h1>
+            <div class="mt-4 flex-wrap">
+              <div class="blog-feedbacks d-flex align-items-center justify-content-end text-secondary font-regular">
+                <div class="likes">
+                  <button class="btn p-0 like-blog shadow-none <%= blog.isLiked ? 'liked' : '' %>" data-blog-id="<%= blog._id %>">
+                    <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M11.6 18.8C11.3 18.9 10.7 18.9 10.4 18.8C7.5 17.8 1 13.7 1 6.69998C1 3.59998 3.5 1.09998 6.6 1.09998C8.4 1.09998 10 1.99998 11 3.29998C12 1.89998 13.6 1.09998 15.4 1.09998C18.5 1.09998 21 3.59998 21 6.69998C21 13.7 14.5 17.8 11.6 18.8Z"
+                        stroke="#6c757d"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                  <span class="like-number"><%= blog.likes.length %></span>
+                </div>
+                <div class="ms-2 comments">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12.3142 19.4902L11.6158 19.217L12.3142 19.4902ZM3.77909 14.1378L3.04815 14.3058L3.77909 14.1378ZM3.77571 9.22642L3.04477 9.05841L3.77571 9.22642ZM20.2476 9.44741L20.9786 9.2794L20.2476 9.44741ZM20.2476 13.9021L19.5167 13.7341L20.2476 13.9021ZM9.31593 20.8233L9.61076 20.1337L9.61076 20.1337L9.31593 20.8233ZM9.68953 3.27141L9.86413 4.00081H9.86413L9.68953 3.27141ZM14.283 3.27141L14.1084 4.00081L14.283 3.27141ZM9.19777 20.7728L8.90294 21.4624H8.90294L9.19777 20.7728ZM14.6641 3.36264L14.8387 2.63325L14.6641 3.36264ZM20.1588 9.06088L19.4279 9.22889V9.22889L20.1588 9.06088ZM9.46648 3.32481L9.29188 2.59541V2.59541L9.46648 3.32481ZM8.69628 8.30793C8.28207 8.30793 7.94628 8.64372 7.94628 9.05793C7.94628 9.47215 8.28207 9.80793 8.69628 9.80793V8.30793ZM14.7279 9.80793C15.1422 9.80793 15.4779 9.47215 15.4779 9.05793C15.4779 8.64372 15.1422 8.30793 14.7279 8.30793V9.80793ZM8.69628 11.7641C8.28207 11.7641 7.94628 12.0999 7.94628 12.5141C7.94628 12.9283 8.28207 13.2641 8.69628 13.2641V11.7641ZM12.5346 13.2641C12.9488 13.2641 13.2846 12.9283 13.2846 12.5141C13.2846 12.0999 12.9488 11.7641 12.5346 11.7641V13.2641ZM9.64108 4.0542L9.86413 4.00081L9.51493 2.54202L9.29188 2.59541L9.64108 4.0542ZM14.1084 4.00081L14.4895 4.09204L14.8387 2.63325L14.4576 2.54202L14.1084 4.00081ZM9.61076 20.1337L9.4926 20.0832L8.90294 21.4624L9.0211 21.5129L9.61076 20.1337ZM19.4279 9.22889L19.5167 9.61542L20.9786 9.2794L20.8897 8.89287L19.4279 9.22889ZM14.1721 18.1768H13.1107V19.6768H14.1721V18.1768ZM13.1107 18.1768C12.4324 18.1768 11.8529 18.6108 11.6158 19.217L13.0127 19.7634C13.0406 19.6921 13.092 19.6768 13.1107 19.6768V18.1768ZM4.51003 13.9698C4.16535 12.4702 4.16244 10.8919 4.50665 9.39443L3.04477 9.05841C2.64926 10.7791 2.65311 12.5871 3.04815 14.3058L4.51003 13.9698ZM19.5167 9.61542C19.8278 10.9687 19.8278 12.3808 19.5167 13.7341L20.9786 14.0701C21.3405 12.4957 21.3405 10.8538 20.9786 9.2794L19.5167 9.61542ZM9.0211 21.5129C10.6131 22.1936 12.3891 21.3576 13.0127 19.7634L11.6158 19.217C11.2766 20.084 10.365 20.4561 9.61076 20.1337L9.0211 21.5129ZM9.86413 4.00081C11.2611 3.6664 12.7114 3.6664 14.1084 4.00081L14.4576 2.54202C12.8311 2.15266 11.1415 2.15266 9.51493 2.54202L9.86413 4.00081ZM9.4926 20.0832C7.01453 19.0237 5.14644 16.7384 4.51003 13.9698L3.04815 14.3058C3.78571 17.5145 5.95924 20.2039 8.90294 21.4624L9.4926 20.0832ZM19.5167 13.7341C18.912 16.3647 16.6859 18.1768 14.1721 18.1768V19.6768C17.4318 19.6768 20.2281 17.3351 20.9786 14.0701L19.5167 13.7341ZM14.4895 4.09204C16.91 4.67142 18.8349 6.64932 19.4279 9.22889L20.8897 8.89287C20.1765 5.78984 17.8441 3.35266 14.8387 2.63325L14.4895 4.09204ZM9.29188 2.59541C6.18969 3.338 3.78134 5.85397 3.04477 9.05841L4.50665 9.39443C5.1229 6.71346 7.12384 4.65676 9.64108 4.0542L9.29188 2.59541ZM8.69628 9.80793H14.7279V8.30793H8.69628V9.80793ZM8.69628 13.2641H12.5346V11.7641H8.69628V13.2641Z"
+                      fill="#6c757d"
+                    />
+                  </svg>
+                  <span><%= comments.length %></span>
+                </div>
+                <div class="ms-2 visits">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M15.6 12C15.6 14 14 15.6 12 15.6C9.99999 15.6 8.39999 14 8.39999 12C8.39999 10 9.99999 8.40002 12 8.40002C14 8.40002 15.6 10 15.6 12Z"
+                      stroke="#6c757d"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M12 20.2999C15.5 20.2999 18.8 18.2 21.1 14.6C22 13.2 22 10.8 21.1 9.39995C18.8 5.79995 15.5 3.69995 12 3.69995C8.50001 3.69995 5.20001 5.79995 2.90001 9.39995C2.00001 10.8 2.00001 13.2 2.90001 14.6C5.20001 18.2 8.50001 20.2999 12 20.2999Z"
+                      stroke="#6c757d"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span><%= blog.visit.length %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ Blog Info -->
+          <div class="blog-body">
+            <div class="lh-lg text-justify mt-5"><%- blog.body %></div>
+          </div>
+          <div class="tags mt-5">
+            <ul class="list-unstyled d-flex align-content-center">
+              <% blog.tags.forEach(tag => { %>
+              <li><a href="#" class="text-decoration-none bg-light text-dark font-light me-2 rounded-3 py-1 px-3">#<%= tag %></a></li>
+              <% }) %>
+            </ul>
+          </div>
+          <div class="comments-area mt-10">
+            <!--! Reply Comment Modal -->
+            <div class="modal fade" data-img-id="" id="replyComment" tabindex="-1" aria-labelledby="replyComment" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title font-black">پاسخ به کامنت</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body my-2">
+                    <% if(!user) { %>
+                    <div class="alert alert-warning d-flex align-items-center" role="alert">
+                      <div>کاربر گرامی توجه داشته باشید که برای افزودن پاسخ باید ابتدا <a href="/login">وارد</a> حساب کاربری خود شده باشید!</div>
+                    </div>
+                    <% } %>
+                    <div>
+                      <form action="/blog/comment/add" method="POST">
+                        <h6 class="text-muted mb-3">پاسخ خود را بنویسید!</h6>
+                        <input type="hidden" name="replyId" />
+                        <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                        <textarea name="comment" class="ckeditor" id="replyCommentCkeditor"></textarea>
+                        <button type="submit" class="btn btn-success d-block ms-auto mt-3 d-flex items-center add-comment">ارسال پاسخ شما</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--!/ Reply Comment Modal -->
+            <!--! Edit Comment Modal -->
+            <div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="editComment" aria-hidden="true" shown.bs.modal="openModalFunc()">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title font-black">ویرایش کامنت</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body my-2">
+                    <div>
+                      <form action="/blog/comment/update" method="POST">
+                        <h6 class="text-muted mb-3">کامنت جدید خود را بنویسید!</h6>
+                        <input type="hidden" name="commentId" />
+                        <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                        <textarea name="comment" class="ckeditor"></textarea>
+                        <button type="submit" class="btn btn-success d-block ms-auto mt-3 d-flex items-center edit-comment">ویرایش</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--!/ Edit Comment Modal -->
+            <!--! Add Comments -->
+            <div class="add-comment">
+              <h3 class="font-black mb-5 text-dark">نظرات کاربران درمورد این مقاله</h3>
+              <% if(!user) { %>
+              <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <div>برای افزودن نظر خود ابتدا باید <a href="/login">وارد</a> حساب کاربری خود شوید!</div>
+              </div>
+              <% } %>
+              <h6 class="text-muted mb-4">نظر خود را وارد نمایید!</h6>
+              <form action="/blog/comment/add" method="POST">
+                <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                <textarea name="comment" class="ckeditor" id="addCommentCkeditor"></textarea>
+                <button type="submit" class="btn btn-success d-block ms-auto mt-4 d-flex align-items-center add-comment">ارسال دیدگاه شما</button>
+              </form>
+            </div>
+            <!--/ Add Comments -->
+            <!--! Comments -->
+            <div class="comments mt-5">
+              <ul class="list-unstyled">
+                <% if(comments.length) { %> <% comments.forEach(comment => { %>
+                <!-- Comment -->
+                <li class="p-3 mb-5 shadow-sm rounded-3 bg-light border">
+                  <div class="comment-header border-bottom mb-3 pb-3 d-flex align-items-center justify-content-between">
+                    <div class="user d-flex align-items-center">
+                      <div class="shadow rounded-pill overflow-hidden user-profile">
+                        <a href="/profile/<%= comment.user.role %>/<%= comment.user._id %>"
+                          ><img src="http://localhost:3000/users/<%= comment.user.profileImg %>" class="rounded-pill p-1 fit-cover" alt=""
+                        /></a>
+                      </div>
+                      <div class="ms-3">
+                        <h6 class="font-black text-primary">
+                          <%= comment.user.fullname %> <% if(comment.user.role === "admin") { %>
+                          <span class="badge bg-danger">مدیریت</span>
+                          <% } else if(comment.user.role === "teacher") { %>
+                          <span class="badge bg-warning">معلم</span>
+                          <% } else if(comment.user.role === "user") { %>
+                          <span class="badge bg-success">کاربر عادی</span>
+                          <% } %>
+                        </h6>
+                        <p class="font-regular text-secondary mb-0 comment-date">
+                          <%= moment(comment.createdAt) %> \ <%= momentTime(comment.createdAt) %>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="align-self-start mt-3 d-flex align-items-center">
+                      <button
+                        class="btn btn-success py-1 px-1 reply-comment"
+                        data-bs-toggle="modal"
+                        data-bs-target="#replyComment"
+                        data-comment-id="<%= comment._id %>"
+                      >
+                        <svg
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="پاسخ"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0)">
+                            <path d="M0 24L24 24L24 0L0 0L0 24Z" fill="transparent" />
+                            <path
+                              d="M7.13 18.3101H15.13C17.89 18.3101 20.13 16.0701 20.13 13.3101C20.13 10.5501 17.89 8.31006 15.13 8.31006H4.13"
+                              stroke="#fff"
+                              stroke-width="2"
+                              stroke-miterlimit="10"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M6.43 10.8099L3.87 8.24994L6.43 5.68994"
+                              stroke="#fff"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0">
+                              <rect width="24" height="24" fill="transparent" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </button>
+                      <% if(user && user._id.toString() === comment.user._id.toString()) { %>
+                      <button class="btn btn-info py-1 px-1 edit-comment ms-2" data-bs-toggle="modal" data-bs-target="#editComment">
+                        <svg
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="ویرایش"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M17.25 10.9921C15.129 11.6991 12.3009 8.87105 13.0079 6.75M13.8793 5.87857L9.30971 10.4482C7.3231 12.4348 5.91376 14.924 5.23236 17.6496L5.01156 18.5328C4.94276 18.808 5.19204 19.0572 5.46723 18.9884L6.35044 18.7676C9.07604 18.0862 11.5652 16.6769 13.5518 14.6903L18.1214 10.1207C18.684 9.55813 19 8.79516 19 7.99962C19 6.34297 17.657 5 16.0004 5C15.2048 5 14.4419 5.31603 13.8793 5.87857Z"
+                            stroke="#fff"
+                            stroke-width="2"
+                          />
+                        </svg>
+                      </button>
+                      <button class="btn btn-danger py-1 px-1 d-flex align-items-center ms-2 delete-comment" data-comment-id="<%= comment._id %>">
+                        <svg
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="حذف"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3 6.28259C2.58579 6.28259 2.25 6.61838 2.25 7.03259C2.25 7.44681 2.58579 7.78259 3 7.78259V6.28259ZM21 7.78259C21.4142 7.78259 21.75 7.44681 21.75 7.03259C21.75 6.61838 21.4142 6.28259 21 6.28259V7.78259ZM5 7.03259V6.28259H4.25V7.03259H5ZM19 7.03259H19.75V6.28259H19V7.03259ZM18.3418 16.8303L19.0624 17.0383L18.3418 16.8303ZM13.724 20.8553L13.8489 21.5949L13.724 20.8553ZM10.276 20.8553L10.401 20.1158L10.401 20.1158L10.276 20.8553ZM10.1183 20.8287L9.9933 21.5682H9.9933L10.1183 20.8287ZM5.65815 16.8303L4.93757 17.0383L5.65815 16.8303ZM13.8817 20.8287L13.7568 20.0892L13.8817 20.8287ZM7.84254 5.48939L8.52333 5.80406L7.84254 5.48939ZM8.81802 4.18112L8.31749 3.62258V3.62258L8.81802 4.18112ZM10.2779 3.30696L10.5389 4.01009L10.2779 3.30696ZM13.7221 3.30696L13.9831 2.60384V2.60384L13.7221 3.30696ZM16.1575 5.48939L16.8383 5.17471L16.1575 5.48939ZM3 7.78259H21V6.28259H3V7.78259ZM13.7568 20.0892L13.599 20.1158L13.8489 21.5949L14.0067 21.5682L13.7568 20.0892ZM10.401 20.1158L10.2432 20.0892L9.9933 21.5682L10.151 21.5949L10.401 20.1158ZM18.25 7.03259V12.1758H19.75V7.03259H18.25ZM5.75 12.1759V7.03259H4.25V12.1759H5.75ZM18.25 12.1758C18.25 13.6806 18.0383 15.1776 17.6212 16.6223L19.0624 17.0383C19.5185 15.4583 19.75 13.8212 19.75 12.1758H18.25ZM13.599 20.1158C12.5404 20.2947 11.4596 20.2947 10.401 20.1158L10.151 21.5949C11.3751 21.8017 12.6248 21.8017 13.8489 21.5949L13.599 20.1158ZM10.2432 20.0892C8.40523 19.7786 6.90157 18.4335 6.37873 16.6223L4.93757 17.0383C5.61878 19.3981 7.58166 21.1607 9.9933 21.5682L10.2432 20.0892ZM6.37873 16.6223C5.9617 15.1776 5.75 13.6806 5.75 12.1759H4.25C4.25 13.8212 4.48148 15.4583 4.93757 17.0383L6.37873 16.6223ZM14.0067 21.5682C16.4183 21.1607 18.3812 19.3981 19.0624 17.0383L17.6212 16.6223C17.0984 18.4335 15.5947 19.7786 13.7568 20.0892L14.0067 21.5682ZM8.25 7.03259C8.25 6.61367 8.34194 6.19649 8.52333 5.80406L7.16175 5.17471C6.89085 5.76079 6.75 6.39238 6.75 7.03259H8.25ZM8.52333 5.80406C8.70487 5.41133 8.97357 5.04881 9.31855 4.73966L8.31749 3.62258C7.82675 4.06235 7.43251 4.58893 7.16175 5.17471L8.52333 5.80406ZM9.31855 4.73966C9.66369 4.43037 10.0778 4.18126 10.5389 4.01009L10.0169 2.60384C9.38616 2.83798 8.80808 3.18295 8.31749 3.62258L9.31855 4.73966ZM10.5389 4.01009C11.0001 3.8389 11.4968 3.75 12 3.75V2.25C11.3213 2.25 10.6477 2.36972 10.0169 2.60384L10.5389 4.01009ZM12 3.75C12.5032 3.75 12.9999 3.8389 13.4611 4.01009L13.9831 2.60384C13.3523 2.36972 12.6787 2.25 12 2.25V3.75ZM13.4611 4.01009C13.9222 4.18126 14.3363 4.43037 14.6815 4.73966L15.6825 3.62258C15.1919 3.18295 14.6138 2.83798 13.9831 2.60384L13.4611 4.01009ZM14.6815 4.73966C15.0264 5.04881 15.2951 5.41133 15.4767 5.80407L16.8383 5.17471C16.5675 4.58893 16.1733 4.06235 15.6825 3.62258L14.6815 4.73966ZM15.4767 5.80406C15.6581 6.19649 15.75 6.61367 15.75 7.03259H17.25C17.25 6.39238 17.1092 5.7608 16.8383 5.17471L15.4767 5.80406ZM5 7.78259H19V6.28259H5V7.78259Z"
+                            fill="#fff"
+                          />
+                          <path d="M10 12V16M14 12V16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                      </button>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="comment-body text-justify text-dark lh-lg font-regular"><%- comment.comment %></div>
+                  <% if(comment.replies.length) { %> <% comment.replies.forEach(comment => { %>
+                  <!--! Reply Comments -->
+                  <div class="reply-comments ms-5">
+                    <ul class="list-unstyled">
+                      <!-- Reply Comment -->
+                      <li class="p-3 mt-3 shadow-sm rounded-3 bg-white border">
+                        <div class="comment-header border-bottom mb-3 pb-3 d-flex align-items-center justify-content-between">
+                          <div class="user d-flex align-items-center">
+                            <div class="shadow rounded-pill overflow-hidden user-profile">
+                              <a href="http://localhost:3000/profile/<%= comment.user.role %>/<%= comment.user._id %>"
+                                ><img src="http://localhost:3000/users/<%= comment.user.profileImg %> " class="rounded-pill p-1 fit-cover" alt=""
+                              /></a>
+                            </div>
+                            <div class="ms-2">
+                              <h6 class="font-black text-primary">
+                                <%= comment.user.fullname %> <% if(comment.user.role === "admin") { %>
+                                <span class="badge bg-danger">مدیریت</span>
+                                <% } else if(comment.user.role === "teacher") { %>
+                                <span class="badge bg-warning">معلم</span>
+                                <% } else if(comment.user.role === "user") { %>
+                                <span class="badge bg-success">کاربر عادی</span>
+                                <% } %>
+                              </h6>
+                              <p class="font-regular text-secondary mb-0 comment-date">
+                                <%= moment(comment.createdAt) %> / <%= momentTime(moment.createdAt) %>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="align-self-start mt-3 d-flex items-center">
+                            <% if(user && comment.user._id.toString() === user._id.toString()) { %>
+                            <button class="btn btn-info ms-2 py-1 px-1">
+                              <svg
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="ویرایش"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M17.25 10.9921C15.129 11.6991 12.3009 8.87105 13.0079 6.75M13.8793 5.87857L9.30971 10.4482C7.3231 12.4348 5.91376 14.924 5.23236 17.6496L5.01156 18.5328C4.94276 18.808 5.19204 19.0572 5.46723 18.9884L6.35044 18.7676C9.07604 18.0862 11.5652 16.6769 13.5518 14.6903L18.1214 10.1207C18.684 9.55813 19 8.79516 19 7.99962C19 6.34297 17.657 5 16.0004 5C15.2048 5 14.4419 5.31603 13.8793 5.87857Z"
+                                  stroke="#fff"
+                                  stroke-width="2"
+                                />
+                              </svg>
+                            </button>
+                            <button
+                              class="btn btn-danger py-1 px-1 d-flex items-center ms-2 delete-reply-comment"
+                              data-comment-id="<%= comment._id %>"
+                            >
+                              <svg
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="حذف"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M3 6.28259C2.58579 6.28259 2.25 6.61838 2.25 7.03259C2.25 7.44681 2.58579 7.78259 3 7.78259V6.28259ZM21 7.78259C21.4142 7.78259 21.75 7.44681 21.75 7.03259C21.75 6.61838 21.4142 6.28259 21 6.28259V7.78259ZM5 7.03259V6.28259H4.25V7.03259H5ZM19 7.03259H19.75V6.28259H19V7.03259ZM18.3418 16.8303L19.0624 17.0383L18.3418 16.8303ZM13.724 20.8553L13.8489 21.5949L13.724 20.8553ZM10.276 20.8553L10.401 20.1158L10.401 20.1158L10.276 20.8553ZM10.1183 20.8287L9.9933 21.5682H9.9933L10.1183 20.8287ZM5.65815 16.8303L4.93757 17.0383L5.65815 16.8303ZM13.8817 20.8287L13.7568 20.0892L13.8817 20.8287ZM7.84254 5.48939L8.52333 5.80406L7.84254 5.48939ZM8.81802 4.18112L8.31749 3.62258V3.62258L8.81802 4.18112ZM10.2779 3.30696L10.5389 4.01009L10.2779 3.30696ZM13.7221 3.30696L13.9831 2.60384V2.60384L13.7221 3.30696ZM16.1575 5.48939L16.8383 5.17471L16.1575 5.48939ZM3 7.78259H21V6.28259H3V7.78259ZM13.7568 20.0892L13.599 20.1158L13.8489 21.5949L14.0067 21.5682L13.7568 20.0892ZM10.401 20.1158L10.2432 20.0892L9.9933 21.5682L10.151 21.5949L10.401 20.1158ZM18.25 7.03259V12.1758H19.75V7.03259H18.25ZM5.75 12.1759V7.03259H4.25V12.1759H5.75ZM18.25 12.1758C18.25 13.6806 18.0383 15.1776 17.6212 16.6223L19.0624 17.0383C19.5185 15.4583 19.75 13.8212 19.75 12.1758H18.25ZM13.599 20.1158C12.5404 20.2947 11.4596 20.2947 10.401 20.1158L10.151 21.5949C11.3751 21.8017 12.6248 21.8017 13.8489 21.5949L13.599 20.1158ZM10.2432 20.0892C8.40523 19.7786 6.90157 18.4335 6.37873 16.6223L4.93757 17.0383C5.61878 19.3981 7.58166 21.1607 9.9933 21.5682L10.2432 20.0892ZM6.37873 16.6223C5.9617 15.1776 5.75 13.6806 5.75 12.1759H4.25C4.25 13.8212 4.48148 15.4583 4.93757 17.0383L6.37873 16.6223ZM14.0067 21.5682C16.4183 21.1607 18.3812 19.3981 19.0624 17.0383L17.6212 16.6223C17.0984 18.4335 15.5947 19.7786 13.7568 20.0892L14.0067 21.5682ZM8.25 7.03259C8.25 6.61367 8.34194 6.19649 8.52333 5.80406L7.16175 5.17471C6.89085 5.76079 6.75 6.39238 6.75 7.03259H8.25ZM8.52333 5.80406C8.70487 5.41133 8.97357 5.04881 9.31855 4.73966L8.31749 3.62258C7.82675 4.06235 7.43251 4.58893 7.16175 5.17471L8.52333 5.80406ZM9.31855 4.73966C9.66369 4.43037 10.0778 4.18126 10.5389 4.01009L10.0169 2.60384C9.38616 2.83798 8.80808 3.18295 8.31749 3.62258L9.31855 4.73966ZM10.5389 4.01009C11.0001 3.8389 11.4968 3.75 12 3.75V2.25C11.3213 2.25 10.6477 2.36972 10.0169 2.60384L10.5389 4.01009ZM12 3.75C12.5032 3.75 12.9999 3.8389 13.4611 4.01009L13.9831 2.60384C13.3523 2.36972 12.6787 2.25 12 2.25V3.75ZM13.4611 4.01009C13.9222 4.18126 14.3363 4.43037 14.6815 4.73966L15.6825 3.62258C15.1919 3.18295 14.6138 2.83798 13.9831 2.60384L13.4611 4.01009ZM14.6815 4.73966C15.0264 5.04881 15.2951 5.41133 15.4767 5.80407L16.8383 5.17471C16.5675 4.58893 16.1733 4.06235 15.6825 3.62258L14.6815 4.73966ZM15.4767 5.80406C15.6581 6.19649 15.75 6.61367 15.75 7.03259H17.25C17.25 6.39238 17.1092 5.7608 16.8383 5.17471L15.4767 5.80406ZM5 7.78259H19V6.28259H5V7.78259Z"
+                                  fill="#fff"
+                                />
+                                <path d="M10 12V16M14 12V16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                              </svg>
+                            </button>
+                            <% } %>
+                          </div>
+                        </div>
+                        <div class="comment-body text-justify text-dark lh-lg font-regular"><%- comment.comment %></div>
+                      </li>
+                      <!--/ Reply Comment -->
+                    </ul>
+                  </div>
+                  <!--/ Reply Comments -->
+                  <% }) %> <% } %>
+                </li>
+                <!--/ Comment -->
+                <% }) %> <% } %>
+              </ul>
+            </div>
+            <!--/ Comments -->
+          </div>
+        </main>
+        <!--/ Main -->
+        <!-- Aside -->
+        <aside class="col-12 col-xl-3 mt-5 mt-xl-0 p-0 ps-xl-3">
+          <div class="bloger-info d-flex align-items-center rounded-3 p-3 shadow-sm bg-white">
             <div class="bloger-avatar shadow-lg">
-              <img src="http://localhost:3000/users/<%= blog.author.profileImg %>" class="w-100 h-100" alt="" />
+              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"><img src="http://localhost:3000/users/<%= blog.author.profileImg %>" class="w-100 h-100" alt="" /></a>
             </div>
             <div class="ms-2">
-              <h6 class="font-black text-primary"><%= blog.author.fullname %></h6>
+              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"><h6 class="font-black text-primary"><%= blog.author.fullname %></h6></a>
               <p class="m-0 text-black-50"><%= moment(blog.createdAt) %> / <%= momentTime(blog.createdAt) %></p>
             </div>
           </div>
-          <div class="blog-feedbacks d-flex align-items-center text-secondary font-regular">
-            <div class="likes">
-              <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M11.6 18.8C11.3 18.9 10.7 18.9 10.4 18.8C7.5 17.8 1 13.7 1 6.69998C1 3.59998 3.5 1.09998 6.6 1.09998C8.4 1.09998 10 1.99998 11 3.29998C12 1.89998 13.6 1.09998 15.4 1.09998C18.5 1.09998 21 3.59998 21 6.69998C21 13.7 14.5 17.8 11.6 18.8Z"
-                  stroke="#6c757d"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span>87</span>
-            </div>
-            <div class="ms-2 comments">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M12.3142 19.4902L11.6158 19.217L12.3142 19.4902ZM3.77909 14.1378L3.04815 14.3058L3.77909 14.1378ZM3.77571 9.22642L3.04477 9.05841L3.77571 9.22642ZM20.2476 9.44741L20.9786 9.2794L20.2476 9.44741ZM20.2476 13.9021L19.5167 13.7341L20.2476 13.9021ZM9.31593 20.8233L9.61076 20.1337L9.61076 20.1337L9.31593 20.8233ZM9.68953 3.27141L9.86413 4.00081H9.86413L9.68953 3.27141ZM14.283 3.27141L14.1084 4.00081L14.283 3.27141ZM9.19777 20.7728L8.90294 21.4624H8.90294L9.19777 20.7728ZM14.6641 3.36264L14.8387 2.63325L14.6641 3.36264ZM20.1588 9.06088L19.4279 9.22889V9.22889L20.1588 9.06088ZM9.46648 3.32481L9.29188 2.59541V2.59541L9.46648 3.32481ZM8.69628 8.30793C8.28207 8.30793 7.94628 8.64372 7.94628 9.05793C7.94628 9.47215 8.28207 9.80793 8.69628 9.80793V8.30793ZM14.7279 9.80793C15.1422 9.80793 15.4779 9.47215 15.4779 9.05793C15.4779 8.64372 15.1422 8.30793 14.7279 8.30793V9.80793ZM8.69628 11.7641C8.28207 11.7641 7.94628 12.0999 7.94628 12.5141C7.94628 12.9283 8.28207 13.2641 8.69628 13.2641V11.7641ZM12.5346 13.2641C12.9488 13.2641 13.2846 12.9283 13.2846 12.5141C13.2846 12.0999 12.9488 11.7641 12.5346 11.7641V13.2641ZM9.64108 4.0542L9.86413 4.00081L9.51493 2.54202L9.29188 2.59541L9.64108 4.0542ZM14.1084 4.00081L14.4895 4.09204L14.8387 2.63325L14.4576 2.54202L14.1084 4.00081ZM9.61076 20.1337L9.4926 20.0832L8.90294 21.4624L9.0211 21.5129L9.61076 20.1337ZM19.4279 9.22889L19.5167 9.61542L20.9786 9.2794L20.8897 8.89287L19.4279 9.22889ZM14.1721 18.1768H13.1107V19.6768H14.1721V18.1768ZM13.1107 18.1768C12.4324 18.1768 11.8529 18.6108 11.6158 19.217L13.0127 19.7634C13.0406 19.6921 13.092 19.6768 13.1107 19.6768V18.1768ZM4.51003 13.9698C4.16535 12.4702 4.16244 10.8919 4.50665 9.39443L3.04477 9.05841C2.64926 10.7791 2.65311 12.5871 3.04815 14.3058L4.51003 13.9698ZM19.5167 9.61542C19.8278 10.9687 19.8278 12.3808 19.5167 13.7341L20.9786 14.0701C21.3405 12.4957 21.3405 10.8538 20.9786 9.2794L19.5167 9.61542ZM9.0211 21.5129C10.6131 22.1936 12.3891 21.3576 13.0127 19.7634L11.6158 19.217C11.2766 20.084 10.365 20.4561 9.61076 20.1337L9.0211 21.5129ZM9.86413 4.00081C11.2611 3.6664 12.7114 3.6664 14.1084 4.00081L14.4576 2.54202C12.8311 2.15266 11.1415 2.15266 9.51493 2.54202L9.86413 4.00081ZM9.4926 20.0832C7.01453 19.0237 5.14644 16.7384 4.51003 13.9698L3.04815 14.3058C3.78571 17.5145 5.95924 20.2039 8.90294 21.4624L9.4926 20.0832ZM19.5167 13.7341C18.912 16.3647 16.6859 18.1768 14.1721 18.1768V19.6768C17.4318 19.6768 20.2281 17.3351 20.9786 14.0701L19.5167 13.7341ZM14.4895 4.09204C16.91 4.67142 18.8349 6.64932 19.4279 9.22889L20.8897 8.89287C20.1765 5.78984 17.8441 3.35266 14.8387 2.63325L14.4895 4.09204ZM9.29188 2.59541C6.18969 3.338 3.78134 5.85397 3.04477 9.05841L4.50665 9.39443C5.1229 6.71346 7.12384 4.65676 9.64108 4.0542L9.29188 2.59541ZM8.69628 9.80793H14.7279V8.30793H8.69628V9.80793ZM8.69628 13.2641H12.5346V11.7641H8.69628V13.2641Z"
-                  fill="#6c757d"
-                />
-              </svg>
-              <span>37</span>
-            </div>
-            <div class="ms-2 visits">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M15.6 12C15.6 14 14 15.6 12 15.6C9.99999 15.6 8.39999 14 8.39999 12C8.39999 10 9.99999 8.40002 12 8.40002C14 8.40002 15.6 10 15.6 12Z"
-                  stroke="#6c757d"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M12 20.2999C15.5 20.2999 18.8 18.2 21.1 14.6C22 13.2 22 10.8 21.1 9.39995C18.8 5.79995 15.5 3.69995 12 3.69995C8.50001 3.69995 5.20001 5.79995 2.90001 9.39995C2.00001 10.8 2.00001 13.2 2.90001 14.6C5.20001 18.2 8.50001 20.2999 12 20.2999Z"
-                  stroke="#6c757d"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-              <span>27</span>
-            </div>
+          <% if(otherBlogs.length) { %>
+          <div class="shadow-sm mt-4 p-3 rounded-3 bg-white">
+            <h4 class="font-bold border-bottom pb-3">دیگر مقالات ما</h4>
+            <ul class="list-unstyled">
+              <% otherBlogs.forEach(blog => { %>
+              <li class="border-bottom py-2">
+                <a href="/blog/read/<%= blog._id %>" class="text-dark"><h5><%= blog.title %></h5></a>
+                <div>
+                  <ul class="list-unstyled d-flex">
+                    <% blog.tags.slice(0, 2).forEach(tag => { %>
+                    <li class="mx-1"><a href="#" class="text-muted text-decoration-none font-light">#<%= tag %></a></li>
+                    <% }) %>
+                  </ul>
+                </div>
+              </li>
+              <% }) %>
+            </ul>
           </div>
-        </div>
+          <% } %>
+        </aside>
+        <!--/ Aside -->
       </div>
-      <!--/ Blog Info -->
-      <div class="blog-body">
-        <p class="paragraph text-secondary text-justify mt-5"><%- blog.body %></p>
-      </div>
-      <div class="tags mt-5">
-        <ul class="list-unstyled d-flex align-content-center">
-          <li class="font-light bg-light text-dark me-2 rounded-3 py-1 px-3">#لورم</li>
-          <li class="font-light bg-light text-dark me-2 rounded-3 py-1 px-3">#لورم</li>
-        </ul>
-      </div>
-      <!-- Related blogs -->
-      <div class="related-blogs">
-        <div class="d-flex align-items-center justify-content-between title position-relative mt-10 mx-3">
-          <h1 class="title text-dark font-black pb-3">مقالات مرتبط</h1>
-          <a href="#" class="text-primary text-decoration-none">تمامی بلاگ ها</a>
-        </div>
-        <div class="swiper-container blogs p-3 mx-auto mt-5">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="card h-100 shadow-md">
-                <img src="./images/img-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-                <div class="card-body pt-2">
-                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
-                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
-                    <span class="text-secondary font-light d-block pt-1"
-                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 0H0V24H24V0Z" />
-                        <path
-                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      23 اردیبهشت 1400</span
-                    >
-                    <span class="text-secondary font-light">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      علیرضا درویشی
-                    </span>
-                  </div>
-                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
-                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
-                  </p>
-                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card h-100 shadow-md">
-                <img src="./images/img.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-                <div class="card-body pt-2">
-                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
-                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
-                    <span class="text-secondary font-light d-block pt-1"
-                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 0H0V24H24V0Z" />
-                        <path
-                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      23 اردیبهشت 1400</span
-                    >
-                    <span class="text-secondary font-light">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      علیرضا درویشی
-                    </span>
-                  </div>
-                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
-                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
-                  </p>
-                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card h-100 shadow-md">
-                <img src="./images/img-7.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-                <div class="card-body pt-2">
-                  <h5 class="card-title font-bold text-primary">تیتر بلاگ</h5>
-                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
-                    <span class="text-secondary font-light d-block pt-1"
-                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 0H0V24H24V0Z" />
-                        <path
-                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      23 اردیبهشت 1400</span
-                    >
-                    <span class="text-secondary font-light">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      علیرضا درویشی
-                    </span>
-                  </div>
-                  <p class="card-text font-light text-secondary text-justify mt-2 mb-1">
-                    دوره کالج یک کلاس است که توسط یک کالج یا دانشگاه ارائه می شود. این دوره ها معمولاً بخشی از برنامه های پیشرو هستند.
-                  </p>
-                  <a href="#" class="text-decoration-none d-block text-end">ادامه خواندن...</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="next-slide btn btn-warning position-absolute">
-            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
-                stroke="#fff"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-          <button class="prev-slide btn btn-warning position-absolute">
-            <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.99999 16.9L1.49999 10.4C0.699994 9.59997 0.699994 8.39998 1.49999 7.59998L7.99999 1.09998"
-                stroke="#fff"
-                stroke-width="1.5"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <!--/ Related blogs -->
     </section>
     <!--/ Blog -->
 
     <%- include("../includes/footer.ejs") %>
   </body>
-  <script src="/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/swiper/swiper-bundle.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script src="/ckeditor/ckeditor.js"></script>
+  <script src="/js/single-blog.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
 </html>

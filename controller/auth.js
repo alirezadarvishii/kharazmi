@@ -152,7 +152,7 @@ exports.handleLogin = async (req, res, next) => {
 exports.handleRememberMe = (req, res) => {
   const { rememberme } = req.body;
   if (rememberme === "on") {
-    req.session.cookie.originalMaxAge = 60 * 60 * 60 * 24; // 15 minutes
+    req.session.cookie.originalMaxAge = 60 * 60 * 60 * 10000; // 15 minutes
   }
   res.redirect("/");
 };

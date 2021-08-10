@@ -3,6 +3,7 @@ const path = require("path");
 const sharp = require("sharp");
 const { hash, compare } = require("bcrypt");
 
+const Blog = require("../model/blog");
 const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
 const authValidation = require("../validation/auth-validation");
 const getUserByRole = require("../utils/getUserByRole");
@@ -83,4 +84,13 @@ exports.handleChangePassword = async (req, res) => {
     return res.redirect("/me");
   }
   throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "/me/change-password");
+};
+
+exports.manageOwnBlogs = async (req, res) => {
+  const blogs = await Blog.find({ author: req.user._id, status: "approved" });
+  res.render("user/manage-blogs", {
+    title: "مدیریت مقاله های من",
+    headerTitle: "مدیریت مقاله های من",
+    blogs
+  });
 };

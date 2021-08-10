@@ -18,4 +18,6 @@ router.get("/blogs", asyncHandler(dashboardController.manageBlogs));
 
 router.get("/gallery", asyncHandler(dashboardController.manageGallery));
 
+router.get("/manage-events", isAuth, asyncHandler(dashboardController.manageEvents));
+
 module.exports = router;

@@ -28,8 +28,10 @@ const blogSchema = new mongoose.Schema(
       enum: ["approved", "notApproved"],
       default: "notApproved",
     },
+    tags: [{ type: String, required: true }],
     comments: [{ type: mongoose.Types.ObjectId }],
     likes: [{ type: mongoose.Types.ObjectId }],
+    visit: [{ type: String }],
   },
   { timestamps: true }
 );

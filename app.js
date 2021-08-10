@@ -27,6 +27,7 @@ app.set("views", "views");
 
 // Middlewares
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -48,6 +49,7 @@ app.use((req, res, next) => {
   app.locals.message = req.flash();
   app.locals.moment = moment;
   app.locals.momentTime = momentTime;
+  app.locals.path = req.path;
   next();
 });
 

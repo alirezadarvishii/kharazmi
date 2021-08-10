@@ -56,17 +56,65 @@ exports.addNewImageToGallery = async (req, res) => {
   if (validate.error) {
     throw new ErrorResponse(422, validate.error.message, "/dashboard/gallery");
   }
-  const filename = `${Date.now()}.jpeg`;
-  await sharp(req.files.galleryImg[0].buffer)
-    .jpeg({
-      quality: 60,
-    })
-    .toFile(path.join(__dirname, "..", "public", "gallery", filename), async (err) => {
-      if (err) {
-        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=user");
-      }
-      await Gallery.create({ img: filename, caption });
-      req.flash("success", "تصویر جدید با موفقیت به گالری افزوده شد");
-      res.redirect("/dashboard/gallery");
-    });
+  if (req.files.galleryImg) {
+    const filename = `${Date.now()}.jpeg`;
+    await sharp(req.files.galleryImg[0].buffer)
+      .jpeg({
+        quality: 60,
+      })
+      .toFile(path.join(__dirname, "..", "public", "gallery", filename), async (err) => {
+        if (err) {
+          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=user");
+        }
+        await Gallery.create({ img: filename, caption });
+        req.flash("success", "تصویر جدید با موفقیت به گالری افزوده شد");
+        res.redirect("/dashboard/gallery");
+      });
+  } else {
+    throw new ErrorResponse(404, "تصویر رو یادت رفته آپلود کنی!", "/dashboard/gallery");
+  }
+};
+
+// TODO: Refactorin sharp.
+exports.editGalleryImg = async (req, res) => {
+  const { caption, imgId } = req.body;
+  const validate = schoolValidation.editGalleryImg.validate(req.body);
+  if (validate.error) {
+    throw new ErrorResponse(422, validate.error.message, "/dashboard/gallery");
+  }
+  const img = await Gallery.findOne({ _id: imgId });
+  if (req.files.galleryImg) {
+    await sharp(req.files.galleryImg[0].buffer)
+      .jpeg({
+        quality: 60,
+      })
+      .toFile(path.join(__dirname, "..", "public", "gallery", img.img), async (err) => {
+        if (err) {
+          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=user");
+        }
+        img.caption = caption;
+        await img.save();
+        req.flash("success", "ویرایش با موفقیت انجام گردید!");
+        res.redirect("/dashboard/gallery");
+      });
+  } else {
+    img.caption = caption;
+    await img.save();
+    req.flash("success", "ویرایش با موفقیت انجام گردید!");
+    res.redirect("/dashboard/gallery");
+  }
+};
+
+exports.deleteGalleryImg = async (req, res) => {
+  const { imgId } = req.params;
+  await Gallery.deleteOne({ _id: imgId });
+  req.flash("success", "تصویر مورد نظر با موفقیت حذف گردید!");
+  res.redirect("/dashboard/gallery");
+};
+
+exports.deleteBlog = async (req, res) => {
+  const { blogId } = req.params;
+  await Blog.deleteOne({ _id: blogId });
+  req.flash("success", "مقاله مورد نظر با موفقیت حذف گردید!");
+  res.redirect("/dashboard/blogs");
 };

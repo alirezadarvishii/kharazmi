@@ -1,8 +1,9 @@
 const Admin = require("../model/admin");
-const Teacher = require("../model/teachers");
+const Teacher = require("../model/teacher");
 const User = require("../model/user");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
+const Event = require("../model/event");
 
 exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
@@ -55,7 +56,9 @@ exports.manageGallery = async (req, res) => {
 };
 
 exports.manageEvents = async (req, res) => {
+  const events = await Event.find({});
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
+    events
   });
 };

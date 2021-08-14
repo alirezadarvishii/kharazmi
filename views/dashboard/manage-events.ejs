@@ -19,9 +19,9 @@
         <main class="col-10 px-3">
           <div class="bg-light rounded-8 p-3 pb-0">
             <div class="d-flex align-items-center justify-content-between">
-              <h1 class="font-black mt-4 mb-3">بخش مدیریت گالری وبسایت</h1>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewImgModal">افزودن تصویر جدید</button>
-              <!-- Add New Modal -->
+              <h1 class="font-black mt-4 mb-3">بخش مدیریت رویدادها</h1>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewImgModal">افزودن رویداد جدید</button>
+              <!-- Add Event Modal -->
               <div class="modal fade" id="addNewImgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -29,16 +29,24 @@
                       <h5 class="modal-title font-black">افزودن عکس جدید</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/admin/gallery/new" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/event/new" method="POST" enctype="multipart/form-data">
                       <div class="modal-body my-4">
                         <div>
                           <div>
                             <label class="text-secondary mb-2">تصویر</label>
-                            <input type="file" name="galleryImg" class="form-control" />
+                            <input type="file" name="eventImg" class="form-control" />
                           </div>
                           <div class="mt-4">
-                            <label class="text-secondary mb-2">توضیحات</label>
-                            <textarea class="form-control" name="caption"></textarea>
+                            <label class="text-secondary mb-2">تاریخ شروع</label>
+                            <input type="date" name="start" class="form-control" />
+                          </div>
+                          <div class="mt-4">
+                            <label class="text-secondary mb-2">ساعت شروع ( دلخواه )</label>
+                            <input type="time" name="time" class="form-control" />
+                          </div>
+                          <div class="mt-4">
+                            <label class="text-secondary mb-2">توضیحات رویداد</label>
+                            <textarea class="form-control" name="description"></textarea>
                           </div>
                         </div>
                       </div>
@@ -50,7 +58,7 @@
                   </div>
                 </div>
               </div>
-              <!--/ Add New Modal -->
+              <!--/ Add Event Modal -->
               <!-- Edit Modal -->
               <div class="modal fade" id="editImgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -88,41 +96,12 @@
               </div>
               <!--/ Edit Modal -->
             </div>
-            <div class="row g-4 manage-gallery mt-2 pb-4">
-              <% if(images.length) { %> <% images.forEach(img => { %>
-              <div class="col-3">
-                <div class="position-relative overflow-hidden rounded-3">
-                  <div class="position-absolute justify-content-center btns">
-                    <a href="/admin/gallery/delete/<%= img._id %>" class="btn btn-danger me-1">حذف</a>
-                    <button
-                      class="btn btn-light mx-1 edit-img-btn"
-                      data-img-id="<%= img._id %>"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editImgModal"
-                    >
-                      ویرایش
-                    </button>
-                    <button
-                      class="btn btn-primary mx-1"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#clps<%= img._id %>"
-                      aria-expanded="false"
-                      aria-controls="clps"
-                    >
-                      کپشن
-                    </button>
-                  </div>
-                  <img src="http://localhost:3000/gallery/<%= img.img %>" class="fit-cover w-100 rounded-3" alt="" />
-                  <div class="collapse" id="clps<%= img._id %>">
-                    <div class="card">
-                      <div class="card-body"><%= img.caption %></div>
-                    </div>
-                  </div>
-                </div>
+            <div class="row g-4 manage-events mt-2 pb-4">
+              <% if(events.length) { %> <% } else { %>
+              <div class="d-flex align-items-center justify-content-center flex-column my-5">
+                <img src="http://localhost:3000/images/event.png" class="fit-cover" alt="" />
+                <h5 class="text-secondary font-black mt-2">رویـداد فـعـالـی مـوجـود نـیـسـت!</h5>
               </div>
-              <% }) %> <% } else { %>
-              <h3 class="my-5 text-center text-danger font-black">متاسفانه تاکنون عکسی در گالری آپلود نشده است!</h3>
               <% } %>
             </div>
           </div>

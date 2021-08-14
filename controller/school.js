@@ -1,4 +1,4 @@
-const Teacher = require("../model/teachers");
+const Teacher = require("../model/teacher");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
 const getUserByRole = require("../utils/getUserByRole");

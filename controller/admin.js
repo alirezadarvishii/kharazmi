@@ -3,10 +3,12 @@ const path = require("path");
 const sharp = require("sharp");
 
 const Admin = require("../model/admin");
-const Teacher = require("../model/teachers");
+const Teacher = require("../model/teacher");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
+const Event = require("../model/event");
 const schoolValidation = require("../validation/school-validation");
+const adminValidation = require("../validation/admin-validation");
 const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
 
 exports.blogChangeReleaseStatus = async (req, res) => {
@@ -118,3 +120,20 @@ exports.deleteBlog = async (req, res) => {
   req.flash("success", "مقاله مورد نظر با موفقیت حذف گردید!");
   res.redirect("/dashboard/blogs");
 };
+
+exports.newEvent = async (req, res) => {
+  const validate = adminValidation.eventSchema.validate(req.body);
+  if (validate.error) {
+    throw new ErrorResponse(422, validate.error.message, "/dashboard/events");
+  }
+  if (!req.files.eventImg) {
+    throw new ErrorResponse(404, "فیلد تصویر رویداد الزامی است!", "/dashboard/events");
+  }
+  console.log(req.body);
+  req.flash("success", "رویداد جدید با موفقیت ایجاد شد!");
+  res.redirect("/dashboard/events");
+};
+
+exports.editEvent = async (req, res) => {};
+
+exports.deleteEvent = async (req, res) => {};

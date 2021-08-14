@@ -4,7 +4,7 @@ const { hash, compare } = require("bcrypt");
 const sharp = require("sharp");
 
 const Admin = require("../model/admin");
-const Teacher = require("../model/teachers");
+const Teacher = require("../model/teacher");
 const User = require("../model/user");
 const ErrorResponse = require("../utils/ErrorResponse");
 const authValidation = require("../validation/auth-validation");

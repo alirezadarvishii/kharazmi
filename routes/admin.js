@@ -19,6 +19,12 @@ router.get("/blog/delete/:blogId", asyncHandler(adminController.deleteBlog));
 
 router.get("/gallery/delete/:imgId", asyncHandler(adminController.deleteGalleryImg));
 
+router.post("/event/new", asyncHandler(adminController.newEvent));
+
+router.post("/event/edit", asyncHandler(adminController.editEvent));
+
+router.post("/event/delete", asyncHandler(adminController.deleteEvent));
+
 router.post("/gallery/new", asyncHandler(adminController.addNewImageToGallery));
 
 router.post("/gallery/edit", asyncHandler(adminController.editGalleryImg));

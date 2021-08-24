@@ -3,7 +3,6 @@ const Teacher = require("../model/teacher");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
 const Event = require("../model/event");
-const getUserByRole = require("../utils/getUserByRole");
 
 exports.indexPage = async (req, res) => {
   const galleryImages = await Gallery.find({});
@@ -46,26 +45,9 @@ exports.getGalleryImg = async (req, res) => {
   res.status(200).json(img);
 };
 
-// API
-exports.getEvent = async (req, res) => {
-  const { eventId } = req.params;
-  const event = await Event.findOne({ _id: eventId });
-  res.status(200).json(event);
-};
-
 exports.about = (req, res) => {
   res.render("about", {
     title: "درباره ما",
     headerTitle: "دربـاره مـا",
-  });
-};
-
-exports.profile = async (req, res) => {
-  const { userId, role } = req.params;
-  const user = await getUserByRole(role, { _id: userId });
-  res.render("user/profile", {
-    title: `پروفایل ${user.fullname}`,
-    headerTitle: `پروفایل  ${user.fullname}`,
-    user,
   });
 };

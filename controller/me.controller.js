@@ -5,9 +5,9 @@ const { hash, compare } = require("bcrypt");
 
 const Blog = require("../model/blog");
 const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
-const authValidation = require("../validation/auth-validation");
+const authValidation = require("../validation/auth.validation");
 const getUserByRole = require("../utils/getUserByRole");
-const { changePasswordValidation } = require("../validation/auth-validation");
+const { changePasswordValidation } = require("../validation/auth.validation");
 
 exports.userPanel = async (req, res) => {
   res.render("user/me", {

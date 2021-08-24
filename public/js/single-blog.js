@@ -71,7 +71,7 @@ const addComment = async (e) => {
 const deleteComment = async (e) => {
   const { commentId } = e.target.dataset;
   e.target.append(spinner());
-  const fetchToDelete = await fetch(`http://localhost:3000/blog/comment/delete/${commentId}`, {
+  const fetchToDelete = await fetch(`http://localhost:3000/comment/delete/${commentId}`, {
     method: "DELETE",
   });
   console.log(fetchToDelete);
@@ -136,7 +136,7 @@ const deleteReplyComment = async (e) => {
 // API: Get comment for edit it.
 const getCommentForEdit = async () => {
   const commentId = document.querySelector("#editComment input[name=commentId]");
-  const getComment = await fetch(`http://localhost:3000/blog/comment/read/${commentId.value}`);
+  const getComment = await fetch(`http://localhost:3000/comment/read/${commentId.value}`);
   if (getComment.status === 200) {
     const response = await getComment.json();
     console.log(response);
@@ -156,7 +156,7 @@ const openModalFunc = () => {
 };
 
 const changeReplyCommentInputValue = (e) => {
-  const { commentId } = e.target.dataset;
+  const { commentId } = e.target.closest("button").dataset;
   const commentIdInput = document.querySelector("#replyComment input[name=replyId]");
   commentIdInput.value = commentId;
 };
@@ -172,4 +172,4 @@ replyCommentBtns.forEach((el) => el.addEventListener("click", changeReplyComment
 addCommentBtn.forEach((el) => el.addEventListener("click", addComment));
 deleteCommentBtns.forEach((el) => el.addEventListener("click", deleteComment));
 deleteReplyCommentBtns.forEach((el) => el.addEventListener("click", deleteReplyComment));
-editCommentBtn.addEventListener("click", editComment());
+editCommentBtn.addEventListener("click", editComment);

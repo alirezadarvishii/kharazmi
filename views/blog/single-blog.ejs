@@ -80,6 +80,7 @@
               <% }) %>
             </ul>
           </div>
+          <!--! Comments area -->
           <div class="comments-area mt-10">
             <!--! Reply Comment Modal -->
             <div class="modal fade" data-img-id="" id="replyComment" tabindex="-1" aria-labelledby="replyComment" aria-hidden="true">
@@ -96,7 +97,7 @@
                     </div>
                     <% } %>
                     <div>
-                      <form action="/blog/comment/add" method="POST">
+                      <form action="/comment/add" method="POST">
                         <h6 class="text-muted mb-3">پاسخ خود را بنویسید!</h6>
                         <input type="hidden" name="replyId" />
                         <input type="hidden" name="blogId" value="<%= blog._id %>" />
@@ -119,7 +120,7 @@
                   </div>
                   <div class="modal-body my-2">
                     <div>
-                      <form action="/blog/comment/update" method="POST">
+                      <form action="/comment/update" method="POST">
                         <h6 class="text-muted mb-3">کامنت جدید خود را بنویسید!</h6>
                         <input type="hidden" name="commentId" />
                         <input type="hidden" name="blogId" value="<%= blog._id %>" />
@@ -141,7 +142,7 @@
               </div>
               <% } %>
               <h6 class="text-muted mb-4">نظر خود را وارد نمایید!</h6>
-              <form action="/blog/comment/add" method="POST">
+              <form action="/comment/add" method="POST">
                 <input type="hidden" name="blogId" value="<%= blog._id %>" />
                 <textarea name="comment" class="ckeditor" id="addCommentCkeditor"></textarea>
                 <button type="submit" class="btn btn-success d-block ms-auto mt-4 d-flex align-items-center add-comment">ارسال دیدگاه شما</button>
@@ -351,10 +352,14 @@
         <aside class="col-12 col-xl-3 mt-5 mt-xl-0 p-0 ps-xl-3">
           <div class="bloger-info d-flex align-items-center rounded-3 p-3 shadow-sm bg-white">
             <div class="bloger-avatar shadow-lg">
-              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"><img src="http://localhost:3000/users/<%= blog.author.profileImg %>" class="w-100 h-100" alt="" /></a>
+              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"
+                ><img src="http://localhost:3000/users/<%= blog.author.profileImg %>" class="w-100 h-100" alt=""
+              /></a>
             </div>
             <div class="ms-2">
-              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"><h6 class="font-black text-primary"><%= blog.author.fullname %></h6></a>
+              <a href="/profile/<%= blog.author.role %>/<%= blog.author._id %>"
+                ><h6 class="font-black text-primary"><%= blog.author.fullname %></h6></a
+              >
               <p class="m-0 text-black-50"><%= moment(blog.createdAt) %> / <%= momentTime(blog.createdAt) %></p>
             </div>
           </div>

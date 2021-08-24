@@ -7,7 +7,7 @@ const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
 const User = require("../model/user");
 const ErrorResponse = require("../utils/ErrorResponse");
-const authValidation = require("../validation/auth-validation");
+const authValidation = require("../validation/auth.validation");
 const checkEmailExist = require("../utils/checkEmailExist");
 const getUserByRole = require("../utils/getUserByRole");
 

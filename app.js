@@ -12,13 +12,16 @@ const handleMulter = require("./middleware/handleMulter");
 const { moment, momentTime } = require("./utils/moment");
 
 // Routes
-const schoolRoutes = require("./routes/school");
-const authRoutes = require("./routes/auth");
-const meRoutes = require("./routes/me");
-const blogRoutes = require("./routes/blog");
-const dashboardRoutes = require("./routes/dashboard");
-const adminRoutes = require("./routes/admin");
-const errorHandler = require("./controller/error");
+const schoolRoutes = require("./routes/school.route");
+const authRoutes = require("./routes/auth.route");
+const meRoutes = require("./routes/me.route");
+const blogRoutes = require("./routes/blog.route");
+const commentRoutes = require("./routes/comment.route");
+const eventRoutes = require("./routes/event.route");
+const galleryRoutes = require("./routes/gallery.route");
+const dashboardRoutes = require("./routes/dashboard.route");
+const userRoutes = require("./routes/user.route");
+const errorHandler = require("./controller/error.controller");
 
 const app = express();
 
@@ -59,9 +62,12 @@ app.use((req, res, next) => {
 app.use(schoolRoutes);
 app.use(authRoutes);
 app.use("/me", meRoutes);
+app.use("/user", userRoutes);
 app.use("/blog", blogRoutes);
+app.use("/comment", commentRoutes);
+app.use("/event", eventRoutes);
+app.use("/gallery", galleryRoutes);
 app.use("/dashboard", dashboardRoutes);
-app.use("/admin", adminRoutes);
 
 // ---- Error handling middleware --------
 app.use(errorHandler._404);

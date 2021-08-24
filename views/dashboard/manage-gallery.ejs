@@ -29,7 +29,7 @@
                       <h5 class="modal-title font-black">افزودن عکس جدید</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/admin/gallery/new" method="POST" enctype="multipart/form-data">
+                    <form action="/gallery/new" method="POST" enctype="multipart/form-data">
                       <div class="modal-body my-4">
                         <div>
                           <div>
@@ -64,7 +64,7 @@
                       <h5 class="modal-title font-black">ویرایش عکس یا توضیحات</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/admin/gallery/edit" method="POST" enctype="multipart/form-data">
+                    <form action="/gallery/edit" method="POST" enctype="multipart/form-data">
                       <div class="modal-body my-4">
                         <div>
                           <input type="hidden" name="imgId" />
@@ -93,7 +93,7 @@
               <div class="col-3">
                 <div class="position-relative overflow-hidden rounded-3">
                   <div class="position-absolute justify-content-center btns">
-                    <a href="/admin/gallery/delete/<%= img._id %>" class="btn btn-danger me-1">حذف</a>
+                    <a href="/gallery/delete/<%= img._id %>" class="btn btn-danger me-1">حذف</a>
                     <button
                       class="btn btn-light mx-1 edit-img-btn"
                       data-img-id="<%= img._id %>"

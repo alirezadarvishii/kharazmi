@@ -11,15 +11,15 @@ const asyncHandler = require("../middleware/asyncHandler");
 router.get("/profile/:role/:userId", userController.profile);
 
 //? Approving a new admin.
-router.get("/users/approve-admin/:adminId", asyncHandler(userController.approveAdmin));
+router.get("/approve-admin/:adminId", asyncHandler(userController.approveAdmin));
 
 //? Unapproving a admin.
-router.get("/users/unapprove-admin/:adminId", asyncHandler(userController.unApproveAdmin));
+router.get("/unapprove-admin/:adminId", asyncHandler(userController.unApproveAdmin));
 
 //? Approving a new teacher.
-router.get("/users/approve-teachers/:teacherId", asyncHandler(userController.approveTeacher));
+router.get("/approve-teachers/:teacherId", asyncHandler(userController.approveTeacher));
 
 //? Unapproving a teacher.
-router.get("/users/unapprove-teachers/:teacherId", asyncHandler(userController.unApproveTeacher));
+router.get("/unapprove-teachers/:teacherId", asyncHandler(userController.unApproveTeacher));
 
 module.exports = router;

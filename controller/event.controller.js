@@ -1,4 +1,4 @@
-const path = require("sharp");
+const path = require("path");
 
 const sharp = require("sharp");
 

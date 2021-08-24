@@ -15,7 +15,7 @@ router.get("/", blogController.blog);
 router.get("/new", isAuth, blogController.addBlog);
 
 //? Accept a new blog for publishing into website weblog
-router.get("/blog/release/:blogId", asyncHandler(blogController.blogChangeReleaseStatus));
+router.get("/release/:blogId", asyncHandler(blogController.blogChangeReleaseStatus));
 
 //? Route and Method: /blog/read/:blogId & GET
 router.get("/read/:blogId", asyncHandler(blogController.getBlog));

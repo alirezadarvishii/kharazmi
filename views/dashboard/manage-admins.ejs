@@ -47,8 +47,8 @@
                         </div>
                         <div class="col text-end text-secondary">
                           <% if(admin.status === "approved") { %>
-                          <a href="/admin/users/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a> \ <% } else { %>
-                          <a href="/admin/users/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a> \ <% } %>
+                          <a href="/user/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a> \ <% } else { %>
+                          <a href="/user/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a> \ <% } %>
                           <a href="#" class="text-decoration-none text-danger">حذف</a>
                         </div>
                       </li>

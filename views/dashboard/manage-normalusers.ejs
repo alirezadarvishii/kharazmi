@@ -31,7 +31,6 @@
                       <li class="col-1 text-secondary">#</li>
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
-                      <li class="col text-end">تأیید \ حذف</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(users) { %> <% users.forEach((user, index) => { %>
@@ -39,10 +38,6 @@
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= user.fullname %></div>
                         <div class="col text-secondary"><%= user.email %></div>
-                        <div class="col text-end">
-                          <a href="#" class="text-decoration-none text-success">تأیید</a> \
-                          <a href="#" class="text-decoration-none text-danger">حذف</a>
-                        </div>
                       </li>
                       <% }) %> <% } %>
                     </ul>

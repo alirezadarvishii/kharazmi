@@ -20,7 +20,9 @@
           <a href="#">
             <div class="card h-100 border-0 position-relative">
               <div class="master-img position-relative overflow-hidden">
-                <img src="http://localhost:3000/users/<%= departman.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <a href="/user/profile/<%= departman.role %>/<%= departman._id %>">
+                  <img src="http://localhost:3000/users/<%= departman.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                </a>
               </div>
               <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
                 <h6 class="card-title text-center font-bold text-primary"><%= departman.fullname %></h6>

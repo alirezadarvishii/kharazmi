@@ -6,28 +6,28 @@ exports.approveAdmin = async (req, res) => {
   const { adminId } = req.params;
   await Admin.updateOne({ _id: adminId }, { $set: { status: "approved" } });
   req.flash("success", "عملیات با موفقیت انجام شد!");
-  res.redirect("/dashboard/users/admins");
+  res.redirect("back");
 };
 
 exports.unApproveAdmin = async (req, res) => {
   const { adminId } = req.params;
   await Admin.updateOne({ _id: adminId }, { $set: { status: "notApproved" } });
   req.flash("success", "عملیات با موفقیت انجام شد!");
-  res.redirect("/dashboard/users/admins");
+  res.redirect("back");
 };
 
 exports.approveTeacher = async (req, res) => {
   const { teacherId } = req.params;
   await Teacher.updateOne({ _id: teacherId }, { $set: { status: "approved" } });
   req.flash("success", "عملیات با موفقیت انجام شد!");
-  res.redirect("/dashboard/users/teachers");
+  res.redirect("back");
 };
 
 exports.unApproveTeacher = async (req, res) => {
   const { teacherId } = req.params;
-  await Teacher.updateOne({ _id: teacherId }, { $set: { status: "notApprove" } });
+  await Teacher.updateOne({ _id: teacherId }, { $set: { status: "notApproved" } });
   req.flash("success", "عملیات با موفقیت انجام شد!");
-  res.redirect("/dashboard/users/teachers");
+  res.redirect("back");
 };
 
 exports.profile = async (req, res) => {

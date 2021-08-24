@@ -166,5 +166,5 @@ exports.blogChangeReleaseStatus = async (req, res) => {
   }
   await blog.save();
   req.flash("success", "تغییرات با موفقیت اعمال شد!");
-  res.redirect("/dashboard/blogs");
+  res.redirect("back");
 };

@@ -49,10 +49,10 @@
                         <div class="col text-primary">خواندن</div>
                         <div class="col text-end text-secondary">
                           <% if(blog.status === "notApproved") { %>
-                          <a href="/admin/blog/release/<%= blog._id %>" class="text-decoration-none text-success">تأیید</a>
+                          <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-success">تأیید</a>
                           <% } else { %>
-                          <a href="/admin/blog/release/<%= blog._id %>" class="text-decoration-none text-warning">حالت انتظار</a>
-                          <% } %> \ <a href="/admin/blog/delete/<%= blog._id %>" class="text-decoration-none text-danger">حذف</a>
+                          <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-warning">حالت انتظار</a>
+                          <% } %> \ <a href="/blog/delete/<%= blog._id %>" class="text-decoration-none text-danger">حذف</a>
                         </div>
                       </li>
                       <% }) %> <% } %>

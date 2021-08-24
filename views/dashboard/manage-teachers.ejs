@@ -47,8 +47,8 @@
                         </div>
                         <div class="col text-end">
                           <% if(teacher.status === "approved") { %>
-                          <a href="/admin/users/unapprove-teachers/<%= teacher._id %>" class="text-decoration-none text-warning">در انتظار</a> \ <% }
-                          else { %> <a href="/admin/users/approve-teachers/<%= teacher._id %>" class="text-decoration-none text-success">تأیید</a> \
+                          <a href="/user/unapprove-teachers/<%= teacher._id %>" class="text-decoration-none text-warning">در انتظار</a> \ <% }
+                          else { %> <a href="/user/approve-teachers/<%= teacher._id %>" class="text-decoration-none text-success">تأیید</a> \
                           <% } %>
                           <a href="#" class="text-decoration-none text-danger">حذف</a>
                         </div>

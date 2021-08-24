@@ -27,18 +27,18 @@
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
                         <span class="p-2 bg-primary rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="مدیر"></span>
-                        6
+                        <%= lengthOfAdmins %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
                         <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="معلم"></span>
-                        25
+                        <%= lengthOfTeachers %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
                         <span class="p-2 bg-warning rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="کاربر عادی"></span>
-                        242
+                        <%= lengthOfNormalUsers %>
                       </div>
                     </div>
-                    <h3 class="font-black text-primary mb-0">385</h3>
+                    <h3 class="font-black text-primary mb-0"><%= lengthOfTotalUsers %></h3>
                   </div>
                 </div>
               </div>
@@ -48,13 +48,9 @@
                   <div class="card-body text-success d-flex justify-content-between align-items-center">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-success rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="بلاگ های تأیید شده"
-                        ></span>
-                        12
+                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="بلاگ های تأیید شده">
+                        </span>
+                        <%= lengthOfApprovedBlogs %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
                         <span
@@ -63,10 +59,10 @@
                           data-bs-placement="bottom"
                           title="بلاگ های در انتظار تأیید"
                         ></span>
-                        23
+                        <%= lengthOfNotApprovedBlogs %>
                       </div>
                     </div>
-                    <h3 class="font-black mb-0">55</h3>
+                    <h3 class="font-black mb-0"><%= lengthOfTotalBlogs %></h3>
                   </div>
                 </div>
               </div>
@@ -82,7 +78,7 @@
                           data-bs-placement="top"
                           title="کامنت های تأیید شده"
                         ></span>
-                        12
+                        <%= lengthOfTotalComments %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
                         <span
@@ -91,10 +87,10 @@
                           data-bs-placement="bottom"
                           title="کامنت های در انتظار تأیید"
                         ></span>
-                        23
+                        0
                       </div>
                     </div>
-                    <h3 class="font-black mb-0">85</h3>
+                    <h3 class="font-black mb-0"><%= lengthOfTotalComments %></h3>
                   </div>
                 </div>
               </div>
@@ -116,7 +112,7 @@
                       <li class="col text-center">تأیید \ حذف</li>
                     </ul>
                     <ul class="list-unstyled">
-                      <% if(notApprovedUsers) { %> <% notApprovedUsers.forEach(user => { %>
+                      <% if(notApprovedUsers.length) { %> <% notApprovedUsers.forEach(user => { %>
                       <li class="row py-3 border-bottom">
                         <div class="col text-primary"><%= user.fullname %></div>
                         <div class="col text-secondary"><%= user.email %></div>
@@ -126,11 +122,18 @@
                           </span>
                         </div>
                         <div class="col text-center">
-                          <a href="#" class="text-decoration-none text-success">تأیید</a> \
+                          <% if(user.role === "admin") { %>
+                            <a href="/user/approve-admin/<%= user._id %>" class="text-decoration-none text-success">تأیید</a> \
+                          <% } else { %>
+                            <a href="/user/approve-teachers/<%= user._id %>" class="text-decoration-none text-success">تأیید</a> \
+                          <% } %> 
                           <a href="#" class="text-decoration-none text-danger">حذف</a>
                         </div>
                       </li>
-                      <% }) %> <% } %>
+                      <% }) %>
+                      <% } else { %>
+                        <h5 class="text-center my-4 text-danger font-black">موردی یافت نشد!</h5>
+                      <% } %> 
                     </ul>
                   </div>
                 </div>
@@ -150,24 +153,22 @@
                         <li class="col text-center">خواندن بلاگ</li>
                         <li class="col text-end">تأیید \ حذف</li>
                       </ul>
+                      <% if(waitingForApproveBlogs.length) { %>
                       <ul class="list-unstyled mb-0">
+                        <% waitingForApproveBlogs.forEach(blog => { %>
                         <li class="row py-3 border-bottom">
-                          <div class="col text-primary">امیررضا درویشی</div>
-                          <div class="col text-primary text-center"><a href="#" class="text-decoration-none">خواندن</a></div>
+                          <div class="col text-primary"><%= blog.author.fullname %></div>
+                          <div class="col text-primary text-center"><a href="/blog/read/<%= blog._id %>" class="text-decoration-none">خواندن</a></div>
                           <div class="col text-end">
-                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
-                            <a href="#" class="text-decoration-none text-danger">حذف</a>
+                            <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-success">تأیید</a> \
+                            <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-danger">حذف</a>
                           </div>
                         </li>
-                        <li class="row py-3">
-                          <div class="col text-primary">امیررضا درویشی</div>
-                          <div class="col text-primary text-center"><a href="#" class="text-decoration-none">خواندن</a></div>
-                          <div class="col text-end">
-                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
-                            <a href="#" class="text-decoration-none text-danger">حذف</a>
-                          </div>
-                        </li>
+                        <% }) %>
                       </ul>
+                      <% }else { %>
+                      <h4 class="font-black my-5 text-danger text-center">موردی موجود نیست!</h4>
+                      <% } %>
                     </div>
                   </div>
                 </div>

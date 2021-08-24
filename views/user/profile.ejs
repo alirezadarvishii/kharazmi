@@ -27,7 +27,7 @@
             <% } %>
           </div>
         </div>
-        <p class="text-justify text-secondary mt-3"><%= user.bio.length ? user.bio : "بیو تنظیم نشده!" %></p>
+        <p class="text-justify text-secondary mt-3"><%= user.bio && user.bio.length ? user.bio : "بیو تنظیم نشده!" %></p>
       </div>
     </section>
     <%- include("../includes/footer.ejs") %>

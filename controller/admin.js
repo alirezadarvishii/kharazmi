@@ -7,9 +7,11 @@ const Teacher = require("../model/teacher");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
 const Event = require("../model/event");
+const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
 const schoolValidation = require("../validation/school-validation");
 const adminValidation = require("../validation/admin-validation");
-const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
+const deleteFile = require("../utils/deleteFile");
+const pick = require("../utils/pick");
 
 exports.blogChangeReleaseStatus = async (req, res) => {
   const { blogId } = req.params;
@@ -129,11 +131,43 @@ exports.newEvent = async (req, res) => {
   if (!req.files.eventImg) {
     throw new ErrorResponse(404, "فیلد تصویر رویداد الزامی است!", "/dashboard/events");
   }
-  console.log(req.body);
-  req.flash("success", "رویداد جدید با موفقیت ایجاد شد!");
-  res.redirect("/dashboard/events");
+  const filename = `${Date.now()}.jpeg`;
+  sharp(req.files.eventImg[0].buffer)
+    .jpeg({
+      quality: 40,
+    })
+    .toFile(path.join(__dirname, "..", "public", "events", filename), async (err) => {
+      if (err) {
+        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/dashboard/events");
+      }
+      await Event.create({ ...req.body, eventImg: filename });
+      req.flash("success", "رویداد جدید با موفقیت ایجاد شد!");
+      res.redirect("/dashboard/events");
+    });
 };
 
-exports.editEvent = async (req, res) => {};
+exports.editEvent = async (req, res) => {
+  const { eventId } = req.body;
+  const validate = adminValidation.eventSchema.validate(req.body);
+  if (validate.error) {
+    throw new ErrorResponse(402, validate.error.message, "back");
+  }
+  const newValues = pick(req.body, ["title", "description", "start", "time"]);
+  // if(req.files.eventImg) {}
+  const event = await Event.updateOne({ _id: eventId }, { ...newValues });
+  if (event.n === 0) {
+    throw new ErrorResponse(404, "رویداد مورد نظر یافت نشد!", "back");
+  }
+  req.flash("success", "رویداد مورد نظر با موفقیت ویرایش گردید!");
+  res.redirect("back");
+};
 
-exports.deleteEvent = async (req, res) => {};
+exports.deleteEvent = async (req, res) => {
+  const { eventId } = req.params;
+  const event = await Event.findOneAndDelete({ _id: eventId });
+  console.log(event);
+  if (!event) throw new ErrorResponse(404, "رویدادی با چنین مشخصاتی یافت نشد!", "/404");
+  deleteFile(path.join(__dirname, "..", "public", "events", event.eventImg));
+  req.flash("success", "رویداد مورد نظر با موفقیت حذف گردید!");
+  res.redirect("/dashboard/events");
+};

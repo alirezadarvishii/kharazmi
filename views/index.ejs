@@ -11,11 +11,11 @@
   </head>
   <body>
     <%- include("./includes/nav.ejs") %>
-    <!-- Header -->
+    <!--! Header -->
     <header class="landing-header d-flex align-items-center justify-content-center flex-column position-relative shadowlg">
       <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان خوارزمی )</span></h1>
       <p class="text-light text-center font-light mt-3 px-2 px-lg-0">
-        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است
+        هنرستان خوارزمی با داشتن چندین رشته متفاوت در خدمت شما والدین و دانش آموزان عزیز می باشد!
       </p>
       <div class="row position-absolute mx-auto services">
         <div class="col-12 col-md-4 mt-5 mt-md-0">
@@ -83,9 +83,9 @@
     <!--/ Header -->
 
     <% if(galleryImages.length) { %>
-    <!-- Gallery -->
-    <section class="gallery-area mb-5 mt-10 container-lg" id="honors">
-      <!-- Display gallery image modal -->
+    <!--! Gallery -->
+    <section class="gallery-area mb-5 mt-10 container-lg" id="gallery">
+      <!-- Gallery image modal -->
       <div class="modal fade" data-img-id="" id="galleryImg" tabindex="-1" aria-labelledby="galleryImg" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -110,7 +110,7 @@
           </div>
         </div>
       </div>
-      <!--/ Display gallery image modal -->
+      <!--/ Gallery image modal -->
       <div class="d-flex align-items-center justify-content-between title position-relative mx-4 pb-4">
         <h1 class="font-black text-center m-0">گالری عکس مدرسه</h1>
         <a href="/gallery" class="text-primary text-decoration-none">تمامی تصاویر</a>
@@ -118,13 +118,13 @@
       <div class="mx-auto mt-5 gallery gallery-slider swiper-container p-3 mt-5">
         <div class="swiper-wrapper">
           <% galleryImages.forEach(image => { %>
-          <div class="swiper-slide">
+          <div class="swiper-slide rounded-8 gallery-image">
             <div class="h-100 border-0 shadow-md rounded-8">
               <a href="#galleryImg" class="open-gallery-modal" data-bs-toggle="modal" data-bs-target="#galleryImg">
                 <img
                   src="http://localhost:3000/gallery/<%= image.img %>"
                   data-img-id="<%= image._id %>"
-                  class="card-img-top p-1 rounded-8 fit-cover"
+                  class="p-1 rounded-8 fit-cover w-100 h-100"
                   alt=""
                 />
               </a>
@@ -159,28 +159,30 @@
       </div>
     </section>
     <!--/ Gallery -->
-    <% } %>
-
+    <% } %> <% if(events.length) { %>
     <!-- Events-slider -->
-    <section class="events-slider mt-10 mb-5 container-xl rounded-3">
+    <section class="events-slider shadow-lg mt-10 mb-5 container-xl rounded-3">
       <div class="swiper-container events-slider h-100">
         <div class="swiper-wrapper">
-          <div class="event d-lg-flex align-items-center justify-content-between h-100 py-4 px-3 swiper-slide">
-            <div class="h-100 d-flex align-items-center">
-              <img src="./images/bg.jpg" class="rounded-3 shadow fit-cover" alt="" />
+          <% events.forEach(event => { %>
+          <div class="event d-lg-flex align-items-center h-100 py-4 px-3 swiper-slide">
+            <div class="p-2 bg-light rounded-3 event-img">
+              <img src="http://localhost:3000/events/<%= event.eventImg %>" class="rounded-3 shadow fit-cover" alt="" />
             </div>
-            <div class="ms-lg-4 mt-4 mt-lg-0 ms-xxl-5 d-flex flex-column h-100">
-              <h1 class="font-black m-0 text-white">لورم ایپسوم متنی بی معنیه!</h1>
-              <p class="text-light font-light mt-5 text-justify">
-                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
-                ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای
-                زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان
-                رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که
+            <div class="ms-lg-4 mt-4 mt-lg-0 ms-xxl-4 d-flex justify-content-between flex-column h-100">
+              <h1 class="font-black m-0 text-white"><%= event.title %></h1>
+              <p class="text-light font-light mt-4 text-justify h-100"><%= event.description %></p>
+              <p class="text-light font-light mb-0">
+                <span>تاریخ: <%= event.start %></span>
+                <% if(event.time) { %>
+                <span>/ ساعت: <%= event.time %></span>
+                <% } %>
               </p>
             </div>
           </div>
+          <% }) %>
         </div>
-        <button class="next-slide btn btn-warning position-absolute">
+        <!-- <button class="next-slide btn btn-warning position-absolute">
           <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.899994 16.9L7.39999 10.4C8.19999 9.59997 8.19999 8.39998 7.39999 7.59998L0.899994 1.09998"
@@ -203,12 +205,11 @@
               stroke-linejoin="round"
             />
           </svg>
-        </button>
+        </button> -->
       </div>
     </section>
     <!--/ Session sliders -->
-
-    <% if(blogs.length) { %>
+    <% } %> <% if(blogs.length) { %>
     <!-- School blog -->
     <section class="blogs-area bg-light py-5 mt-10 mb-5">
       <div class="container-lg">
@@ -220,53 +221,59 @@
           <div class="swiper-wrapper">
             <% blogs.forEach(blog => { %>
             <div class="swiper-slide">
-              <div class="card h-100 shadow-md">
-                <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-                <div class="card-body pt-2">
-                  <h5 class="card-title font-bold text-primary"><%= blog.title %></h5>
-                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
-                    <span class="text-secondary font-light d-block pt-1"
-                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 0H0V24H24V0Z" />
-                        <path
-                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <%= moment(blog.createdAt) %>
-                    </span>
-                    <span class="text-secondary font-light">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <%= blog.author.fullname %>
-                    </span>
+              <div class="card h-100 shadow-sm">
+                <div class="blog-img">
+                  <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                </div>
+                <div class="card-body pt-2 d-flex flex-column justify-content-between">
+                  <div>
+                    <a href="/blog/read/<%= blog._id %>" class="text-decoration-none">
+                      <h5 class="card-title font-black text-primary"><%= blog.title %></h5>
+                    </a>
+                    <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mt-3 mb-2">
+                      <span class="text-secondary font-light d-block pt-1">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M24 0H0V24H24V0Z" />
+                          <path
+                            d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                            stroke="#6c757d"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                            stroke="#6c757d"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <%= moment(blog.createdAt) %>
+                      </span>
+                      <span class="text-secondary font-light">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                            stroke="#6c757d"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                            stroke="#6c757d"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <%= blog.author.fullname %>
+                      </span>
+                    </div>
                   </div>
-                  <div class="card-text font-light text-secondary text-justify mt-2 mb-1"><%- blog.body %></div>
-                  <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end mt-3">ادامه خواندن...</a>
+                  <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
+                  <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">ادامه خواندن...</a>
                 </div>
               </div>
             </div>
@@ -311,20 +318,20 @@
         <div class="masters-slider mt-3 swiper-container px-3 py-5">
           <div class="swiper-wrapper py-1">
             <% teachers.forEach(teacher => { %>
-              <div class="swiper-slide">
-                <a href="/profile/teacher/<%= teacher._id %>">
-                  <div class="card h-100 border-0 position-relative">
-                    <div class="master-img position-relative overflow-hidden">
-                      <img src="http://localhost:3000/users/<%= teacher.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-                    </div>
-                    <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                      <h6 class="card-title text-center font-bold text-primary"><%= teacher.fullname %></h6>
-                      <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-                    </div>
+            <div class="swiper-slide">
+              <a href="/profile/teacher/<%= teacher._id %>">
+                <div class="card h-100 border-0 position-relative">
+                  <div class="master-img position-relative overflow-hidden">
+                    <img src="http://localhost:3000/users/<%= teacher.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
                   </div>
-                </a>
-              </div>
-            <% }) %> 
+                  <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
+                    <h6 class="card-title text-center font-bold text-primary"><%= teacher.fullname %></h6>
+                    <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <% }) %>
           </div>
           <button class="next-slide btn btn-warning position-absolute">
             <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg">

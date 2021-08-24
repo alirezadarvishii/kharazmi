@@ -23,7 +23,7 @@ router.post("/event/new", asyncHandler(adminController.newEvent));
 
 router.post("/event/edit", asyncHandler(adminController.editEvent));
 
-router.post("/event/delete", asyncHandler(adminController.deleteEvent));
+router.get("/event/delete/:eventId", asyncHandler(adminController.deleteEvent));
 
 router.post("/gallery/new", asyncHandler(adminController.addNewImageToGallery));
 

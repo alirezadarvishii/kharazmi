@@ -15,110 +15,21 @@
     <!-- Masters -->
     <section class="masters-area my-5">
       <div class="container-lg row mx-auto">
+        <% departman.forEach(departman => { %>
         <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
           <a href="#">
             <div class="card h-100 border-0 position-relative">
               <div class="master-img position-relative overflow-hidden">
-                <img src="./images/uesr-1.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <img src="http://localhost:3000/users/<%= departman.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
               </div>
               <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
+                <h6 class="card-title text-center font-bold text-primary"><%= departman.fullname %></h6>
                 <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
               </div>
             </div>
           </a>
         </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-2.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-3.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-3.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-xl-3 position-relative my-5">
-          <a href="#">
-            <div class="card h-100 border-0 position-relative">
-              <div class="master-img position-relative overflow-hidden">
-                <img src="./images/user-4.jpg" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
-              </div>
-              <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                <h6 class="card-title text-center font-bold text-primary">علیرضا درویشی</h6>
-                <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
-              </div>
-            </div>
-          </a>
-        </div>
+        <% }) %>
         <!-- Pagination -->
         <nav aria-label="Page navigation">
           <ul class="pagination mt-5 justify-content-center">

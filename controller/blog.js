@@ -7,6 +7,8 @@ const Blog = require("../model/blog");
 const Comment = require("../model/comment");
 const ErrorResponse = require("../utils/ErrorResponse");
 const blogValidation = require("../validation/blog-validation");
+const isObjectId = require("../utils/isObjectId");
+const pick = require("../utils/pick");
 
 exports.blog = async (req, res) => {
   const blogs = await Blog.find({ status: "approved" }).populate("author");
@@ -64,7 +66,7 @@ exports.handleAddBlog = async (req, res) => {
     throw new ErrorResponse(422, validate.error.message, "/blog/new");
   }
   const filename = `${Date.now()}.jpeg`;
-  await sharp(req.files.blogImg[0].buffer)
+  sharp(req.files.blogImg[0].buffer)
     .jpeg({
       quality: 60,
     })
@@ -81,7 +83,64 @@ exports.handleAddBlog = async (req, res) => {
   res.redirect("/");
 };
 
-// Like and Dislike Blog API
+exports.updateBlog = async (req, res) => {
+  const { blogId } = req.params;
+  const blog = await Blog.findOne({ _id: blogId });
+  res.render("blog/update-blog", {
+    title: `ویرایش بلاگ ${blog.title}`,
+    headerTitle: `ویرایش ${blog.title}`,
+    blog,
+  });
+};
+
+exports.handleUpdateBlog = async (req, res) => {
+  const { blogId } = req.body;
+  const validate = blogValidation.addNewPost.validate(req.body);
+  if (validate.error) {
+    throw new ErrorResponse(402, validate.error.message, "back");
+  }
+  const blog = await Blog.findOne({ _id: blogId });
+  if (blog.author.toString() !== req.user._id.toString()) {
+    throw new ErrorResponse(403, "Forbidden!", "/");
+  }
+  const newValues = pick(req.body, ["title", "category", "body"]);
+  const tags = req.body.tags.split("/");
+  if (req.files.blogImg) {
+    sharp(req.files.blogImg[0].buffer)
+      .jpeg({
+        quality: 60,
+      })
+      .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg), async (err) => {
+        if (err) {
+          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/blog/new");
+        }
+        await Blog.updateOne({ _id: blog._id }, { ...newValues, tags });
+        req.flash("success", "پست شما با موفقیت ویرایش گردید!");
+        return res.redirect("/me/blogs");
+      });
+  }
+  await Blog.updateOne({ _id: blog._id }, { ...newValues, tags });
+  req.flash("success", "پست شما با موفقیت ویرایش گردید!");
+  res.redirect("/me/blogs");
+};
+
+exports.handleDeleteBlog = async (req, res) => {
+  const { blogId } = req.params;
+  // Check that ID is valid
+  if (!isObjectId(blogId)) throw new ErrorResponse(402, "Forbidden!", "back");
+  const blog = await Blog.findOne({ _id: blogId });
+  // If blog not found
+  if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
+  // If blog author not match with user session
+  if (blog.author.toString() !== req.user._id.toString()) {
+    throw new ErrorResponse(403, "Forbidden!", "/");
+  }
+  await Blog.deleteOne({ _id: blogId });
+  req.flash("success", "پست مورد نظر با موفقیت حذف گردید!");
+  res.redirect("back");
+};
+
+// API
 exports.likeBlog = async (req, res) => {
   const { blogId } = req.params;
   const { _id } = req.user;
@@ -97,6 +156,7 @@ exports.likeBlog = async (req, res) => {
   res.status(200).json({ blogLikesLength: blog.likes.length, message: "Operation completed successfuly!" });
 };
 
+// ---------------------------------------------------
 exports.addComment = async (req, res) => {
   const { comment: commentBody, blogId, replyId } = req.body;
   const { user } = req;

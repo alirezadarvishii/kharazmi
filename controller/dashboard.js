@@ -59,6 +59,6 @@ exports.manageEvents = async (req, res) => {
   const events = await Event.find({});
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
-    events
+    events,
   });
 };

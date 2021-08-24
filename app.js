@@ -4,6 +4,7 @@ const express = require("express");
 const flash = require("connect-flash");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
+const compression = require("compression");
 
 require("dotenv").config({ path: "./config/env.config" });
 const database = require("./utils/database");
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(compression());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

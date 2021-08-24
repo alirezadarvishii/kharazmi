@@ -5,21 +5,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
-    <title>درباره ما</title>
-    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
     <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+    <title>درباره ما</title>
   </head>
   <body>
     <%- include("./includes/nav.ejs") %> <%- include('./includes/small-header.ejs') %>
 
     <section class="container mt-5 about">
-     <div class="d-flex align-items-center justify-content-center flex-column">
-        <img src="http://localhost:3000/images/gallery-notfound-3.png" alt="">
+      <% if(images.length) { %>
+      <!-- Gallery image modal -->
+      <div class="modal fade" data-img-id="" id="galleryImg" tabindex="-1" aria-labelledby="galleryImg" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title font-black">گالری مدرسه</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body my-2">
+              <div>
+                <div class="gallery-img-container mb-3">
+                  <div class="spinner-container justify-content-center align-items-center">
+                    <div class="spinner-border" role="status"></div>
+                  </div>
+                  <img src="" class="fit-cover w-100 h-100 rounded-3 mb-3" alt="" />
+                </div>
+                <p class="text-secondary text-justify font-regular caption"></p>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <p class="text-secondary">هنرستان خوارزمی، فیروزآباد</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Gallery image modal -->
+      <div class="row gallery">
+        <% images.forEach(image => { %>
+        <div class="col-4 g-3">
+          <div class="border-0 shadow-md rounded-8 gallery-image">
+            <a href="#galleryImg" class="open-gallery-modal" data-bs-toggle="modal" data-bs-target="#galleryImg">
+              <img src="http://localhost:3000/gallery/<%= image.img %>" data-img-id="<%= image._id %>" class="p-1 rounded-8 fit-cover w-100 h-100" alt="" />
+            </a>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+      <% } else { %>
+      <div class="d-flex align-items-center justify-content-center flex-column">
+        <img src="http://localhost:3000/images/gallery-notfound.png" alt="" />
         <h5 class="text-secondary font-black my-5">تـاکـنـون تـصـویـری در گـالـری وبـسـایـت ثـبـت نـگـردیـده اسـت!</h5>
-     </div>
+      </div>
+      <% } %>
     </section>
 
     <%- include("./includes/footer.ejs") %>
   </body>
-  <script src="/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/gallery.js"></script>
 </html>

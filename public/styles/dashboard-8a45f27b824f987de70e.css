@@ -143,7 +143,7 @@ body {
   display: -webkit-flex;
   display: flex;
 }
-#editImgModal .spinner-container {
+.spinner-container {
   position: absolute;
   left: 0;
   top: 0;
@@ -153,10 +153,10 @@ body {
   background: #ffffff80;
   display: none;
 }
-#editImgModal .spinner-container.active {
+.spinner-container.active {
   display: block;
 }
-#editImgModal .spinner-border {
+.spinner-border {
   position: absolute;
   left: 43%;
   top: 43%;
@@ -165,4 +165,23 @@ body {
   height: 100px;
   border: 0.25em solid orange;
   border-left-color: white;
+}
+.manage-events .event {
+  height: 200px;
+}
+.manage-events .event img {
+  width: 40%;
+}
+.manage-events .event .event-details {
+  width: calc(60% - 1rem);
+}
+.manage-events .event p {
+  height: 90px;
+}
+.manage-events .event div a,
+.manage-events .manage-events div button {
+  font-size: 14px;
+}
+.manage-events .event .date {
+  font-size: .85rem;
 }

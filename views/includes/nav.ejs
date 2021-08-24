@@ -1,7 +1,7 @@
 <!-- Nav -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-lg position-fixed mx-2 rounded-3">
   <div class="container-fluid">
-    <a class="navbar-brand mx-4" href="#">لوگو</a>
+    <a class="navbar-brand mx-4 logo" href="/"><img src="http://localhost:3000/images/kharazmi.png" class="fit-cover" alt="kharazmi.com" /></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -16,37 +16,165 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">صفحه اصلی</a>
+          <a class="nav-link <%= path === '/' ? 'active' : '' %>" aria-current="page" href="/">صفحه اصلی</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog">بلاگ</a>
+          <a class="nav-link <%= path === '/blog' ? 'active' : '' %>" href="/blog">بلاگ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/#honors">گالری</a>
+          <a class="nav-link <%= path === '/gallery' ? 'active': '' %>" href="/#gallery">گالری</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/#departman">دپارتمان</a>
+          <a class="nav-link <%= path === '/departman' ? 'active' : '' %>" href="/#departman">دپارتمان</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/about">درباره ما</a>
+          <a class="nav-link <%= path === '/about' ? 'active' : '' %>" href="/about">درباره ما</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/#contact-us">تماس با ما</a>
         </li>
       </ul>
-      <div class="ms-auto">
+      <div class="ms-auto d-flex align-items-center flex-wrap">
         <% if(user) { %>
-        <a href="/me" class="btn btn-outline-success me-2"><%= user.fullname %></a>
+        <div class="dropdown me-2 mb-2 mb-sm-0">
+          <a
+            class="btn btn-outline-danger dropdown-toggle"
+            href="#"
+            role="button"
+            id="userPanelDropDown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <%= user.fullname %>
+          </a>
+          <ul class="dropdown-menu shadow-lg py-0 mt-2 overflow-hidden" aria-labelledby="userPanelDropDown">
+            <li>
+              <a class="font-regular fs-sm px-2 dropdown-item py-2 border-bottom" href="/me">
+                <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M19 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M19 11C20.6569 11 22 9.65685 22 8C22 6.34315 20.6569 5 19 5C17.3431 5 16 6.34315 16 8C16 9.65685 17.3431 11 19 11Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M12 22V19" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M12 10V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M12 19C13.6569 19 15 17.6569 15 16C15 14.3431 13.6569 13 12 13C10.3431 13 9 14.3431 9 16C9 17.6569 10.3431 19 12 19Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M5 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M5 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M5 11C6.65685 11 8 9.65685 8 8C8 6.34315 6.65685 5 5 5C3.34315 5 2 6.34315 2 8C2 9.65685 3.34315 11 5 11Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                پنل کاربری
+              </a>
+            </li>
+            <li>
+              <a class="font-regular fs-sm px-2 dropdown-item py-2 border-bottom" href="/me/edit">
+                <svg class="me-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M17.25 10.9921C15.129 11.6991 12.3009 8.87105 13.0079 6.75M13.8793 5.87857L9.30971 10.4482C7.3231 12.4348 5.91376 14.924 5.23236 17.6496L5.01156 18.5328C4.94276 18.808 5.19204 19.0572 5.46723 18.9884L6.35044 18.7676C9.07604 18.0862 11.5652 16.6769 13.5518 14.6903L18.1214 10.1207C18.684 9.55813 19 8.79516 19 7.99962C19 6.34297 17.657 5 16.0004 5C15.2048 5 14.4419 5.31603 13.8793 5.87857Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                  /></svg>تغییر اطلاعات کاربری
+              </a>
+            </li>
+            <li>
+              <a class="font-regular fs-sm px-2 dropdown-item py-2 border-bottom" href="/me/change-password"
+                ><svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M19.79 14.9299C17.73 16.9799 14.78 17.6099 12.19 16.7999L7.47999 21.4999C7.13999 21.8499 6.46999 22.0599 5.98999 21.9899L3.80999 21.6899C3.08999 21.5899 2.41999 20.9099 2.30999 20.1899L2.00999 18.0099C1.93999 17.5299 2.16999 16.8599 2.49999 16.5199L7.19999 11.8199C6.39999 9.21995 7.01999 6.26995 9.07999 4.21995C12.03 1.26995 16.82 1.26995 19.78 4.21995C22.74 7.16995 22.74 11.9799 19.79 14.9299Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.89001 17.49L9.19001 19.79"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.5 11C15.3284 11 16 10.3284 16 9.5C16 8.67157 15.3284 8 14.5 8C13.6716 8 13 8.67157 13 9.5C13 10.3284 13.6716 11 14.5 11Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                تغییر رمز عبور
+              </a>
+            </li>
+            <% if(user.role === "admin" || user.role === "teacher") { %>
+            <li>
+              <a class="font-regular fs-sm px-2 dropdown-item py-2 border-bottom" href="/me/blogs">
+                <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M21.66 10.44L20.68 14.62C19.84 18.23 18.18 19.69 15.06 19.39C14.56 19.35 14.02 19.26 13.44 19.12L11.76 18.72C7.59 17.73 6.3 15.67 7.28 11.49L8.26 7.30001C8.46 6.45001 8.7 5.71001 9 5.10001C10.17 2.68001 12.16 2.03001 15.5 2.82001L17.17 3.21001C21.36 4.19001 22.64 6.26001 21.66 10.44Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M15.06 19.39C14.44 19.81 13.66 20.16 12.71 20.47L11.13 20.99C7.15998 22.27 5.06997 21.2 3.77997 17.23L2.49997 13.28C1.21997 9.30998 2.27997 7.20998 6.24997 5.92998L7.82997 5.40998C8.23997 5.27998 8.62997 5.16998 8.99997 5.09998C8.69997 5.70998 8.45997 6.44998 8.25997 7.29998L7.27997 11.49C6.29997 15.67 7.58998 17.73 11.76 18.72L13.44 19.12C14.02 19.26 14.56 19.35 15.06 19.39Z"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M12.64 8.53003L17.49 9.76003" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M11.66 12.4L14.56 13.14" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                بلاگ های من
+              </a>
+            </li>
+            <% } %>
+            <li>
+              <a class="font-regular fs-sm px-2 dropdown-item py-2" href="/logout"
+                ><svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M18.364 5.36374C19.6226 6.64472 20.4798 8.27679 20.8271 10.0536C21.1743 11.8303 20.9961 13.672 20.3149 15.3457C19.6337 17.0194 18.4802 18.4499 17.0001 19.4563C15.5201 20.4628 13.78 21 12 21C10.22 21 8.47992 20.4628 6.99988 19.4563C5.51984 18.4499 4.36628 17.0194 3.68509 15.3457C3.0039 13.672 2.82567 11.8303 3.17293 10.0536C3.5202 8.2768 4.37736 6.64474 5.63603 5.36375M12 3V7.72749"
+                    stroke="#6c757d"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                خروج از حساب کاربری
+              </a>
+            </li>
+          </ul>
+        </div>
         <% if(user.role === "admin") { %>
-        <a href="/dashboard" class="btn btn-warning me-2">پنل ادمین</a>
+        <a href="/dashboard" class="btn btn-warning me-2 mb-2 mb-sm-0">پنل ادمین</a>
         <% } if(user.role === "admin" || user.role === "teacher") { %>
-        <a href="/blog/new" class="btn btn-info me-2">نوشتن پست</a>
+        <a href="/blog/new" class="btn btn-info me-2 mb-2 mb-sm-0">نوشتن پست</a>
         <% } %> <% } else { %>
         <a href="/register-type" class="btn btn-outline-success me-2">ثبت نام</a>
         <a href="/login" class="btn text-secondary me-4">ورود</a>
         <% } %>
-        <a href="tel:07138728292" class="btn btn-primary text-light"
-          >07138728292
+        <a href="tel:07138728292" class="btn btn-primary text-light mb-2 mb-sm-0">
+          07138728292
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M15.1653 20.8835C16.0469 21.0388 16.9531 21.0388 17.8347 20.8835C19.2516 20.6338 20.3929 19.6826 20.786 18.4236L20.8694 18.1565C20.956 17.879 21 17.5919 21 17.3034C21 16.0313 19.8623 15 18.4589 15H14.5411C13.1377 15 12 16.0313 12 17.3034C12 17.5919 12.044 17.879 12.1306 18.1565L12.214 18.4236C12.6071 19.6826 13.7484 20.6338 15.1653 20.8835ZM15.1653 20.8835C9.04195 19.7489 4.25108 14.958 3.1165 8.83468M3.1165 8.83468C2.96117 7.95315 2.96117 7.04686 3.1165 6.16532C3.36618 4.74842 4.31744 3.60713 5.57641 3.21402L5.84345 3.13063C6.12103 3.04396 6.40813 3 6.69661 3C7.96874 3 9.00001 4.13768 9 5.54106L9 9.45894C9.00001 10.8623 7.96874 12 6.69661 12C6.40813 12 6.12103 11.956 5.84345 11.8694L5.57641 11.786C4.31744 11.3929 3.36618 10.2516 3.1165 8.83468Z"

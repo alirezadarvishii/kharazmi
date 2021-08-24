@@ -67,8 +67,8 @@
               stroke-linejoin="round"
             />
           </svg>
-          پنل کاربری</a
-        >
+          پنل کاربری
+        </a>
       </li>
       <li class="my-3 <%= path === '/me/edit' ? 'active' : '' %>">
         <a href="/me/edit" class="font-regular text-decoration-none text-secondary">
@@ -78,8 +78,9 @@
               stroke="#6c757d"
               stroke-width="1.5"
             />
-          </svg>تغییر اطلاعات</a
-        >
+          </svg>
+          تغییر اطلاعات
+        </a>
       </li>
       <li class="my-3 <%= path === '/me/change-password' ? 'active' : '' %>">
         <a href="/me/change-password" class="font-regular text-decoration-none text-secondary">
@@ -108,8 +109,8 @@
               stroke-linejoin="round"
             />
           </svg>
-          تغییر رمز عبور</a
-        >
+          تغییر رمز عبور
+        </a>
       </li>
       <% if(user.role === "admin" || user.role === "teacher") { %>
       <li class="my-3 <%= path === '/me/blogs' ? 'active' : '' %>">

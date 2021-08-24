@@ -12,11 +12,12 @@
     <%- include("../includes/nav.ejs") %> <%- include("../includes/small-header.ejs") %>
 
     <section class="container mt-5">
-      <form action="/blog/new" method="POST" enctype="multipart/form-data">
+      <form action="/blog/update" method="POST" enctype="multipart/form-data">
         <div class="row">
+            <input type="hidden" name="blogId" value="<%= blog._id %>">
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">تیتر پست</label>
-            <input type="text" name="title" class="form-control p-2" />
+            <input type="text" name="title" class="form-control p-2" value="<%= blog.title %>" />
           </div>
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">دسته بندی پست</label>
@@ -31,14 +32,14 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">تگ های پست <span class="font-regular">( با "/" تگ ها را جدا کنید )</span></label>
-            <input type="text" name="tags" class="form-control p-2" />
+            <input type="text" name="tags" class="form-control p-2" value="<%= blog.tags.join("/") %>" />
           </div>
           <div class="col-12 mt-4">
             <label class="mb-2 text-secondary">متن پست</label>
-            <textarea name="body" id="ckeditor"></textarea>
+            <textarea name="body" id="ckeditor"><%- blog.body %></textarea>
           </div>
           <div class="text-center mt-4">
-            <button type="submit" class="btn btn-success">ارسال</button>
+            <button type="submit" class="btn btn-primary">ویرایش</button>
           </div>
         </div>
       </form>

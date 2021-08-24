@@ -29,7 +29,7 @@ const eventsSlider = new Swiper(".events-slider", {
   slidesPerView: 1,
   spaceBetween: 0,
   loop: !0,
-  autoplay: { delay: 3e3, disableOnInteraction: !0 },
+  // autoplay: { delay: 3e3, disableOnInteraction: !0 },
   navigation: { nextEl: ".next-slide", prevEl: ".prev-slide" },
 });
 const gallerySlider = new Swiper(".gallery-slider", {

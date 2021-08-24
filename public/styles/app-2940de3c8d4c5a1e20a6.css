@@ -61,10 +61,12 @@ body {
   -o-object-fit: cover;
   object-fit: cover;
 }
+.fs-sm {
+  font-size: 0.9rem;
+}
 .tooltip {
   font-family: vazir-regular;
 }
-
 .paragraph {
   line-height: 30px;
 }
@@ -136,6 +138,9 @@ textarea::placeholder {
 select {
   font-size: 14px !important;
 }
+.logo img {
+  height: 40px;
+}
 .landing-header {
   background: url(../images/header.png) center bottom no-repeat;
   background-size: cover;
@@ -173,32 +178,38 @@ nav.navbar {
   -webkit-transform: translateY(-15px);
   transform: translateY(-15px);
 }
-.gallery .swiper-slide {
+.gallery .gallery-image {
   -webkit-transition: box-shadow 0.3s;
   transition: box-shadow 0.3s;
 }
-.gallery .swiper-slide {
+.gallery .gallery-image {
   -webkit-transition: 0.3s cubic-bezier(0.53, 0.51, 1, 1.61);
   transition: 0.3s cubic-bezier(0.53, 0.51, 1, 1.61);
 }
-.gallery .swiper-slide:hover {
+.gallery .gallery-image:hover {
   box-shadow: 1px 2px 15px #ccc;
   -webkit-transform: translateY(-5px);
   transform: translateY(-5px);
 }
-.gallery-area img {
+.gallery .gallery-image {
   height: 300px;
 }
 .events-slider {
   background: url(../images/bg-blue.png);
   background-position: cover;
-  height: 400px;
+  height: 350px;
+}
+.events-slider .swiper-container {
+  width: 100%;
 }
 .event p {
   line-height: 30px;
 }
-.event img {
-  width: 450px;
+.event .event-img {
+  height: 100%;
+}
+.event .event-img img {
+  width: 350px;
   height: 100%;
 }
 .events-slider .prev-slide {
@@ -454,7 +465,7 @@ header.header-small {
   height: -moz-fit-content;
   height: fit-content;
 }
-.user-panel aside li.active a{
+.user-panel aside li.active a {
   color: #0d6efd !important;
 }
 .user-panel aside li.active path {
@@ -497,7 +508,7 @@ header.header-small {
     right: 91%;
   }
   .events-slider .event img {
-    width: 400px;
+    width: 320px;
   }
 }
 @media (max-width: 1200px) {
@@ -518,9 +529,13 @@ header.header-small {
   .landing-header h1 {
     font-size: 1.8rem;
   }
-  .events-slider .event img {
-    width: 100%;
+  .events-slider .event .event-img {
+    width: 500px;
+    margin: 0 auto;
     height: 300px;
+  }
+  .events-slider .event .event-img img {
+    width: 100%;
   }
   .events-slider {
     height: auto;
@@ -551,6 +566,11 @@ header.header-small {
   }
   .services {
     display: none;
+  }
+  .events-slider .event .event-img {
+    width: 100%;
+    margin: 0 auto;
+    height: 270px;
   }
   .honors-area {
     margin-top: 5em;
@@ -644,7 +664,7 @@ header.header-small {
 #galleryImg .gallery-img-container {
   height: 300px;
 }
-.profile .profile-img{
+.profile .profile-img {
   width: 120px;
   height: 120px;
 }

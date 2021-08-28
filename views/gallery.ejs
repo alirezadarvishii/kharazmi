@@ -56,6 +56,9 @@
         <h5 class="text-secondary font-black my-5">تـاکـنـون تـصـویـری در گـالـری وبـسـایـت ثـبـت نـگـردیـده اسـت!</h5>
       </div>
       <% } %>
+      <% if(pagination.length > 1) { %>
+        <%- include("./includes/pagination.ejs") %> 
+      <% } %> 
     </section>
 
     <%- include("./includes/footer.ejs") %>

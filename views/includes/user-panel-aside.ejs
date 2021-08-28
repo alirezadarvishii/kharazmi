@@ -70,7 +70,7 @@
           پنل کاربری
         </a>
       </li>
-      <li class="my-3 <%= path === '/me/edit' ? 'active' : '' %>">
+      <li class="my-3 <%= path.match(/me\/edit/) ? 'active' : '' %>">
         <a href="/me/edit" class="font-regular text-decoration-none text-secondary">
           <svg class="me-1" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -82,7 +82,7 @@
           تغییر اطلاعات
         </a>
       </li>
-      <li class="my-3 <%= path === '/me/change-password' ? 'active' : '' %>">
+      <li class="my-3 <%= path.match(/me\/change-password/) ? 'active' : '' %>">
         <a href="/me/change-password" class="font-regular text-decoration-none text-secondary">
           <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -113,7 +113,7 @@
         </a>
       </li>
       <% if(user.role === "admin" || user.role === "teacher") { %>
-      <li class="my-3 <%= path === '/me/blogs' ? 'active' : '' %>">
+      <li class="my-3 <%= path.match(/me\/blogs/) ? 'active' : '' %>">
         <a href="/me/blogs" class="font-regular text-decoration-none text-secondary">
           <svg class="me-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path

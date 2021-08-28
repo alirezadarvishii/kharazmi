@@ -32,32 +32,16 @@
           </a>
         </div>
         <% }) %>
-        <!-- Pagination -->
-        <nav aria-label="Page navigation">
-          <ul class="pagination mt-5 justify-content-center">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!--/ Pagination -->
+        <% if(pagination.length > 1) { %>
+          <%- include("./includes/pagination.ejs") %> 
+        <% } %> 
       </div>
     </section>
     <!--/ Masters -->
 
     <%- include("./includes/footer.ejs") %>
   </body>
-  <script src="./bootstrap/js/bootstrap.min.js"></script>
+  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
 </html>
 
 <!-- hello world -->

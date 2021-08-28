@@ -13,7 +13,9 @@
 
     <section class="mt-5 container-md">
       <div class="d-flex align-items-center justify-content-between mx-1">
-        <h6 class="text-secondary font-bold mb-3">مقالات مدرسه <span class="font-regular">( <%= blogs.length %> مقاله )</span></h6>
+        <h6 class="text-secondary font-bold mb-3">
+          مقالات مدرسه <span class="font-regular">( <%= blogs.length %> مقاله )</span>
+        </h6>
         <nav aria-label="breadcrumb">
           <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">خانه</a></li>
@@ -54,11 +56,15 @@
           <div class="col-12 col-sm-6 col-lg-4 px-3 my-3">
             <div class="card h-100 shadow-sm">
               <div class="blog-img">
-                <img src="http://localhost:3000/blogs/<%= blog.blogImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                <img
+                  src="http://localhost:3000/blogs/<%= blog.blogImg %>"
+                  class="card-img-top p-2 rounded-8 fit-cover"
+                  alt=""
+                />
               </div>
               <div class="card-body pt-2 d-flex flex-column justify-content-between">
                 <div>
-                  <a href="/blog/read/<%= blog._id %>" class="text-decoration-none"
+                  <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none"
                     ><h5 class="card-title font-black text-primary"><%= blog.title %></h5></a
                   >
                   <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
@@ -104,35 +110,20 @@
                   </div>
                 </div>
                 <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
-                <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">ادامه خواندن...</a>
+                <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2"
+                  >ادامه خواندن...</a
+                >
               </div>
             </div>
           </div>
           <% }) %> <% } else { %>
           <div class="d-flex align-items-center justify-content-center flex-column">
             <img src="http://localhost:3000/images/blog-notfound.png" class="fit-cover w-50 mt-5" alt="" />
-            <h5 class="font-black text-secondary my-5 text-center">تـاکـنـون مـقـالـه ای در وبـسـایـت مـنـتـشـر نـشـده!</h5>
+            <h5 class="font-black text-secondary my-5 text-center">
+              تـاکـنـون مـقـالـه ای در وبـسـایـت مـنـتـشـر نـشـده!
+            </h5>
           </div>
-          <% } %>
-          <!-- Pagination -->
-          <nav aria-label="Page navigation" class="mt-5">
-            <ul class="pagination mt-5 justify-content-center">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <!--/ Pagination -->
+          <% } %> <% if(pagination.length > 1) { %> <%- include("../includes/pagination.ejs") %> <% } %>
         </div>
       </div>
     </section>

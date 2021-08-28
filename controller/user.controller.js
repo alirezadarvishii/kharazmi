@@ -1,5 +1,6 @@
 const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
+const User = require("../model/user");
 const getUserByRole = require("../utils/getUserByRole");
 
 exports.approveAdmin = async (req, res) => {
@@ -38,4 +39,18 @@ exports.profile = async (req, res) => {
     headerTitle: `پروفایل  ${user.fullname}`,
     user,
   });
+};
+
+exports.banUser = async (req, res) => {
+  const { role } = req.params;
+  const { userId } = req.body;
+  if (role === "admin") {
+    await Admin.deleteOne({ _id: userId });
+  } else if (role === "teacher") {
+    await Teacher.deleteOne({ _id: userId });
+  } else if (role === "user") {
+    await User.deleteOne({ _id: userId });
+  }
+  req.flash("success", "کاربر مورد نظر به فنا رفت");
+  res.redirect("back");
 };

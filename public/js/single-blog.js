@@ -8,7 +8,7 @@ const likeNumber = document.querySelector(".likes .like-number");
 const replyCommentBtns = document.querySelectorAll(".reply-comment");
 const deleteCommentBtns = document.querySelectorAll(".delete-comment");
 const deleteReplyCommentBtns = document.querySelectorAll(".delete-reply-comment");
-const addCommentBtn = document.querySelectorAll(".add-comment");
+const addCommentBtn = document.querySelectorAll("button.add-comment");
 const editCommentBtn = document.querySelector(".edit-comment");
 
 // Ckeditor config.
@@ -49,6 +49,7 @@ const spinner = () => {
 const like = async () => {
   const { blogId } = likeBtn.dataset;
   const likeBlog = await fetch(`http://localhost:3000/blog/like/${blogId}`);
+  console.log(likeBlog);
   if (likeBlog.status === 200) {
     const response = await likeBlog.json();
     likeNumber.textContent = response.blogLikesLength;
@@ -57,8 +58,26 @@ const like = async () => {
     } else {
       likeBtn.classList.remove("liked");
     }
+  } else if (likeBlog.status === 401) {
+    Swal.fire({
+      titleText: "خــطــا!",
+      text: "لطفا ابتدا وارد حساب کاربری خود شوید",
+      footer: "هنرستان خوارزمی فیروزآباد",
+      icon: "error",
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
   } else {
-    console.log("Something went wrong!");
+    Swal.fire({
+      titleText: "خــطــا!",
+      text: "مشکلی پیش آمده، لطفا دوباره تلاش کنید!",
+      footer: "هنرستان خوارزمی فیروزآباد",
+      icon: "error",
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
   }
 };
 
@@ -68,37 +87,49 @@ const addComment = async (e) => {
 };
 
 // Delete a comment
-const deleteComment = async (e) => {
-  const { commentId } = e.target.dataset;
-  e.target.append(spinner());
-  const fetchToDelete = await fetch(`http://localhost:3000/comment/delete/${commentId}`, {
-    method: "DELETE",
+const deleteComment = (e) => {
+  Swal.fire({
+    title: "از انجام این کار مطمئنی؟",
+    text: "مطمئنی که میخوای پاکش کنی؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "آره، مطمئنم",
+    cancelButtonText: "نه، لغو عملیات",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const { commentId } = e.target.closest("button").dataset;
+      e.target.append(spinner());
+      const fetchToDelete = await fetch(`http://localhost:3000/comment/delete/${commentId}`, {
+        method: "DELETE",
+      });
+      if (fetchToDelete.status === 200) {
+        const response = await fetchToDelete.json();
+        e.target.closest("li").remove();
+        Swal.fire({
+          titleText: "مــــوفــــق!",
+          text: response.message,
+          footer: "هنرستان خوارزمی فیروزآباد",
+          icon: "success",
+          timer: 4000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      } else {
+        const error = await fetchToDelete.json();
+        Swal.fire({
+          titleText: "خــطــا!",
+          text: error.message,
+          footer: "هنرستان خوارزمی فیروزآباد",
+          icon: "error",
+          timer: 3000,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      }
+    }
   });
-  console.log(fetchToDelete);
-  if (fetchToDelete.status === 200) {
-    const response = await fetchToDelete.json();
-    e.target.closest("li").remove();
-    Swal.fire({
-      titleText: "مــــوفــــق!",
-      text: response.message,
-      footer: "هنرستان خوارزمی فیروزآباد",
-      icon: "success",
-      timer: 4000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-    });
-  } else {
-    const error = await fetchToDelete.json();
-    Swal.fire({
-      titleText: "خــطــا!",
-      text: error.message,
-      footer: "هنرستان خوارزمی فیروزآباد",
-      icon: "error",
-      timer: 3000,
-      timerProgressBar: true,
-      showConfirmButton: false,
-    });
-  }
 };
 
 // Delete a reply comment

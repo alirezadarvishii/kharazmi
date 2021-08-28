@@ -8,7 +8,7 @@ exports.addComment = async (req, res) => {
   const { user } = req;
   const validate = commentValidation.comment.validate(req.body);
   if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, `/blog/read/${blogId}`);
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   let userModel;
   if (user.role === "admin") {
@@ -32,7 +32,7 @@ exports.addComment = async (req, res) => {
     await comment.save();
   }
   req.flash("success", "کامنت شما با موفقیت درج شد!");
-  res.redirect(`/blog/read/${blogId}`);
+  res.redirect("back");
 };
 
 exports.deleteComment = async (req, res) => {

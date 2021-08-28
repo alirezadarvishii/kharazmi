@@ -3,6 +3,7 @@ const Teacher = require("../model/teacher");
 const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
 const Event = require("../model/event");
+const genPagination = require("../utils/pagination");
 
 exports.indexPage = async (req, res) => {
   const galleryImages = await Gallery.find({});
@@ -19,22 +20,38 @@ exports.indexPage = async (req, res) => {
 };
 
 exports.departman = async (req, res) => {
+  const { slide = 1 } = req.query;
+  const DEPARTMAN_PER_PAGE = 12;
   const admins = await Admin.find({ status: "approved" }).select("-password");
   const teachers = await Teacher.find({ status: "approved" }).select("-password");
   const departman = [...admins, ...teachers];
+  const startIndex = DEPARTMAN_PER_PAGE * (slide - 1);
+  const endIndex = startIndex + DEPARTMAN_PER_PAGE;
+  const finalyResult = departman.slice(startIndex, endIndex);
+  const pagination = genPagination(DEPARTMAN_PER_PAGE, departman.length);
   res.render("departman", {
     title: "اعضای دپارتمان مدرسه",
     headerTitle: "اعضای دپارتمان مدرسه",
-    departman,
+    departman: finalyResult,
+    pagination,
+    currentSlide: slide,
   });
 };
 
 exports.gallery = async (req, res) => {
-  const images = await Gallery.find({});
+  const { slide = 1 } = req.query;
+  const IMAGE_PER_PAGE = 9;
+  const images = await Gallery.find({})
+    .skip(IMAGE_PER_PAGE * (slide - 1))
+    .limit(IMAGE_PER_PAGE);
+  const imagesLength = await Gallery.countDocuments({});
+  const pagination = genPagination(IMAGE_PER_PAGE, imagesLength);
   res.render("gallery", {
     title: "گالری وبسایت",
     headerTitle: "گالری وبسایت",
     images,
+    pagination,
+    currentSlide: slide,
   });
 };
 

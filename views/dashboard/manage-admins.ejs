@@ -45,11 +45,15 @@
                             <%= admin.status === "approved" ? "تأیید شده": "در انتظار" %>
                           </span>
                         </div>
-                        <div class="col text-end text-secondary">
+                        <div class="col text-end text-secondary d-flex justify-content-end">
                           <% if(admin.status === "approved") { %>
-                          <a href="/user/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a> \ <% } else { %>
-                          <a href="/user/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a> \ <% } %>
-                          <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          <a href="/user/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a><% } else { %>
+                          <a href="/user/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a><% } %>
+                          <span class="mx-1"> \ </span>
+                          <form action="/user/ban/admin" method="POST">
+                            <input type="hidden" name="userId" value="<%= admin._id %>" />
+                            <button type="submit" class="btn p-0 text-danger shadow-none">حذف</button>
+                          </form>
                         </div>
                       </li>
                       <% }) %> <% } %>

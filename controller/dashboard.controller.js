@@ -23,7 +23,7 @@ exports.adminPanel = async (req, res) => {
   // Comments length information.
   const lengthOfTotalComments = await Comment.countDocuments({});
   // Waiting for approved blogs.
-  const waitingForApproveBlogs = await Blog.find({ status: "notApproved" }).populate("author");
+  const waitingForApproveBlogs = await Blog.find({ status: "notApproved" }).populate("author").limit(3);
   res.render("dashboard/admin-panel", {
     title: "پنل ادمین",
     notApprovedUsers,

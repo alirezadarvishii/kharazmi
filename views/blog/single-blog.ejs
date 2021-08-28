@@ -25,7 +25,10 @@
             <div class="mt-4 flex-wrap">
               <div class="blog-feedbacks d-flex align-items-center justify-content-end text-secondary font-regular">
                 <div class="likes">
-                  <button class="btn p-0 like-blog shadow-none <%= blog.isLiked ? 'liked' : '' %>" data-blog-id="<%= blog._id %>">
+                  <button
+                    class="btn p-0 like-blog shadow-none <%= blog.isLiked ? 'liked' : '' %>"
+                    data-blog-id="<%= blog._id %>"
+                  >
                     <svg width="20" height="18" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M11.6 18.8C11.3 18.9 10.7 18.9 10.4 18.8C7.5 17.8 1 13.7 1 6.69998C1 3.59998 3.5 1.09998 6.6 1.09998C8.4 1.09998 10 1.99998 11 3.29998C12 1.89998 13.6 1.09998 15.4 1.09998C18.5 1.09998 21 3.59998 21 6.69998C21 13.7 14.5 17.8 11.6 18.8Z"
@@ -76,14 +79,25 @@
           <div class="tags mt-5">
             <ul class="list-unstyled d-flex align-content-center">
               <% blog.tags.forEach(tag => { %>
-              <li><a href="#" class="text-decoration-none bg-light text-dark font-light me-2 rounded-3 py-1 px-3">#<%= tag %></a></li>
+              <li>
+                <a href="#" class="text-decoration-none bg-light text-dark font-light me-2 rounded-3 py-1 px-3"
+                  >#<%= tag %></a
+                >
+              </li>
               <% }) %>
             </ul>
           </div>
           <!--! Comments area -->
           <div class="comments-area mt-10">
             <!--! Reply Comment Modal -->
-            <div class="modal fade" data-img-id="" id="replyComment" tabindex="-1" aria-labelledby="replyComment" aria-hidden="true">
+            <div
+              class="modal fade"
+              data-img-id=""
+              id="replyComment"
+              tabindex="-1"
+              aria-labelledby="replyComment"
+              aria-hidden="true"
+            >
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -93,7 +107,10 @@
                   <div class="modal-body my-2">
                     <% if(!user) { %>
                     <div class="alert alert-warning d-flex align-items-center" role="alert">
-                      <div>کاربر گرامی توجه داشته باشید که برای افزودن پاسخ باید ابتدا <a href="/login">وارد</a> حساب کاربری خود شده باشید!</div>
+                      <div>
+                        کاربر گرامی توجه داشته باشید که برای افزودن پاسخ باید ابتدا <a href="/login">وارد</a> حساب
+                        کاربری خود شده باشید!
+                      </div>
                     </div>
                     <% } %>
                     <div>
@@ -102,7 +119,12 @@
                         <input type="hidden" name="replyId" />
                         <input type="hidden" name="blogId" value="<%= blog._id %>" />
                         <textarea name="comment" class="ckeditor" id="replyCommentCkeditor"></textarea>
-                        <button type="submit" class="btn btn-success d-block ms-auto mt-3 d-flex items-center add-comment">ارسال پاسخ شما</button>
+                        <button
+                          type="submit"
+                          class="btn btn-success d-block ms-auto mt-3 d-flex items-center add-comment"
+                        >
+                          ارسال پاسخ شما
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -111,7 +133,13 @@
             </div>
             <!--!/ Reply Comment Modal -->
             <!--! Edit Comment Modal -->
-            <div class="modal fade" id="editComment" tabindex="-1" aria-labelledby="editComment" aria-hidden="true" shown.bs.modal="openModalFunc()">
+            <div
+              class="modal fade"
+              id="editComment"
+              tabindex="-1"
+              aria-labelledby="editComment"
+              aria-hidden="true"
+            >
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -125,7 +153,12 @@
                         <input type="hidden" name="commentId" />
                         <input type="hidden" name="blogId" value="<%= blog._id %>" />
                         <textarea name="comment" class="ckeditor"></textarea>
-                        <button type="submit" class="btn btn-success d-block ms-auto mt-3 d-flex items-center edit-comment">ویرایش</button>
+                        <button
+                          type="submit"
+                          class="btn btn-success d-block ms-auto mt-3 d-flex items-center edit-comment"
+                        >
+                          ویرایش
+                        </button>
                       </form>
                     </div>
                   </div>
@@ -145,21 +178,30 @@
               <form action="/comment/add" method="POST">
                 <input type="hidden" name="blogId" value="<%= blog._id %>" />
                 <textarea name="comment" class="ckeditor" id="addCommentCkeditor"></textarea>
-                <button type="submit" class="btn btn-success d-block ms-auto mt-4 d-flex align-items-center add-comment">ارسال دیدگاه شما</button>
+                <button
+                  type="submit"
+                  class="btn btn-success d-block ms-auto mt-4 d-flex align-items-center add-comment"
+                >
+                  ارسال دیدگاه شما
+                </button>
               </form>
             </div>
             <!--/ Add Comments -->
             <!--! Comments -->
             <div class="comments mt-5">
+              <% if(comments.length) { %>
               <ul class="list-unstyled">
-                <% if(comments.length) { %> <% comments.forEach(comment => { %>
+                <% comments.forEach(comment => { %>
                 <!-- Comment -->
                 <li class="p-3 mb-5 shadow-sm rounded-3 bg-light border">
                   <div class="comment-header border-bottom mb-3 pb-3 d-flex align-items-center justify-content-between">
                     <div class="user d-flex align-items-center">
                       <div class="shadow rounded-pill overflow-hidden user-profile">
                         <a href="/profile/<%= comment.user.role %>/<%= comment.user._id %>"
-                          ><img src="http://localhost:3000/users/<%= comment.user.profileImg %>" class="rounded-pill p-1 fit-cover" alt=""
+                          ><img
+                            src="http://localhost:3000/users/<%= comment.user.profileImg %>"
+                            class="rounded-pill p-1 fit-cover"
+                            alt=""
                         /></a>
                       </div>
                       <div class="ms-3">
@@ -220,7 +262,11 @@
                         </svg>
                       </button>
                       <% if(user && user._id.toString() === comment.user._id.toString()) { %>
-                      <button class="btn btn-info py-1 px-1 edit-comment ms-2" data-bs-toggle="modal" data-bs-target="#editComment">
+                      <button
+                        class="btn btn-info py-1 px-1 edit-comment ms-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editComment"
+                      >
                         <svg
                           data-bs-toggle="tooltip"
                           data-bs-placement="top"
@@ -238,7 +284,10 @@
                           />
                         </svg>
                       </button>
-                      <button class="btn btn-danger py-1 px-1 d-flex align-items-center ms-2 delete-comment" data-comment-id="<%= comment._id %>">
+                      <button
+                        class="btn btn-danger py-1 px-1 d-flex align-items-center ms-2 delete-comment"
+                        data-comment-id="<%= comment._id %>"
+                      >
                         <svg
                           data-bs-toggle="tooltip"
                           data-bs-placement="top"
@@ -266,11 +315,24 @@
                     <ul class="list-unstyled">
                       <!-- Reply Comment -->
                       <li class="p-3 mt-3 shadow-sm rounded-3 bg-white border">
-                        <div class="comment-header border-bottom mb-3 pb-3 d-flex align-items-center justify-content-between">
+                        <div
+                          class="
+                            comment-header
+                            border-bottom
+                            mb-3
+                            pb-3
+                            d-flex
+                            align-items-center
+                            justify-content-between
+                          "
+                        >
                           <div class="user d-flex align-items-center">
                             <div class="shadow rounded-pill overflow-hidden user-profile">
                               <a href="http://localhost:3000/profile/<%= comment.user.role %>/<%= comment.user._id %>"
-                                ><img src="http://localhost:3000/users/<%= comment.user.profileImg %> " class="rounded-pill p-1 fit-cover" alt=""
+                                ><img
+                                  src="http://localhost:3000/users/<%= comment.user.profileImg %> "
+                                  class="rounded-pill p-1 fit-cover"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="ms-2">
@@ -341,14 +403,17 @@
                   <% }) %> <% } %>
                 </li>
                 <!--/ Comment -->
-                <% }) %> <% } %>
+                <% }) %>
               </ul>
+              <% } else { %>
+                <div class="alert alert-info"> تاکنون کامنتی برای این پست ثبت نشده است! <span class="font-bold">شما اولین نفر باشید.</span</div>
+              <% } %> 
             </div>
             <!--/ Comments -->
           </div>
         </main>
         <!--/ Main -->
-        <!-- Aside -->
+        <!--! Aside -->
         <aside class="col-12 col-xl-3 mt-5 mt-xl-0 p-0 ps-xl-3">
           <div class="bloger-info d-flex align-items-center rounded-3 p-3 shadow-sm bg-white">
             <div class="bloger-avatar shadow-lg">
@@ -369,7 +434,7 @@
             <ul class="list-unstyled">
               <% otherBlogs.forEach(blog => { %>
               <li class="border-bottom py-2">
-                <a href="/blog/read/<%= blog._id %>" class="text-dark"><h5><%= blog.title %></h5></a>
+                <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-dark"><h5><%= blog.title %></h5></a>
                 <div>
                   <ul class="list-unstyled d-flex">
                     <% blog.tags.slice(0, 2).forEach(tag => { %>

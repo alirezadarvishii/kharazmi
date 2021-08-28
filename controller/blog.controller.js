@@ -9,13 +9,23 @@ const ErrorResponse = require("../utils/ErrorResponse");
 const blogValidation = require("../validation/blog.validation");
 const isObjectId = require("../utils/isObjectId");
 const pick = require("../utils/pick");
+const genPagination = require("../utils/pagination");
 
 exports.blog = async (req, res) => {
-  const blogs = await Blog.find({ status: "approved" }).populate("author");
+  const { slide = 1 } = req.query;
+  const BLOGS_PER_PAGE = 9;
+  const blogs = await Blog.find({ status: "approved" })
+    .populate("author")
+    .skip(BLOGS_PER_PAGE * (slide - 1))
+    .limit(BLOGS_PER_PAGE);
+  const blogsLength = await Blog.countDocuments({});
+  const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
-    headerTitle: "وبـلـاگ مـدرسـه",
+    headerTitle: "وبـلـاگ هنرستان",
     blogs,
+    pagination,
+    currentSlide: slide,
   });
 };
 
@@ -70,17 +80,19 @@ exports.handleAddBlog = async (req, res) => {
     .jpeg({
       quality: 60,
     })
-    .toFile(path.join(__dirname, "..", "public", "blogs", filename), (err) => {
+    .toFile(path.join(__dirname, "..", "public", "blogs", filename), async (err) => {
       if (err) {
         throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/blog/new");
       }
+      // set author model for population author.
+      const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
+      const tags = req.body.tags.split("/");
+      const slug = req.body.title.split(" ").join("-");
+      const shortId = Math.floor(Math.random() * 99999);
+      await Blog.create({ ...req.body, slug, shortId, tags, blogImg: filename, author: req.user._id, authorModel });
+      req.flash("success", "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!");
+      res.redirect("/");
     });
-  // set author model for population author.
-  const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
-  const tags = req.body.tags.split("/");
-  await Blog.create({ ...req.body, tags, blogImg: filename, author: req.user._id, authorModel });
-  req.flash("success", "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!");
-  res.redirect("/");
 };
 
 exports.updateBlog = async (req, res) => {
@@ -125,7 +137,7 @@ exports.handleUpdateBlog = async (req, res) => {
 };
 
 exports.handleDeleteBlog = async (req, res) => {
-  const { blogId } = req.params;
+  const { blogId } = req.body;
   // Check that ID is valid
   if (!isObjectId(blogId)) throw new ErrorResponse(402, "Forbidden!", "back");
   const blog = await Blog.findOne({ _id: blogId });
@@ -142,6 +154,7 @@ exports.handleDeleteBlog = async (req, res) => {
 
 // API
 exports.likeBlog = async (req, res) => {
+  if (!req.user) return res.status(401).json({ message: "Authentication ERROR!" });
   const { blogId } = req.params;
   const { _id } = req.user;
   const blog = await Blog.findOne({ _id: blogId });

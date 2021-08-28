@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(compression());
+// app.use(compression());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

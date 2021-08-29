@@ -22,6 +22,4 @@ router.get("/approve-teachers/:teacherId", asyncHandler(userController.approveTe
 //? Unapproving a teacher.
 router.get("/unapprove-teachers/:teacherId", asyncHandler(userController.unApproveTeacher));
 
-router.post("/ban/:role", asyncHandler(userController.banUser));
-
 module.exports = router;

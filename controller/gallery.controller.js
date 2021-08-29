@@ -62,7 +62,7 @@ exports.editGalleryImg = async (req, res) => {
 };
 
 exports.deleteGalleryImg = async (req, res) => {
-  const { imgId } = req.params;
+  const { imgId } = req.body;
   await Gallery.deleteOne({ _id: imgId });
   req.flash("success", "تصویر مورد نظر با موفقیت حذف گردید!");
   res.redirect("back");

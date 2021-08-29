@@ -5,6 +5,8 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
 const compression = require("compression");
+const csrf = require("csurf");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config({ path: "./config/env.config" });
 const database = require("./utils/database");
@@ -24,6 +26,7 @@ const userRoutes = require("./routes/user.route");
 const errorHandler = require("./controller/error.controller");
 
 const app = express();
+const csrfProtection = csrf({ cookie: true });
 
 // Configuration view engin.
 app.set("view engine", "ejs");
@@ -46,7 +49,9 @@ app.use(
   })
 );
 app.use(flash());
+app.use(cookieParser());
 app.use(handleMulter);
+app.use(csrfProtection);
 app.use((req, res, next) => {
   const { user } = req.session;
   if (user) req.user = user;
@@ -55,6 +60,7 @@ app.use((req, res, next) => {
   app.locals.moment = moment;
   app.locals.momentTime = momentTime;
   app.locals.path = req.path;
+  app.locals.csrfToken = req.csrfToken();
   next();
 });
 

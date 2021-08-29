@@ -32,7 +32,7 @@
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
                       <li class="col text-center">وضعیت</li>
-                      <li class="col text-end">تأیید \ حذف</li>
+                      <li class="col text-end">تأیید</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(admins) { %> <% admins.forEach((admin, index) => { %>
@@ -49,11 +49,6 @@
                           <% if(admin.status === "approved") { %>
                           <a href="/user/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success">تعلیق</a><% } else { %>
                           <a href="/user/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning">تأیید</a><% } %>
-                          <span class="mx-1"> \ </span>
-                          <form action="/user/ban/admin" method="POST">
-                            <input type="hidden" name="userId" value="<%= admin._id %>" />
-                            <button type="submit" class="btn p-0 text-danger shadow-none">حذف</button>
-                          </form>
                         </div>
                       </li>
                       <% }) %> <% } %>
@@ -72,6 +67,7 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
+  <script src="/js/manage-users.js"></script>
   <script>
     if ("<%= message.success %>") {
       Swal.fire({

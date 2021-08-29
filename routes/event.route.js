@@ -11,9 +11,6 @@ const asyncHandler = require("../middleware/asyncHandler");
 //? Get a event details and return json data.
 router.get("/:eventId", asyncHandler(schoolController.getEvent));
 
-//? delete a event handler
-router.get("/delete/:eventId", asyncHandler(schoolController.deleteEvent));
-
 //! ---------------------- POST ROUTES ----------------------
 
 //? Add a new event handler.
@@ -22,5 +19,7 @@ router.post("/new", asyncHandler(schoolController.newEvent));
 //? Edit a event handler.
 router.post("/edit", asyncHandler(schoolController.editEvent));
 
+//? delete a event handler
+router.post("/delete", asyncHandler(schoolController.deleteEvent));
 
 module.exports = router;

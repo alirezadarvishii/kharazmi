@@ -1,11 +1,27 @@
 //! Variables
 const editEventModal = document.querySelector("#editEventModal");
 const editEventBtns = document.querySelectorAll(".edit-event");
+const deleteEventForm = document.querySelectorAll("form.delete-event");
 
 //! Functions
 const changeEventInputValue = (e) => {
   const { eventId } = e.target.closest("a").dataset;
   document.querySelector("#editEventModal input[name=eventId]").value = eventId;
+};
+const deleteEvent = (e) => {
+  e.preventDefault();
+  Swal.fire({
+    title: "احتیاط!",
+    text: "از حذف این رویداد مطمئن هستید؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "بله، مطمئنم",
+    cancelButtonText: "لغو عملیات",
+  }).then(async (result) => {
+    if (result.isConfirmed) e.target.closest("form").submit();
+  });
 };
 
 const editEvent = async () => {
@@ -26,3 +42,4 @@ const editEvent = async () => {
 //! EventListeners
 editEventModal.addEventListener("shown.bs.modal", editEvent);
 editEventBtns.forEach((el) => el.addEventListener("click", changeEventInputValue));
+deleteEventForm.forEach((el) => el.addEventListener("submit", deleteEvent));

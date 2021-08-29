@@ -23,7 +23,7 @@
               <div class="col">
                 <div class="card border shadow-sm mb-3">
                   <div class="card-header font-bold">
-                    معلم یا مدیران جدیدی که در انتظار تأیید از سوی شما هستند
+                    مدیریت معلم های وبسایت
                     <span class="text-secondary font-light">( <%= teachers.length %> کاربر )</span>
                   </div>
                   <div class="card-body pt-0 pb-0">
@@ -32,7 +32,7 @@
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
                       <li class="col text-center">وضعیت</li>
-                      <li class="col text-end">تأیید \ حذف</li>
+                      <li class="col text-end">مدیریت وضعیت</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(teachers) { %> <% teachers.forEach((teacher, index) => { %>
@@ -47,10 +47,9 @@
                         </div>
                         <div class="col text-end">
                           <% if(teacher.status === "approved") { %>
-                          <a href="/user/unapprove-teachers/<%= teacher._id %>" class="text-decoration-none text-warning">در انتظار</a> \ <% }
-                          else { %> <a href="/user/approve-teachers/<%= teacher._id %>" class="text-decoration-none text-success">تأیید</a> \
+                          <a href="/user/unapprove-teachers/<%= teacher._id %>" class="text-decoration-none text-warning">در انتظار</a> <% }
+                          else { %> <a href="/user/approve-teachers/<%= teacher._id %>" class="text-decoration-none text-success">تأیید</a>
                           <% } %>
-                          <a href="#" class="text-decoration-none text-danger">حذف</a>
                         </div>
                       </li>
                       <% }) %> <% } %>

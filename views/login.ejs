@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
     <title><%= title %></title>
-    <script defer src="/js/app-ffbfe456f36267f13b08.js"></script>
     <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <%- include("./includes/nav.ejs") %>
@@ -23,6 +23,7 @@
         </div>
         <div class="px-3 px-md-5">
           <form action="" class="d-flex flex-wrap" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="w-100 mt-4">
               <label for="" class="d-block mb-2 font-regular">ورود به عنوان</label>
               <div class="d-flex align-items-center justify-content-between mt-3 text-secondary font-regular">
@@ -44,6 +45,7 @@
               <label for="" class="d-block mb-2 font-regular">رمز عبور</label>
               <input type="password" name="password" class="w-100 form-control py-2 text-secondary font-light" placeholder="********" />
             </div>
+            <div class="g-recaptcha col-12" data-sitekey="6Ld-xTAcAAAAAE8xNmK8MjelXEnyBdTI2AAVjJJJ"></div>
             <div class="d-flex align-items-center mt-4 w-50 form-check">
               <input type="checkbox" name="rememberme" class="form-check-input" />
               <label class="text-secondary font-regular ms-2">منو یادت بمونه!</label>
@@ -57,7 +59,6 @@
     <!--/ Form -->
     <%- include("./includes/footer.ejs") %>
   </body>
-  <script src="/bootstrap/js/bootstrap.min.js"></script>
   <script src="/swal/swal.js"></script>
   <script>
     if ("<%= message.success %>") {

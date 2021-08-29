@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap.rtl.min.css" />
     <title><%= title %></title>
-    <script defer src="./js/app-ffbfe456f36267f13b08.js"></script>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.rtl.min.css" />
     <link href="./styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <%- include("./includes/nav.ejs") %>
@@ -19,17 +19,25 @@
           <div class="d-flex justify-content-center flex-column h-100">
             <h1 class="text-white font-black text-center mb-3">خــوش آمــدیـد</h1>
             <span class="font-light d-block text-center text-light mb-3">
-              ( ورود به عنوان <% if(registerType === "admin") { %> مدیریت مدرسه <% } else if(registerType === "teacher") { %> هنرآموز مدرسه <% } else
-              { %> افراد متفرقه <% } %> )
+              ( ورود به عنوان <% if(registerType === "admin") { %> مدیریت مدرسه <% } else if(registerType === "teacher")
+              { %> هنرآموز مدرسه <% } else { %> افراد متفرقه <% } %> )
             </span>
-            <p class="text-light m-0 text-center font-light">با ثبت نام در سایت از مزایای کاربران وبسایت بهرمند شوید!</p>
+            <p class="text-light m-0 text-center font-light">
+              با ثبت نام در سایت از مزایای کاربران وبسایت بهرمند شوید!
+            </p>
           </div>
         </div>
         <div class="px-4">
           <form action="/register/<%= registerType %>" class="row" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="col-12 col-md-6 mt-4">
               <label for="" class="d-block text-secondary mb-2 font-regular">نام و نام خانوادگی</label>
-              <input type="text" class="w-100 form-control py-2 font-light" name="fullname" placeholder="مثال: علیرضا درویشی" />
+              <input
+                type="text"
+                class="w-100 form-control py-2 font-light"
+                name="fullname"
+                placeholder="مثال: علیرضا درویشی"
+              />
             </div>
             <div class="col-12 col-md-6 mt-4">
               <label for="" class="d-block text-secondary mb-2 font-regular">ایمیل</label>
@@ -42,7 +50,12 @@
             </div>
             <div class="col-12 col-md-6 mt-4">
               <label for="" class="d-block text-secondary mb-2 font-regular">موبایل</label>
-              <input type="text" class="w-100 form-control py-2 font-light" name="phoneNumber" placeholder="مثال: 09178506183" />
+              <input
+                type="text"
+                class="w-100 form-control py-2 font-light"
+                name="phoneNumber"
+                placeholder="مثال: 09178506183"
+              />
             </div>
             <% if(registerType === "teacher") { %>
             <div class="col-12 col-md-6 mt-4">
@@ -61,8 +74,14 @@
             </div>
             <div class="col-12 col-md-6 mt-4">
               <label for="" class="d-block text-secondary mb-2 font-regular">رمز عبور</label>
-              <input type="password" class="w-100 form-control py-2 font-light" name="password" placeholder="********" />
+              <input
+                type="password"
+                class="w-100 form-control py-2 font-light"
+                name="password"
+                placeholder="********"
+              />
             </div>
+            <div class="g-recaptcha col-12 col-md-6 mt-4" data-sitekey="6Ld-xTAcAAAAAE8xNmK8MjelXEnyBdTI2AAVjJJJ"></div>
             <div class="col-12 text-center pb-4">
               <button class="btn btn-outline-primary mt-5 mx-auto w-auto">ثـبـت نـام</button>
             </div>
@@ -74,5 +93,27 @@
 
     <%- include("./includes/footer.ejs") %>
   </body>
-  <script src="./bootstrap/js/bootstrap.min.js"></script>
+  <script src="/swal/swal.js"></script>
+  <script>
+    if ("<%= message.success %>") {
+      Swal.fire({
+        titleText: "مــــوفــــق!",
+        text: "<%= message.success %>",
+        footer: "هنرستان خوارزمی فیروزآباد",
+        icon: "success",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } else if ("<%= message.error %>") {
+      Swal.fire({
+        titleText: "خــــطــــا!",
+        text: "<%= message.error %>",
+        icon: "error",
+        timer: 5000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    }
+  </script>
 </html>

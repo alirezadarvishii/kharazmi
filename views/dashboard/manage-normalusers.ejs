@@ -23,7 +23,7 @@
               <div class="col">
                 <div class="card border shadow-sm mb-3">
                   <div class="card-header font-bold">
-                    معلم یا مدیران جدیدی که در انتظار تأیید از سوی شما هستند
+                    مدیریت کاربران عادی وبسایت
                     <span class="text-secondary font-light">( <%= users.length %> کاربر )</span>
                   </div>
                   <div class="card-body pt-0 pb-0">
@@ -31,7 +31,6 @@
                       <li class="col-1 text-secondary">#</li>
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
-                      <li class="col text-end">حذف</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(users) { %> <% users.forEach((user, index) => { %>
@@ -39,12 +38,6 @@
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= user.fullname %></div>
                         <div class="col text-secondary"><%= user.email %></div>
-                        <div class="col text-end">
-                          <form action="/user/ban/user" method="POST">
-                            <input type="hidden" name="userId" value="<%= user._id %>">
-                            <button type="submit" class="btn shadow-none p-0 text-danger">حذف</button>
-                          </form>
-                        </div>
                       </li>
                       <% }) %> <% } %>
                     </ul>

@@ -19,10 +19,18 @@
         <main class="col-10 px-3">
           <div class="bg-light rounded-8 p-3 pb-0">
             <div class="d-flex align-items-center justify-content-between">
-              <h1 class="font-black mt-4 mb-3">بخش مدیریت گالری وبسایت</h1>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewImgModal">افزودن تصویر جدید</button>
+              <h2 class="font-black mt-4 mb-3">مدیریت گالری وبسایت</h2>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewImgModal">
+                افزودن تصویر جدید
+              </button>
               <!-- Add New Modal -->
-              <div class="modal fade" id="addNewImgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div
+                class="modal fade"
+                id="addNewImgModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -52,7 +60,13 @@
               </div>
               <!--/ Add New Modal -->
               <!-- Edit Modal -->
-              <div class="modal fade" id="editImgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div
+                class="modal fade"
+                id="editImgModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="spinner-container">
@@ -93,7 +107,11 @@
               <div class="col-3">
                 <div class="position-relative overflow-hidden rounded-3">
                   <div class="position-absolute justify-content-center btns">
-                    <a href="/gallery/delete/<%= img._id %>" class="btn btn-danger me-1">حذف</a>
+                    <form action="/gallery/delete" method="POST" class="d-inline-block delete-image">
+                      <input type="hidden" name="imgId" value="<%= img._id %>" />
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                      <button type="submit" class="btn btn-danger me-1">حذف</button>
+                    </form>
                     <button
                       class="btn btn-light mx-1 edit-img-btn"
                       data-img-id="<%= img._id %>"
@@ -122,7 +140,8 @@
                 </div>
               </div>
               <% }) %> <% } else { %>
-              <h3 class="my-5 text-center text-danger font-black">متاسفانه تاکنون عکسی در گالری آپلود نشده است!</h3>
+              <img src="http://localhost:3000/images/gallery-notfound.png" class="fit-cover w-25 h-25 mx-auto" alt="" />
+              <h5 class="my-5 text-center text-secondary font-bold">تـاکـنـون تـصـویـری در گـالـری ثـبـت نـشـده اسـت!</h5>
               <% } %>
             </div>
           </div>
@@ -133,9 +152,8 @@
     </section>
     <!--/ Main Container -->
   </body>
-  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
-  <script src="/js/dashboard-31d6cfe0d16ae931b73c.js"></script>
+  <script src="/js/manage-gallery.js"></script>
   <script>
     if ("<%= message.success %>") {
       Swal.fire({

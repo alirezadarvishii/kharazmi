@@ -8,6 +8,9 @@ exports._404 = (req, res) => {
 exports._500 = (err, req, res, next) => {
   const { statusCode = 500, redirectionPath, message } = err;
   console.log(err);
+  if(err.code === "EBADCSRFTOKEN") {
+    return res.send("Csrf Token is invalid! <a href='/'>Back to Home</a>")
+  }
   if (statusCode < 500) {
     req.flash("error", message);
     return res.redirect(redirectionPath);

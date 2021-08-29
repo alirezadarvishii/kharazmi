@@ -19,6 +19,8 @@ router.get("/login", authController.login);
 //? Logout user.
 router.get("/logout", authController.logout);
 
+router.get("/forget-password", authController.forgotPassword);
+
 //! ---------------------- POST ROUTES ----------------------
 //? Handle register admins.
 router.post("/register/admin", asyncHandler(authController.handleRegisterAdmin));

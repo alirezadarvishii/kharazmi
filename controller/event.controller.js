@@ -55,9 +55,8 @@ exports.editEvent = async (req, res) => {
 };
 
 exports.deleteEvent = async (req, res) => {
-  const { eventId } = req.params;
+  const { eventId } = req.body;
   const event = await Event.findOneAndDelete({ _id: eventId });
-  console.log(event);
   if (!event) throw new ErrorResponse(404, "رویدادی با چنین مشخصاتی یافت نشد!", "/404");
   deleteFile(path.join(__dirname, "..", "public", "events", event.eventImg));
   req.flash("success", "رویداد مورد نظر با موفقیت حذف گردید!");

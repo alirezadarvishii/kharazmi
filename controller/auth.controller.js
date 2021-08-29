@@ -2,6 +2,7 @@ const path = require("path");
 
 const { hash, compare } = require("bcrypt");
 const sharp = require("sharp");
+const axios = require("axios").default;
 
 const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
@@ -32,38 +33,54 @@ exports.login = (req, res) => {
 };
 
 exports.handleRegisterAdmin = async (req, res) => {
-  const { password } = req.body;
-  // Validation data.
-  const validate = authValidation.adminValidation.validate(req.body);
-  // Handle validation error.
-  if (validate.error) {
-    console.log(validate.error.message);
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=admin");
+  const { password, "g-recaptcha-response": googleRecaptcha } = req.body;
+  let captchaVerification;
+  try {
+    captchaVerification = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${googleRecaptcha}`
+    );
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "خطا در کپچا");
+    return res.redirect("back");
   }
-  if (!req.files.profileImg) {
-    return res.redirect("/register?type=admin");
-  }
-  const checkEmail = await checkEmailExist(req.body.email);
-  if (checkEmail.includes(true)) return res.redirect("/register?type=admin");
-  const hashPassword = await hash(password, 12);
-  const filename = `${Date.now()}.jpeg`;
-  await sharp(req.files.profileImg[0].buffer)
-    .jpeg({
-      quality: 60,
-    })
-    .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
-      if (err) {
-        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=admin");
-      }
-    });
-  const adminUsersLength = await Admin.countDocuments();
-  if (adminUsersLength < 1) {
-    await Admin.create({ ...req.body, status: "approved", profileImg: filename, password: hashPassword });
+  if (captchaVerification && captchaVerification.data.success) {
+    // Validation data.
+    const validate = authValidation.adminValidation.validate(req.body);
+    // Handle validation error.
+    if (validate.error) {
+      console.log(validate.error.message);
+      throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=admin");
+    }
+    if (!req.files.profileImg) {
+      return res.redirect("/register?type=admin");
+    }
+    const checkEmail = await checkEmailExist(req.body.email);
+    if (checkEmail.includes(true)) return res.redirect("/register?type=admin");
+    const hashPassword = await hash(password, 12);
+    const filename = `${Date.now()}.jpeg`;
+    sharp(req.files.profileImg[0].buffer)
+      .jpeg({
+        quality: 60,
+      })
+      .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
+        if (err) {
+          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=admin");
+        }
+      });
+    const adminUsersLength = await Admin.countDocuments();
+    if (adminUsersLength < 1) {
+      await Admin.create({ ...req.body, status: "approved", profileImg: filename, password: hashPassword });
+    } else {
+      await Admin.create({ ...req.body, profileImg: filename, password: hashPassword });
+    }
+    req.flash("success", "ثبت نام با موفقیت انجام شد!");
+    res.redirect("/login");
   } else {
-    await Admin.create({ ...req.body, profileImg: filename, password: hashPassword });
+    console.log("CAPTCHA_ERROR: ", captchaVerification.data["erorr-codes"]);
+    req.flash("error", "خطا در کپچا");
+    res.redirect("back");
   }
-  req.flash("success", "ثبت نام با موفقیت انجام شد!");
-  res.redirect("/login");
 };
 
 exports.handleRegisterTeacher = async (req, res) => {
@@ -95,7 +112,10 @@ exports.handleRegisterTeacher = async (req, res) => {
     });
   // Save new teacher to the database
   await Teacher.create({ ...req.body, profileImg: filename, password: hashPassword });
-  req.flash("success", "ثبت نام شما با موفقیت انجام شد و پس از تأیید حساب کاربری شما از سوی مدیریت، میتوانید وارد حساب خود شوید!");
+  req.flash(
+    "success",
+    "ثبت نام شما با موفقیت انجام شد و پس از تأیید حساب کاربری شما از سوی مدیریت، میتوانید وارد حساب خود شوید!"
+  );
   res.redirect("/");
 };
 
@@ -161,5 +181,11 @@ exports.logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) throw new ErrorResponse(500, "Something went wrong!");
     res.redirect("/");
+  });
+};
+
+exports.forgotPassword = (req, res) => {
+  res.render("new-password", {
+    title: "فراموشی رمز عبور!",
   });
 };

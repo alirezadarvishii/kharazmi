@@ -5,5 +5,6 @@ exports.comment = joi.object({
   blogId: joi.allow(),
   replyId: joi.allow(),
   commentId: joi.allow(),
+  "g-recaptcha-response": joi.allow(),
   _csrf: joi.allow(),
 });

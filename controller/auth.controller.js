@@ -2,7 +2,7 @@ const path = require("path");
 
 const { hash, compare } = require("bcrypt");
 const sharp = require("sharp");
-const axios = require("axios").default;
+
 
 const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
@@ -33,54 +33,38 @@ exports.login = (req, res) => {
 };
 
 exports.handleRegisterAdmin = async (req, res) => {
-  const { password, "g-recaptcha-response": googleRecaptcha } = req.body;
-  let captchaVerification;
-  try {
-    captchaVerification = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${googleRecaptcha}`
-    );
-  } catch (error) {
-    console.log(error);
-    req.flash("error", "خطا در کپچا");
-    return res.redirect("back");
+  const { password } = req.body;
+  // Validation data.
+  const validate = authValidation.adminValidation.validate(req.body);
+  // Handle validation error.
+  if (validate.error) {
+    console.log(validate.error.message);
+    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=admin");
   }
-  if (captchaVerification && captchaVerification.data.success) {
-    // Validation data.
-    const validate = authValidation.adminValidation.validate(req.body);
-    // Handle validation error.
-    if (validate.error) {
-      console.log(validate.error.message);
-      throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=admin");
-    }
-    if (!req.files.profileImg) {
-      return res.redirect("/register?type=admin");
-    }
-    const checkEmail = await checkEmailExist(req.body.email);
-    if (checkEmail.includes(true)) return res.redirect("/register?type=admin");
-    const hashPassword = await hash(password, 12);
-    const filename = `${Date.now()}.jpeg`;
-    sharp(req.files.profileImg[0].buffer)
-      .jpeg({
-        quality: 60,
-      })
-      .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
-        if (err) {
-          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=admin");
-        }
-      });
-    const adminUsersLength = await Admin.countDocuments();
-    if (adminUsersLength < 1) {
-      await Admin.create({ ...req.body, status: "approved", profileImg: filename, password: hashPassword });
-    } else {
-      await Admin.create({ ...req.body, profileImg: filename, password: hashPassword });
-    }
-    req.flash("success", "ثبت نام با موفقیت انجام شد!");
-    res.redirect("/login");
+  if (!req.files.profileImg) {
+    return res.redirect("/register?type=admin");
+  }
+  const checkEmail = await checkEmailExist(req.body.email);
+  if (checkEmail.includes(true)) return res.redirect("/register?type=admin");
+  const hashPassword = await hash(password, 12);
+  const filename = `${Date.now()}.jpeg`;
+  sharp(req.files.profileImg[0].buffer)
+    .jpeg({
+      quality: 60,
+    })
+    .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
+      if (err) {
+        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=admin");
+      }
+    });
+  const adminUsersLength = await Admin.countDocuments();
+  if (adminUsersLength < 1) {
+    await Admin.create({ ...req.body, status: "approved", profileImg: filename, password: hashPassword });
   } else {
-    console.log("CAPTCHA_ERROR: ", captchaVerification.data["erorr-codes"]);
-    req.flash("error", "خطا در کپچا");
-    res.redirect("back");
+    await Admin.create({ ...req.body, profileImg: filename, password: hashPassword });
   }
+  req.flash("success", "ثبت نام با موفقیت انجام شد!");
+  res.redirect("/login");
 };
 
 exports.handleRegisterTeacher = async (req, res) => {
@@ -184,8 +168,12 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.forgotPassword = (req, res) => {
-  res.render("new-password", {
+exports.forgetPassword = (req, res) => {
+  res.render("forget-password", {
     title: "فراموشی رمز عبور!",
   });
+};
+
+exports.handleForgetPassword = async (req, res) => {
+  const { email } = req.body;
 };

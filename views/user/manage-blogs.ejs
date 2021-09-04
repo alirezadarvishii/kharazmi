@@ -60,6 +60,7 @@
                       </a>
                       <form action="/blog/delete" method="POST" class="d-inline-block delete-blog">
                         <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button data-blog-id="<%= blog._id %>" class="btn btn-danger p-1 ms-1 delete-blog">
                           <svg
                             data-bs-toggle="tooltip"

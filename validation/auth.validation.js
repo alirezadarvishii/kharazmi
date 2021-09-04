@@ -2,7 +2,12 @@ const joi = require("joi");
 
 exports.adminValidation = joi.object({
   fullname: joi.string().trim().required().messages({ "string.empty": "نام و نام خانوادگی الزامیه رفیق!" }),
-  email: joi.string().email().trim().required().messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .required()
+    .messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
   phoneNumber: joi.string().trim().required().messages({ "string.empty": "تلفن همراه الزامی است!" }),
   password: joi.string().trim().required().min(8).max(255).messages({
     "string.empty": "پسوورد الزامیه رفیق!",
@@ -14,9 +19,19 @@ exports.adminValidation = joi.object({
 
 exports.teacherValidation = joi.object({
   fullname: joi.string().trim().required().messages({ "string.empty": "نام و نام خانوادگی الزامیه رفیق!" }),
-  email: joi.string().email().trim().required().messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .required()
+    .messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
   phoneNumber: joi.string().trim().required().messages({ "string.empty": "تلفن همراه الزامی است!" }),
-  lesson: joi.string().valid("specialist", "general", "both").trim().required().messages({ "string.empty": "زمینه کاری شما الزامی است" }),
+  lesson: joi
+    .string()
+    .valid("specialist", "general", "both")
+    .trim()
+    .required()
+    .messages({ "string.empty": "زمینه کاری شما الزامی است" }),
   password: joi.string().trim().required().min(8).max(255).messages({
     "string.empty": "پسوورد الزامیه رفیق!",
     "string.min": "پسوورد باید حدااقل 8 کاراکتر باشه رفیق!",
@@ -27,7 +42,12 @@ exports.teacherValidation = joi.object({
 
 exports.normalUserValidation = joi.object({
   fullname: joi.string().trim().required().messages({ "string.empty": "نام و نام خانوادگی الزامیه رفیق!" }),
-  email: joi.string().email().trim().required().messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .required()
+    .messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
   phoneNumber: joi.string().trim().required().messages({ "string.empty": "تلفن همراه الزامی است!" }),
   password: joi.string().trim().required().min(8).max(255).messages({
     "string.empty": "پسوورد الزامیه رفیق!",
@@ -38,7 +58,12 @@ exports.normalUserValidation = joi.object({
 });
 
 exports.loginValidation = joi.object({
-  email: joi.string().email().trim().required().messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
+  email: joi
+    .string()
+    .email()
+    .trim()
+    .required()
+    .messages({ "string.empty": "ایمیل الزامیه رفیق!", "string.email": "یه ایمیل صحیح وارد کن رفیق!" }),
   password: joi.string().trim().required().min(8).max(255).messages({
     "string.empty": "پسوورد الزامیه رفیق!",
     "string.min": "پسوورد باید حدااقل 8 کاراکتر باشه رفیق!",
@@ -46,6 +71,7 @@ exports.loginValidation = joi.object({
   }),
   loginType: joi.string().valid("admin", "teacher", "user").required().messages({ "string.empty": "نوع ورود الزامیه" }),
   rememberme: joi.string(),
+  "g-recaptcha-response": joi.allow(),
   _csrf: joi.allow(),
 });
 
@@ -69,6 +95,9 @@ exports.changePasswordValidation = joi.object({
     .string()
     .min(8)
     .required()
-    .messages({ "string.empty": "فیلد رمز عبور جدید الزامی است!", "string.min": "رمز عبور نباید کمتر از 8 کارکتر باشد" }),
+    .messages({
+      "string.empty": "فیلد رمز عبور جدید الزامی است!",
+      "string.min": "رمز عبور نباید کمتر از 8 کارکتر باشد",
+    }),
   confirmNewPassword: joi.ref("newPassword"),
 });

@@ -9,12 +9,14 @@ exports.indexPage = async (req, res) => {
   const galleryImages = await Gallery.find({});
   const blogs = await Blog.find({ status: "approved" }).limit(10).populate("author");
   const teachers = await Teacher.find({ status: "approved" });
+  const admins = await Admin.find({ status: "approved" });
+  const departman = [...admins, ...teachers];
   const events = await Event.find({});
   res.render("index", {
     title: "هنرستان کاردانش خوارزمی | ناحیه فیروزآباد",
     galleryImages,
     blogs,
-    teachers,
+    departman,
     events,
   });
 };

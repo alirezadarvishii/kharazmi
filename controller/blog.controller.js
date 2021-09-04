@@ -48,7 +48,7 @@ exports.getBlog = async (req, res) => {
     },
   ]);
   await Blog.populate(blog, { path: "author" });
-  const comments = await Comment.find({ blog: blogId }).populate("user replies.user").sort("-createdAt");
+  // const comments = await Comment.find({ blog: blogId }).populate("user replies.user").sort("-createdAt");
   const otherBlogs = await Blog.find({}).limit(10);
   const isBeforeVisited = blog.visit.findIndex((ip) => ip === ip);
   if (isBeforeVisited < 0) {
@@ -58,7 +58,7 @@ exports.getBlog = async (req, res) => {
   res.render("blog/single-blog", {
     title: blog.title,
     blog,
-    comments,
+    comments: [],
     otherBlogs,
   });
 };

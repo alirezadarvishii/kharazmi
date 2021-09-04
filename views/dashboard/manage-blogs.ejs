@@ -57,6 +57,7 @@
                           <% } %> \
                           <form action="/blog/delete" method="POST" class="d-inline-block delete-blog">
                             <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <button class="shadow-none text-decoration-none btn p-0 text-danger delete-blog">
                               حذف
                             </button>

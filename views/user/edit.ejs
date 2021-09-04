@@ -18,6 +18,7 @@
             <h6 class="font-bold text-dark border-bottom pb-3">ویرایش اطلاعات</h6>
             <div class="my-5">
               <form action="/me/edit/<%= user.role %>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="row">
                   <div class="col-12 col-md-6 my-3 px-3">
                     <label class="mb-2 text-secondary font-regular">نام و نام خانوادگی</label>

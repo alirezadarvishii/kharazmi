@@ -307,7 +307,7 @@
       </div>
     </section>
     <!--/ School blog -->
-    <% } %> <% if(teachers.length) { %>
+    <% } %> <% if(departman.length) { %>
     <!-- Masters -->
     <section class="masters-area mt-10 pb-5" id="departman">
       <div class="container-lg">
@@ -317,15 +317,15 @@
         </div>
         <div class="masters-slider mt-3 swiper-container px-3 py-5">
           <div class="swiper-wrapper py-1">
-            <% teachers.forEach(teacher => { %>
+            <% departman.forEach(departman => { %>
             <div class="swiper-slide">
-              <a href="/profile/teacher/<%= teacher._id %>">
+              <a href="/profile/teacher/<%= departman._id %>">
                 <div class="card h-100 border-0 position-relative">
                   <div class="master-img position-relative overflow-hidden">
-                    <img src="http://localhost:3000/users/<%= teacher.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
+                    <img src="http://localhost:3000/users/<%= departman.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />
                   </div>
                   <div class="card-body position-absolute bg-white rounded-3 shadow-sm">
-                    <h6 class="card-title text-center font-bold text-primary"><%= teacher.fullname %></h6>
+                    <h6 class="card-title text-center font-bold text-primary"><%= departman.fullname %></h6>
                     <p class="text-secondary text-center font-light mb-0">مدرس دروس تخصصی</p>
                   </div>
                 </div>

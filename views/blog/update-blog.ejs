@@ -13,6 +13,7 @@
 
     <section class="container mt-5">
       <form action="/blog/update" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="row">
             <input type="hidden" name="blogId" value="<%= blog._id %>">
           <div class="col-12 col-md-6 col-lg-4 my-3">

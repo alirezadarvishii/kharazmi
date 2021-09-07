@@ -4,6 +4,8 @@ const Blog = require("../model/blog");
 const Gallery = require("../model/gallery");
 const Event = require("../model/event");
 const genPagination = require("../utils/pagination");
+const ErrorResponse = require("../utils/ErrorResponse");
+const contactValidation = require("../validation/contact.validation");
 
 exports.indexPage = async (req, res) => {
   const galleryImages = await Gallery.find({});
@@ -69,4 +71,13 @@ exports.about = (req, res) => {
     title: "درباره ما",
     headerTitle: "دربـاره مـا",
   });
+};
+
+exports.handleContactUs = async (req, res) => {
+  const { fullname, email, phone, subject, content } = req.body;
+  const validate = contactValidation.comment.validate(req.body);
+  // Validation process.
+  if (validate.error) {
+    throw new ErrorResponse(401, validate.error.message, "back");
+  }
 };

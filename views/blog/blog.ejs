@@ -16,120 +16,131 @@
         <h6 class="text-secondary font-bold mb-3">
           مقالات مدرسه <span class="font-regular">( <%= blogs.length %> مقاله )</span>
         </h6>
-        <nav aria-label="breadcrumb">
-          <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">خانه</a></li>
-            <li class="breadcrumb-item active" aria-current="page">مقالات</li>
-          </ul>
-        </nav>
       </div>
     </section>
 
-    <section class="blogs-nav container-md">
-      <form action="#" class="shadow bg-white rounded-3 p-4 mx-1">
-        <div class="d-flex align-items-center justify-content-between flex-wrap">
-          <div class="d-flex align-items-center input-group mb-md-0 mb-3">
-            <input type="text" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" />
-            <button type="submit" class="btn btn-primary py-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M1 10.5C1 5.25332 5.25332 1 10.5 1C15.7467 1 20 5.25332 20 10.5C20 12.7631 19.2086 14.8414 17.8875 16.4733L21.5607 20.1464C21.9512 20.537 21.9512 21.1701 21.5607 21.5607C21.1701 21.9512 20.537 21.9512 20.1464 21.5607L16.4733 17.8875C14.8414 19.2086 12.7631 20 10.5 20C5.25332 20 1 15.7467 1 10.5ZM10.5 3C6.35788 3 3 6.35788 3 10.5C3 14.6421 6.35788 18 10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35788 14.6421 3 10.5 3ZM6.96447 6.46442C7.86823 5.56072 9.11959 5 10.5 5C11.8804 5 13.1318 5.56072 14.0355 6.46444C14.426 6.85497 14.426 7.48813 14.0355 7.87866C13.645 8.26918 13.0118 8.26918 12.6213 7.87866C12.0773 7.33468 11.3287 7 10.5 7C9.67131 7 8.92267 7.33468 8.37863 7.87868C7.98809 8.26919 7.35493 8.26917 6.96442 7.87863C6.57391 7.48809 6.57393 6.85493 6.96447 6.46442Z"
-                  fill="#fff"
-                />
-              </svg>
-            </button>
+    <div class="container-fluid">
+      <form action="" method="GET" id="filter-form">
+        <section class="blogs-nav container-md shadow bg-white rounded-3 p-3">
+          <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div class="d-flex align-items-center input-group mb-md-0 mb-3">
+              <input type="hidden" name="slide" />
+              <input type="text" name="q" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" />
+              <button type="submit" class="btn btn-primary py-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M1 10.5C1 5.25332 5.25332 1 10.5 1C15.7467 1 20 5.25332 20 10.5C20 12.7631 19.2086 14.8414 17.8875 16.4733L21.5607 20.1464C21.9512 20.537 21.9512 21.1701 21.5607 21.5607C21.1701 21.9512 20.537 21.9512 20.1464 21.5607L16.4733 17.8875C14.8414 19.2086 12.7631 20 10.5 20C5.25332 20 1 15.7467 1 10.5ZM10.5 3C6.35788 3 3 6.35788 3 10.5C3 14.6421 6.35788 18 10.5 18C14.6421 18 18 14.6421 18 10.5C18 6.35788 14.6421 3 10.5 3ZM6.96447 6.46442C7.86823 5.56072 9.11959 5 10.5 5C11.8804 5 13.1318 5.56072 14.0355 6.46444C14.426 6.85497 14.426 7.48813 14.0355 7.87866C13.645 8.26918 13.0118 8.26918 12.6213 7.87866C12.0773 7.33468 11.3287 7 10.5 7C9.67131 7 8.92267 7.33468 8.37863 7.87868C7.98809 8.26919 7.35493 8.26917 6.96442 7.87863C6.57391 7.48809 6.57393 6.85493 6.96447 6.46442Z"
+                    fill="#fff"
+                  />
+                </svg>
+              </button>
+            </div>
+            <select name="sort" class="form-select text-secondary font-light py-2">
+              <option value="">مرتب سازی بر اساس</option>
+              <option value="shit">شت</option>
+            </select>
           </div>
-          <select class="form-select text-secondary font-light py-2">
-            <option value="">مرتب سازی بر اساس</option>
-          </select>
-        </div>
-      </form>
-    </section>
+        </section>
 
-    <!-- School blog -->
-    <section class="blogs-area py-5 mb-5">
-      <div class="container-md">
-        <div class="row mt-5 blogs">
-          <% if(blogs.length) { %> <% blogs.forEach(blog => { %>
-          <div class="col-12 col-sm-6 col-lg-4 px-3 my-3">
-            <div class="card h-100 shadow-sm">
-              <div class="blog-img">
-                <img
-                  src="http://localhost:3000/blogs/<%= blog.blogImg %>"
-                  class="card-img-top p-2 rounded-8 fit-cover"
-                  alt=""
-                />
-              </div>
-              <div class="card-body pt-2 d-flex flex-column justify-content-between">
-                <div>
-                  <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none">
-                    <h5 class="card-title font-black text-primary"><%= blog.title %></h5>
-                  </a>
-                  <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
-                    <span class="text-secondary font-light d-block pt-1"
-                      ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24 0H0V24H24V0Z" />
-                        <path
-                          d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <%= moment(blog.createdAt) %>
-                    </span>
-                    <span class="text-secondary font-light">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                        <path
-                          d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
-                          stroke="#6c757d"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                      <%= blog.author.fullname %>
-                    </span>
+        <!-- School blog -->
+        <section class="blogs-area py-5 mb-5">
+          <div class="container-md">
+            <div class="row mt-5 g-3 blogs">
+              <% if(blogs.length) { %> <% blogs.forEach(blog => { %>
+              <div class="col-12 col-sm-6 col-lg-4 my-3">
+                <div class="card h-100 shadow-sm">
+                  <div class="blog-img">
+                    <img
+                      src="http://localhost:3000/blogs/<%= blog.blogImg %>"
+                      class="card-img-top p-2 rounded-8 fit-cover"
+                      alt=""
+                    />
+                  </div>
+                  <div class="card-body pt-2 d-flex flex-column justify-content-between">
+                    <div>
+                      <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none">
+                        <h5 class="card-title font-black text-primary"><%= blog.title %></h5>
+                      </a>
+                      <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mb-2">
+                        <span class="text-secondary font-light d-block pt-1"
+                          ><svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path d="M24 0H0V24H24V0Z" />
+                            <path
+                              d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
+                              stroke="#6c757d"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
+                              stroke="#6c757d"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <%= moment(blog.createdAt) %>
+                        </span>
+                        <span class="text-secondary font-light">
+                          <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M12.16 10.87C12.06 10.86 11.94 10.86 11.83 10.87C9.45 10.79 7.56 8.84 7.56 6.44C7.56 3.99 9.54 2 12 2C14.45 2 16.44 3.99 16.44 6.44C16.43 8.84 14.54 10.79 12.16 10.87Z"
+                              stroke="#6c757d"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M7.16 14.56C4.74 16.18 4.74 18.82 7.16 20.43C9.91 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.92 12.73 7.16 14.56Z"
+                              stroke="#6c757d"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                          <%= blog.author.fullname %>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
+                    <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">
+                      ادامه خواندن...
+                    </a>
                   </div>
                 </div>
-                <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
-                <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">
-                  ادامه خواندن...
-                </a>
               </div>
+              <% }) %> <% } else { %>
+              <div class="d-flex align-items-center justify-content-center flex-column">
+                <img src="http://localhost:3000/images/blog-notfound.png" class="fit-cover w-50 mt-5" alt="" />
+                <h5 class="font-black text-secondary my-5 text-center">
+                  تـاکـنـون مـقـالـه ای در وبـسـایـت مـنـتـشـر نـشـده!
+                </h5>
+              </div>
+              <% } %> <% if(pagination.length > 1) { %> <%- include("../includes/pagination.ejs") %> <% } %>
             </div>
           </div>
-          <% }) %> <% } else { %>
-          <div class="d-flex align-items-center justify-content-center flex-column">
-            <img src="http://localhost:3000/images/blog-notfound.png" class="fit-cover w-50 mt-5" alt="" />
-            <h5 class="font-black text-secondary my-5 text-center">
-              تـاکـنـون مـقـالـه ای در وبـسـایـت مـنـتـشـر نـشـده!
-            </h5>
-          </div>
-          <% } %> <% if(pagination.length > 1) { %> <%- include("../includes/pagination.ejs") %> <% } %>
-        </div>
-      </div>
-    </section>
-    <!--/ School blog -->
+        </section>
+        <!--/ School blog -->
+      </form>
+    </div>
 
     <%- include("../includes/footer.ejs") %>
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/form-control.js"></script>
 </html>

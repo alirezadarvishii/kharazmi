@@ -13,7 +13,7 @@ const genPagination = require("../utils/pagination");
 
 exports.blog = async (req, res) => {
   const { slide = 1 } = req.query;
-  const BLOGS_PER_PAGE = 9;
+  const BLOGS_PER_PAGE = 2;
   const blogs = await Blog.find({ status: "approved" })
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))

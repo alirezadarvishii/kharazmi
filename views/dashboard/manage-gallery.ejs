@@ -23,7 +23,7 @@
               <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewImgModal">
                 افزودن تصویر جدید
               </button>
-              <!-- Add New Modal -->
+              <!--! Add New Modal -->
               <div
                 class="modal fade"
                 id="addNewImgModal"
@@ -37,10 +37,11 @@
                       <h5 class="modal-title font-black">افزودن عکس جدید</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/gallery/new" method="POST" enctype="multipart/form-data">
+                    <form action="/gallery/new" method="POST" enctype="multipart/form-data" id="addNewImageForm">
                       <div class="modal-body my-4">
                         <div>
                           <div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <label class="text-secondary mb-2">تصویر</label>
                             <input type="file" name="galleryImg" class="form-control" />
                           </div>
@@ -59,7 +60,7 @@
                 </div>
               </div>
               <!--/ Add New Modal -->
-              <!-- Edit Modal -->
+              <!--! Edit Modal -->
               <div
                 class="modal fade"
                 id="editImgModal"
@@ -78,11 +79,12 @@
                       <h5 class="modal-title font-black">ویرایش عکس یا توضیحات</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/gallery/edit" method="POST" enctype="multipart/form-data">
+                    <form action="/gallery/edit" method="POST" enctype="multipart/form-data" id="editImageForm">
                       <div class="modal-body my-4">
                         <div>
                           <input type="hidden" name="imgId" />
                           <div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <label class="text-secondary mb-2">تصویر</label>
                             <input type="file" name="galleryImg" class="form-control" />
                           </div>
@@ -153,6 +155,8 @@
     <!--/ Main Container -->
   </body>
   <script src="/swal/swal.js"></script>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/fastest-validator/fastest-validator.js"></script>
   <script src="/js/manage-gallery.js"></script>
   <script>
     if ("<%= message.success %>") {

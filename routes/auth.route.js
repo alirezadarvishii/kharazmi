@@ -12,7 +12,7 @@ const recaptchaVerification = require("../middleware/captcha-verification");
 router.get("/register-type", authController.regiserType);
 
 //? Get register page after choose type of registering.
-router.get("/register", recaptchaVerification, authController.register);
+router.get("/register", authController.register);
 
 //? Get login page for login user.
 router.get("/login", authController.login);
@@ -22,6 +22,8 @@ router.get("/logout", authController.logout);
 
 //? Forget password page
 router.get("/forget-password", authController.forgetPassword);
+
+router.get("/reset-password/:token", authController.resetPassword);
 
 //! ---------------------- POST ROUTES ----------------------
 //? Handle register admins.
@@ -38,5 +40,8 @@ router.post("/login", asyncHandler(authController.handleLogin), authController.h
 
 //? Handle forget password and send token email to user for reset his password
 router.post("/forget-password", asyncHandler(authController.handleForgetPassword));
+
+//? Handle user account reset password
+router.post("/reset-password", asyncHandler(authController.handleResetPassword));
 
 module.exports = router;

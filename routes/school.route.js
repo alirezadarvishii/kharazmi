@@ -23,4 +23,6 @@ router.get("/gallery/img/:imgId", schoolController.getGalleryImg);
 //? Get about-us page.
 router.get("/about", schoolController.about);
 
+router.post("/contact", asyncHandler(schoolController.handleContactUs));
+
 module.exports = router;

@@ -2,7 +2,8 @@ const path = require("path");
 
 const { hash, compare } = require("bcrypt");
 const sharp = require("sharp");
-
+const jwt = require("jsonwebtoken");
+const ejs = require("ejs");
 
 const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
@@ -11,6 +12,7 @@ const ErrorResponse = require("../utils/ErrorResponse");
 const authValidation = require("../validation/auth.validation");
 const checkEmailExist = require("../utils/checkEmailExist");
 const getUserByRole = require("../utils/getUserByRole");
+const sendEmail = require("../utils/sendEmail");
 
 exports.regiserType = (req, res) => {
   res.render("register-type", {
@@ -175,5 +177,60 @@ exports.forgetPassword = (req, res) => {
 };
 
 exports.handleForgetPassword = async (req, res) => {
-  const { email } = req.body;
+  const { email, userType } = req.body;
+  const user = await getUserByRole(userType, { email });
+  if (!user) throw new ErrorResponse(404, "کاربری با این ایمیل یافت نشد!", "back");
+  // Create user token
+  const token = jwt.sign(
+    {
+      email: user.email,
+      userRole: user.role,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "30m" }
+  );
+  // Render email layout
+  const resetPasswordHtml = await ejs.renderFile(
+    path.join(__dirname, "..", "views", "includes", "email-reset-password.ejs"),
+    { token }
+  );
+  // Sending email to user.
+  try {
+    const emailInfo = await sendEmail(email, "بازنشانی رمز عبور", resetPasswordHtml);
+    console.log(emailInfo);
+    req.flash("success", "ایمیل حاوی لینک بازنشانی رمز عبور برایتان ارسال شد!");
+    res.redirect("/");
+  } catch (error) {
+    console.log("Send email error: ", error);
+    req.flash("error", "مشکلی در ارسال ایمیل به وجود آمده است، دوباره تلاش کنید!");
+    res.redirect("back");
+  }
+};
+
+exports.resetPassword = (req, res) => {
+  const { token } = req.params;
+  res.render("reset-password", {
+    title: "تغییر رمز عبور",
+    token,
+  });
+};
+
+exports.handleResetPassword = async (req, res) => {
+  let token;
+  try {
+    token = jwt.verify(req.body.token, process.env.JWT_SECRET);
+  } catch (err) {
+    console.log(err);
+    req.flash("error", "توکن نامعتبر، لطفا دوباره از ابتدا تلاش کنید!");
+    res.redirect("/forget-password");
+  }
+  const { password } = req.body;
+  const { email, userRole } = token;
+  const user = await getUserByRole(userRole, { email });
+  const hashedPassword = await hash(password, 12);
+  console.log(hashedPassword);
+  user.password = hashedPassword;
+  await user.save();
+  req.flash("success", "رمز عبور شما با موفقیت تعویض شد!");
+  res.redirect("/login");
 };

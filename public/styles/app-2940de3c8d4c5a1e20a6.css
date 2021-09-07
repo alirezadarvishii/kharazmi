@@ -383,7 +383,7 @@ header.header-small {
 .blogs-area .blogs .blogImg img {
   height: 220px;
 }
-.blogs-area .blogs > div p {
+.blogs-area .blogs .card-text {
   height: 50px;
   margin-bottom: 0;
   overflow: hidden;

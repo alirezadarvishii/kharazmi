@@ -1,19 +1,21 @@
 <!-- Pagination -->
 <nav aria-label="Page navigation" class="mt-5">
-    <ul class="pagination mt-5 justify-content-center">
-      <li class="page-item <%= currentSlide <= 1 ? "disabled" : '' %>">
-        <a class="page-link" href="?slide=<%= Number(currentSlide) - 1%>" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <% pagination.forEach(item => { %>
-      <li class="page-item <%= String(currentSlide) === String(item) ? 'active' : '' %>"><a class="page-link" href="?slide=<%= item %>"><%= item %></a></li>
-      <% }) %> 
-      <li class="page-item <%= currentSlide >= pagination[pagination.length - 1] ? 'disabled' : ''  %>">
-        <a class="page-link" href="?slide=<%= Number(currentSlide) + 1 %>" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <ul class="pagination mt-5 justify-content-center">
+    <li class="page-item <%= currentSlide <= 1 ? 'disabled' : '' %>">
+      <a class="page-link" data-page-id="<%= Number(currentSlide) - 1%>" href="?slide=<%= Number(currentSlide) - 1%>" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <% pagination.forEach(item => { %>
+    <li class="page-item <%= String(currentSlide) === String(item) ? 'active' : '' %>">
+      <a class="page-link" data-page-id=<%= item %>  href="?slide=<%= item %>"><%= item %></a>
+    </li>
+    <% }) %>
+    <li class="page-item <%= currentSlide >= pagination[pagination.length - 1] ? 'disabled' : '' %>">
+      <a class="page-link" data-page-id="<%= Number(currentSlide) + 1 %>" href="?slide=<%= Number(currentSlide) + 1 %>" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 <!--/ Pagination -->

@@ -32,7 +32,7 @@
                       <h5 class="modal-title font-black">افزودن رویداد جدید</h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/event/new" method="POST" enctype="multipart/form-data">
+                    <form action="/event/new" method="POST" enctype="multipart/form-data" id="addNewEventForm">
                       <div class="modal-body my-4">
                         <div>
                           <div>
@@ -68,7 +68,7 @@
               </div>
               <!--!/ Add Event Modal -->
               <!--! Edit Modal -->
-              <div class="modal fade" id="editEventModal" tabindex="-1" aria-hidden="true">
+              <div class="modal fade" id="editEventModal" tabindex="-1" aria-hidden="true" id="editEventForm">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="spinner-container">
@@ -83,6 +83,7 @@
                     <form action="/event/edit" method="POST" enctype="multipart/form-data">
                       <div class="modal-body my-4">
                         <div>
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <input type="hidden" name="eventId" />
                           <div>
                             <label class="text-secondary mb-2">تیتر رویداد</label>
@@ -206,42 +207,11 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
-  <script src="/js/manage-events.js"></script>
   <script src="/datepicker/jquery.js"></script>
   <script src="/datepicker/persian-date.js"></script>
   <script src="/datepicker/persian-datepicker.js"></script>
-  <script src="/js/dashboard-31d6cfe0d16ae931b73c.js"></script>
-  <script>
-    $(document).ready(function () {
-      const handleClosedDays = () => {
-        const closedDays = document.querySelectorAll(".datepicker-plot-area .datepicker-day-view .table-days tr");
-        closedDays.forEach((el) => {
-          if (!el.children[6].children[0].classList.contains("other-month")) {
-            el.children[6].children[0].style.color = "#ff4343";
-          }
-        });
-      };
-      $("input.date").persianDatepicker({
-        navigator: {
-          onNext: () => handleClosedDays(),
-          onPrev: () => handleClosedDays(),
-        },
-        format: "DD MMMM YYYY",
-      });
-
-      handleClosedDays();
-      $(".only-time-picker").persianDatepicker({
-        onlyTimePicker: true,
-        format: "HH:mm",
-        calendar: {
-          persian: {
-            locale: "en",
-          },
-        },
-        initialValue: false,
-      });
-    });
-  </script>
+  <script src="/fastest-validator/fastest-validator.js"></script>
+  <script src="/js/manage-events.js"></script>
   <script>
     if ("<%= message.success %>") {
       Swal.fire({

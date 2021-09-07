@@ -366,28 +366,29 @@
     <!-- Contact US -->
     <section class="contact-us mt-4 mb-5 py-5" id="contact-us">
       <div class="container-lg d-flex align-content-center justify-content-center">
-        <form>
+        <form action="/contact" method="POST">
           <h1 class="font-black mb-5 mt-5 text-center">با ما تماس بگیرید</h1>
           <div class="row">
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="نام و نام خانوادگی" />
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="text" name="fullname" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="نام و نام خانوادگی" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="ایمیل" />
+              <input type="email" name="email" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="ایمیل" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="شماره تماس" />
+              <input type="text" name="phone" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="شماره تماس" />
             </div>
             <div class="mb-5 col-6">
-              <input type="text" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="موضوع" />
+              <input type="text" name="subject" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="موضوع" />
             </div>
             <div class="mb-3 col-12">
-              <textarea class="form-control pt-3 text-secondary font-light" rows="8" placeholder="لطفا پیام خود را نوشته کنید"></textarea>
+              <textarea name="content" class="form-control pt-3 text-secondary font-light" rows="8" placeholder="لطفا پیام خود را نوشته کنید"></textarea>
             </div>
           </div>
           <div class="text-center mt-3">
-            <button class="btn me-2 btn-outline-primary" type="submit">ارســال</button>
-            <button class="btn ms-2 btn-outline-danger" type="reset">ریــســت</button>
+            <button class="btn me-2 btn-outline-primary" type="submit">ارسال</button>
+            <button class="btn ms-2 btn-outline-danger" type="reset">ریست</button>
           </div>
         </form>
       </div>

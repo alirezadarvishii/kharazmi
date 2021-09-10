@@ -139,6 +139,7 @@
                         >
                         <div class="mb-1 d-flex items-center">
                           <form action="/event/delete" method="POST" class="delete-event d-inline-block">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <input type="hidden" name="eventId" value="<%= event._id %>" />
                             <button type="submit" class="btn btn-danger p-1 me-2">
                               <svg

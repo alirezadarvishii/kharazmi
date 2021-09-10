@@ -10,7 +10,8 @@
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
-    <%- include("../includes/nav.ejs") %> <%- include("../includes/small-header.ejs") %>
+    <%- include("../includes/nav.ejs") %>
+    <%- include("../includes/small-header.ejs") %>
 
     <section class="container mt-5">
       <form action="/blog/new" method="POST" enctype="multipart/form-data">
@@ -48,6 +49,7 @@
 
     <%- include("../includes/footer.ejs") %>
   </body>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/fastest-validator/fastest-validator.js"></script>
   <script src="/ckeditor/ckeditor.js"></script>
   <script src="/js/add-blog.js"></script>

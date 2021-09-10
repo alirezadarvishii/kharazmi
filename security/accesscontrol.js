@@ -2,30 +2,35 @@ const { AccessControl } = require("accesscontrol");
 
 const ac = new AccessControl();
 
-// Teachers
-ac.grant("teacher")
+//! GRANT: User
+ac.grant("user")
+  .deleteOwn("comment")
+  //! GRANT: Teachers
+  .grant("teacher")
   // Blog
-  .createOwn("blog")
+  .create("blog")
   .updateOwn("blog")
   .deleteOwn("blog")
-  //   User
+  // User
   .updateOwn("user")
-  // admins
+  //! GRANT: admins
   .grant("admin")
-  //   Blog
+  // Blog
+  .create("blog")
   .deleteAny("blog")
   .updateAny("blog")
-  //   Users
+  // Users
   .updateAny("user")
-  //   Gallery
+  // Gallery
   .create("galleryImage")
   .delete("galleryImage")
   .update("galleryImage")
   .read("galleryImage")
-  //   Events
+  // Events
   .create("event")
   .read("event")
   .update("event")
-  .delete("event");
+  .delete("event")
+  .deleteAny("comment");
 
 module.exports = ac;

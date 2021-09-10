@@ -389,6 +389,9 @@ header.header-small {
   overflow: hidden;
   line-height: 28px;
 }
+.blogs-area .blogs .card-text * {
+  font-size: .9rem;
+}
 /*!---------------------- Single Blogs page styles ---------------------- */
 .blog {
   margin-top: 6em;

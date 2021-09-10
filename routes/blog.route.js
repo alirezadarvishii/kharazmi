@@ -4,7 +4,7 @@ const router = Router();
 
 const asyncHandler = require("../middleware/asyncHandler");
 const blogController = require("../controller/blog.controller");
-const isAuth = require("../middleware/isAuth");
+const { isAuth } = require("../middleware/authMiddleware");
 
 //! ---------------------- GET ROUTES ----------------------
 

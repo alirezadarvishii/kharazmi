@@ -35,35 +35,21 @@ exports.handleEdit = async (req, res) => {
   const { role } = req.params;
   const validate = authValidation.editUserValidation.validate(req.body);
   if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "/me/edit");
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   const user = await getUserByRole(role, { _id: req.user._id });
-  if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "/me/edit");
+  if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "back");
   if (req.files.profileImg) {
     await sharp(req.files.profileImg[0].buffer)
-      .jpeg({
-        quality: 60,
-      })
-      .toFile(path.join(__dirname, "..", "public", "users", user.profileImg), async (err) => {
-        if (err) {
-          req.flash("error", "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!");
-          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/me/edit");
-        }
-        user.fullname = fullname;
-        user.bio = bio;
-        await user.save();
-        req.session.user = user;
-        req.flash("success", "تغییرات شما با موفقیت اعمال شد!");
-        res.redirect("/me");
-      });
-  } else {
-    user.fullname = fullname;
-    user.bio = bio;
-    await user.save();
-    req.session.user = user;
-    req.flash("success", "تغییرات شما با موفقیت اعمال شد!");
-    res.redirect("/me");
+      .jpeg({ quality: 60 })
+      .toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
   }
+  user.fullname = fullname;
+  user.bio = bio;
+  await user.save();
+  req.session.user = user;
+  req.flash("success", "تغییرات شما با موفقیت اعمال شد!");
+  res.redirect("/me");
 };
 
 exports.handleChangePassword = async (req, res) => {
@@ -71,7 +57,7 @@ exports.handleChangePassword = async (req, res) => {
   const { role, _id } = req.user;
   const validate = changePasswordValidation.validate(req.body);
   if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "/me/change-password");
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   const user = await getUserByRole(role, { _id });
   if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "/me");
@@ -83,7 +69,7 @@ exports.handleChangePassword = async (req, res) => {
     req.flash("success", "عملیات با موفقیت انجام شد!");
     return res.redirect("/me");
   }
-  throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "/me/change-password");
+  throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
 };
 
 exports.manageOwnBlogs = async (req, res) => {
@@ -91,6 +77,6 @@ exports.manageOwnBlogs = async (req, res) => {
   res.render("user/manage-blogs", {
     title: "مدیریت مقاله های من",
     headerTitle: "مدیریت مقاله های من",
-    blogs
+    blogs,
   });
 };

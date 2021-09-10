@@ -4,7 +4,7 @@ const router = Router();
 
 const commentController = require("../controller/comment.controller");
 const asyncHandler = require("../middleware/asyncHandler");
-const isAuth = require("../middleware/isAuth");
+const { isAuth } = require("../middleware/authMiddleware");
 const recaptchaVerification = require("../middleware/captcha-verification");
 
 router.get("/:blogId", asyncHandler(commentController.getComments))

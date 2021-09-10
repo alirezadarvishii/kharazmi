@@ -32,10 +32,6 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    shortId: {
-      type: Number,
-      required: true,
-    },
     tags: [{ type: String, required: true }],
     comments: [{ type: mongoose.Types.ObjectId }],
     likes: [{ type: mongoose.Types.ObjectId }],

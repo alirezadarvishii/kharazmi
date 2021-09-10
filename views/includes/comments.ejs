@@ -28,6 +28,7 @@
           </p>
         </div>
       </div>
+      <% if(user) { %>
       <div class="align-self-start mt-3 d-flex align-items-center">
         <button
           class="btn btn-success py-1 px-1 reply-comment"
@@ -70,7 +71,7 @@
             </defs>
           </svg>
         </button>
-        <% if(user && user._id.toString() === comment.user._id.toString()) { %>
+        <% if(user._id.toString() === comment.user._id.toString()) { %>
         <button
           class="btn btn-info py-1 px-1 edit-comment-modal-opener ms-2"
           data-comment-id="<%= comment._id %>"
@@ -94,6 +95,7 @@
             />
           </svg>
         </button>
+        <% } if(user._id.toString() === comment.user._id.toString() || user.role === "admin") { %>
         <button
           class="btn btn-danger py-1 px-1 d-flex align-items-center ms-2 delete-comment"
           data-comment-id="<%= comment._id %>"
@@ -117,6 +119,7 @@
         </button>
         <% } %>
       </div>
+      <% } %>
     </div>
     <div class="comment-body text-justify text-dark lh-lg font-regular"><%- comment.comment %></div>
     <% if(comment.replies.length) { %> <% comment.replies.forEach(replyCm => { %>
@@ -152,7 +155,7 @@
               </div>
             </div>
             <div class="align-self-start mt-3 d-flex items-center">
-              <% if(user && replyCm.user._id.toString() === user._id.toString()) { %>
+              <% if(user) { %> <% if(replyCm.user._id.toString() === user._id.toString()) { %>
               <button
                 class="btn btn-info ms-2 py-1 px-1 edit-comment-modal-opener"
                 data-bs-toggle="modal"
@@ -177,6 +180,7 @@
                   />
                 </svg>
               </button>
+              <% } if(replyCm.user._id.toString() === user._id.toString() || user.role === "admin") { %>
               <button
                 class="btn btn-danger py-1 px-1 d-flex items-center ms-2 delete-reply-comment"
                 data-comment-id="<%= replyCm._id %>"
@@ -198,7 +202,7 @@
                   <path d="M10 12V16M14 12V16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
               </button>
-              <% } %>
+              <% } %> <% } %>
             </div>
           </div>
           <div class="comment-body text-justify text-dark lh-lg font-regular"><%- replyCm.comment %></div>

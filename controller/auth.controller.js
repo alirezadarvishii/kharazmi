@@ -36,29 +36,24 @@ exports.login = (req, res) => {
 
 exports.handleRegisterAdmin = async (req, res) => {
   const { password } = req.body;
-  // Validation data.
+  // Validation Process.
   const validate = authValidation.adminValidation.validate(req.body);
-  // Handle validation error.
   if (validate.error) {
-    console.log(validate.error.message);
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=admin");
+    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }
   if (!req.files.profileImg) {
-    return res.redirect("/register?type=admin");
+    return res.redirect("back");
   }
   const checkEmail = await checkEmailExist(req.body.email);
-  if (checkEmail.includes(true)) return res.redirect("/register?type=admin");
+  if (checkEmail.includes(true)) return res.redirect("back");
+  // Convert user password to hash.
   const hashPassword = await hash(password, 12);
+  // Generate a name for image.
   const filename = `${Date.now()}.jpeg`;
-  sharp(req.files.profileImg[0].buffer)
-    .jpeg({
-      quality: 60,
-    })
-    .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
-      if (err) {
-        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=admin");
-      }
-    });
+  // Download image with sharp
+  await sharp(req.files.profileImg[0].buffer)
+    .jpeg({ quality: 60 })
+    .toFile(path.join(__dirname, "..", "public", "users", filename));
   const adminUsersLength = await Admin.countDocuments();
   if (adminUsersLength < 1) {
     await Admin.create({ ...req.body, status: "approved", profileImg: filename, password: hashPassword });
@@ -76,26 +71,22 @@ exports.handleRegisterTeacher = async (req, res) => {
   // Handle validation error.
   if (validate.error) {
     console.log(validate.error.message);
-    return res.redirect("/register?type=teacher");
+    return res.redirect("back");
   }
   if (!req.files.profileImg) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=teacher");
+    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }
   // Check exist email.
   const checkEmail = await checkEmailExist(req.body.email);
-  if (checkEmail.includes(true)) return res.redirect("/register?type=teacher");
+  if (checkEmail.includes(true)) return res.redirect("back");
   // Convert user password to hash string.
   const hashPassword = await hash(password, 12);
+  // Generate a name for image.
   const filename = `${Date.now()}.jpeg`;
+  // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({
-      quality: 60,
-    })
-    .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
-      if (err) {
-        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=teacher");
-      }
-    });
+    .jpeg({ quality: 60 })
+    .toFile(path.join(__dirname, "..", "public", "users", filename));
   // Save new teacher to the database
   await Teacher.create({ ...req.body, profileImg: filename, password: hashPassword });
   req.flash(
@@ -112,24 +103,20 @@ exports.handleRegisterUser = async (req, res) => {
   // Handle validation error.
   if (validate.error) {
     console.log(validate.error.message);
-    return res.redirect("/register?type=user");
+    return res.redirect("back");
   }
   if (!req.files.profileImg) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "/register?type=user");
+    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }
   const checkEmail = await checkEmailExist(req.body.email);
-  if (checkEmail.includes(true)) return res.redirect("/register?type=users");
+  if (checkEmail.includes(true)) return res.redirect("back");
   const hashPassword = await hash(password, 12);
+  // Generate a name for image.
   const filename = `${Date.now()}.jpeg`;
+  // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({
-      quality: 60,
-    })
-    .toFile(path.join(__dirname, "..", "public", "users", filename), (err) => {
-      if (err) {
-        throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=user");
-      }
-    });
+    .jpeg({ quality: 60 })
+    .toFile(path.join(__dirname, "..", "public", "users", filename));
   await User.create({ ...req.body, profileImg: filename, password: hashPassword });
   req.flash("success", "ثبت نام شما با موفقیت انجام شد و میتوانید وارد اکانت خود شوید!");
   res.redirect("/login");

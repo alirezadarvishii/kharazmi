@@ -32,6 +32,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       default: "admin",
     },
+    superadmin: { type: Boolean },
     bio: String,
   },
   { timestamps: true }

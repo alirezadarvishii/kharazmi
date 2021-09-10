@@ -8,8 +8,9 @@ const ErrorResponse = require("../utils/errorResponse");
 const commentValidation = require("../validation/comment.validation");
 const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
+const ac = require("../security/accesscontrol");
 
-// API
+// API: Public api for any type of users
 exports.getComments = async (req, res) => {
   const { blogId } = req.params;
   const { slide = 1 } = req.query;
@@ -61,18 +62,21 @@ exports.addComment = async (req, res) => {
 };
 
 exports.deleteComment = async (req, res) => {
+  const permission = ac.can(req.user.role).deleteAny("comment");
   const { commentId, replyComment, replyId } = req.body;
   if (!replyComment && !replyId) {
     const user = req.user._id;
     const comment = await Comment.findOne({ _id: commentId });
     if (!comment) return res.status(404).json({ message: "Comment not founded!" });
-    if (comment.user.toString() !== user.toString()) return res.status(402).json({ message: "Forbidden!" });
+    if (!permission.granted) {
+      if (comment.user.toString() !== user.toString()) return res.status(402).json({ message: "Forbidden!" });
+    }
     await Comment.deleteOne({ _id: commentId });
     res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   } else if (replyComment === true && replyId) {
     const parentCm = await Comment.findOne({ "replies._id": replyId });
     const replyIndex = parentCm.replies.findIndex((cm) => cm._id.toString() === replyId.toString());
-    if (parentCm.replies[replyIndex].user.toString() === req.user._id.toString()) {
+    if (parentCm.replies[replyIndex].user.toString() === req.user._id.toString() || permission.granted) {
       parentCm.replies.splice(replyIndex, 1);
       await parentCm.save();
     } else {
@@ -83,7 +87,6 @@ exports.deleteComment = async (req, res) => {
 };
 
 // API
-// TODO:  Complete this section
 exports.readComment = async (req, res) => {
   const { commentId } = req.params;
   const { replyId } = req.query;

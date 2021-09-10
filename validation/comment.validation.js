@@ -1,6 +1,6 @@
 const joi = require("joi");
 
-exports.contact = joi.object({
+exports.comment = joi.object({
   comment: joi.string().required().messages({ "string.empty": "متن کامنت الزامیه!" }),
   blogId: joi.allow(),
   replyId: joi.allow(),

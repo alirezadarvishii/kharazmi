@@ -34,11 +34,11 @@
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
                       <li class="col text-center">وضعیت</li>
-                      <li class="col text-end">تأیید</li>
+                      <li class="col text-end">مدیریت</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(admins) { %> <% admins.forEach((admin, index) => { %>
-                      <li class="row py-3 border-bottom">
+                      <li class="row py-3 border-bottom align-items-center">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= admin.fullname %></div>
                         <div class="col text-secondary"><%= admin.email %></div>
@@ -47,15 +47,19 @@
                             <%= admin.status === "approved" ? "تأیید شده": "در انتظار" %>
                           </span>
                         </div>
+                        <% if(admin.superadmin) { %>
                         <div class="col text-end text-secondary d-flex justify-content-end">
                           <% if(admin.status === "approved") { %>
-                          <a href="/user/unapprove-admin/<%= admin._id %>" class="text-decoration-none text-success"
-                            >تعلیق</a
-                          ><% } else { %>
-                          <a href="/user/approve-admin/<%= admin._id %>" class="text-decoration-none text-warning"
-                            >تأیید</a
-                          ><% } %>
+                          <a href="/user/unapprove-admin/<%= admin._id %>" class="btn btn-danger fs-sm py-1 px-2">
+                            تعلیق کاربر
+                          </a>
+                          <% } else { %>
+                          <a href="/user/approve-admin/<%= admin._id %>" class="btn btn-warning fs-sm py-1 px-2">
+                            تأیید کاربر
+                          </a>
+                          <% } %>
                         </div>
+                        <% } %>
                       </li>
                       <% }) %> <% } %>
                     </ul>

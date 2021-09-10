@@ -4,7 +4,7 @@ const router = Router();
 
 const meController = require("../controller/me.controller");
 const asyncHandler = require("../middleware/asyncHandler");
-const isAuth = require("../middleware/isAuth");
+const {isAuth} = require("../middleware/authMiddleware");
 
 //! ---------------------- GET ROUTES ----------------------
 

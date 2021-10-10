@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(compression());
+app.use(compression());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -84,4 +84,4 @@ database
   .then(() => {
     app.listen(PORT, () => console.log(`Server Runing On Port: ${PORT}, mode: ${NODE_ENV}! (:`));
   })
-  .catch(() => console.log("ERROR, in database connection! ):"));
+  .catch(() => console.log("Database connection failed! ):"));

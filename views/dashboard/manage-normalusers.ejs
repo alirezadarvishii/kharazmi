@@ -33,13 +33,39 @@
                       <li class="col-1 text-secondary">#</li>
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
+                      <li class="col text-center">وضعیت</li>
+                      <li class="col text-end">مدیریت</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(users) { %> <% users.forEach((user, index) => { %>
-                      <li class="row py-3 border-bottom">
+                      <li class="row py-3 border-bottom align-items-center">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= user.fullname %></div>
                         <div class="col text-secondary"><%= user.email %></div>
+                        <div class="col text-center">
+                          <% if(user.status === "approved") { %>
+                            <span class="badge bg-success">تأیید شده</span>
+                          <% } else { %>
+                            <span class="badge bg-danger">در انتظار</span>
+                          <% } %> 
+                        </div>
+                        <div class="col text-end">
+                          <% if(user.status === "approved") { %>
+                            <form action="/user/unapprove" method="POST">
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                              <input type="hidden" name="role" value="user" />
+                              <input type="hidden" name="userId" value="<%= user._id %>" />
+                              <button type="submit" class="btn btn-danger fs-sm py-1 px-2">تعلیق کاربر</button>
+                            </form>
+                          <% } else { %>
+                          <form action="/user/approve" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="role" value="user" />
+                            <input type="hidden" name="userId" value="<%= user._id %>" />
+                            <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                          </form>
+                          <% } %>
+                        </div>
                       </li>
                       <% }) %> <% } %>
                     </ul>

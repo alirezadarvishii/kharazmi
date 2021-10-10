@@ -39,20 +39,20 @@ exports.handleRegisterAdmin = async (req, res) => {
   // Validation Process.
   const validate = authValidation.adminValidation.validate(req.body);
   if (validate.error) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   if (!req.files.profileImg) {
-    return res.redirect("back");
+    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }
   const checkEmail = await checkEmailExist(req.body.email);
-  if (checkEmail.includes(true)) return res.redirect("back");
+  if (checkEmail.includes(true)) return res.status(400).redirect("back");
   // Convert user password to hash.
   const hashPassword = await hash(password, 12);
   // Generate a name for image.
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 60 })
+    .jpeg({ quality: 20 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   const adminUsersLength = await Admin.countDocuments();
   if (adminUsersLength < 1) {
@@ -70,11 +70,10 @@ exports.handleRegisterTeacher = async (req, res) => {
   const validate = authValidation.teacherValidation.validate(req.body);
   // Handle validation error.
   if (validate.error) {
-    console.log(validate.error.message);
-    return res.redirect("back");
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   if (!req.files.profileImg) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
+    throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
   }
   // Check exist email.
   const checkEmail = await checkEmailExist(req.body.email);
@@ -85,7 +84,7 @@ exports.handleRegisterTeacher = async (req, res) => {
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 60 })
+    .jpeg({ quality: 20 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   // Save new teacher to the database
   await Teacher.create({ ...req.body, profileImg: filename, password: hashPassword });
@@ -102,11 +101,10 @@ exports.handleRegisterUser = async (req, res) => {
   const validate = authValidation.normalUserValidation.validate(req.body);
   // Handle validation error.
   if (validate.error) {
-    console.log(validate.error.message);
-    return res.redirect("back");
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
   if (!req.files.profileImg) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
+    throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
   }
   const checkEmail = await checkEmailExist(req.body.email);
   if (checkEmail.includes(true)) return res.redirect("back");
@@ -115,7 +113,7 @@ exports.handleRegisterUser = async (req, res) => {
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 60 })
+    .jpeg({ quality: 20 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   await User.create({ ...req.body, profileImg: filename, password: hashPassword });
   req.flash("success", "ثبت نام شما با موفقیت انجام شد و میتوانید وارد اکانت خود شوید!");
@@ -130,11 +128,15 @@ exports.handleLogin = async (req, res, next) => {
     throw new ErrorResponse(422, validate.error.message, "/login");
   }
   const user = await getUserByRole(loginType, { email });
-  if (!user) throw new ErrorResponse(422, "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!", "/login");
+  if (!user) throw new ErrorResponse(400, "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!", "/login");
   const isPasswordMatch = await compare(password, user.password);
-  if (!isPasswordMatch) throw new ErrorResponse(422, "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!", "/login");
-  if (user.role !== "user" && user.status !== "approved") {
-    throw new ErrorResponse(402, "کاربرگرامی، متأسفانه تاکنون حساب کاربری شما از سمت مدیریت تأیید نشده است!", "/");
+  if (!isPasswordMatch) throw new ErrorResponse(400, "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!", "/login");
+  if (user.status !== "approved") {
+    throw new ErrorResponse(
+      403,
+      "کاربر گرامی، حساب کاربری شما در حالت تعلیق قرار دارد و باید از سوی مدیریت تأیید شود!",
+      "/"
+    );
   }
   delete user._doc.password;
   req.session.user = user;
@@ -209,7 +211,7 @@ exports.handleResetPassword = async (req, res) => {
   } catch (err) {
     console.log(err);
     req.flash("error", "توکن نامعتبر، لطفا دوباره از ابتدا تلاش کنید!");
-    res.redirect("/forget-password");
+    res.status(422).res.redirect("/forget-password");
   }
   const { password } = req.body;
   const { email, userRole } = token;

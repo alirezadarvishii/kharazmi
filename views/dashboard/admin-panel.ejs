@@ -26,15 +26,30 @@
                   <div class="card-body text-primary d-flex justify-content-between">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span class="p-2 bg-primary rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="مدیر"></span>
+                        <span
+                          class="p-2 bg-primary rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="مدیر"
+                        ></span>
                         <%= lengthOfAdmins %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="معلم"></span>
+                        <span
+                          class="p-2 bg-success rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="معلم"
+                        ></span>
                         <%= lengthOfTeachers %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span class="p-2 bg-warning rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="کاربر عادی"></span>
+                        <span
+                          class="p-2 bg-warning rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="کاربر عادی"
+                        ></span>
                         <%= lengthOfNormalUsers %>
                       </div>
                     </div>
@@ -48,7 +63,12 @@
                   <div class="card-body text-success d-flex justify-content-between align-items-center">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="بلاگ های تأیید شده">
+                        <span
+                          class="p-2 bg-success rounded-circle me-1"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="بلاگ های تأیید شده"
+                        >
                         </span>
                         <%= lengthOfApprovedBlogs %>
                       </div>
@@ -109,7 +129,7 @@
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
                       <li class="col text-center">نقش</li>
-                      <li class="col text-center">تأیید \ حذف</li>
+                      <li class="col text-center">حذف</li>
                     </ul>
                     <ul class="list-unstyled">
                       <% if(notApprovedUsers.length) { %> <% notApprovedUsers.forEach(user => { %>
@@ -122,18 +142,21 @@
                           </span>
                         </div>
                         <div class="col text-center">
-                          <% if(user.role === "admin") { %>
-                            <a href="/user/approve-admin/<%= user._id %>" class="text-decoration-none text-success">تأیید</a> \
-                          <% } else { %>
-                            <a href="/user/approve-teachers/<%= user._id %>" class="text-decoration-none text-success">تأیید</a> \
-                          <% } %> 
-                          <a href="#" class="text-decoration-none text-danger">حذف</a>
+                          <form action="/user/approve" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <input
+                              type="hidden"
+                              name="role"
+                              value="<%= user.role === 'admin' ? 'admin' : 'teacher' %>"
+                            />
+                            <input type="hidden" name="userId" value="<%= user._id %>" />
+                            <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                          </form>
                         </div>
                       </li>
-                      <% }) %>
-                      <% } else { %>
-                        <h5 class="text-center my-4 text-danger font-black">موردی یافت نشد!</h5>
-                      <% } %> 
+                      <% }) %> <% } else { %>
+                      <h5 class="text-center my-4 text-danger font-black">موردی یافت نشد!</h5>
+                      <% } %>
                     </ul>
                   </div>
                 </div>
@@ -141,9 +164,9 @@
             </div>
             <!--/ Users that waiting for approval -->
             <!-- Blogs and Comments that waiting for approval -->
-            <div class="row mt-2">
+            <div class="mt-2">
               <!-- Blogs -->
-              <div class="row col">
+              <div class="row">
                 <div class="col">
                   <div class="card border shadow-sm mb-3">
                     <div class="card-header font-bold">بلاگ های در انتظار تأیید</div>
@@ -158,10 +181,20 @@
                         <% waitingForApproveBlogs.forEach(blog => { %>
                         <li class="row py-3 border-bottom">
                           <div class="col text-primary"><%= blog.author.fullname %></div>
-                          <div class="col text-primary text-center"><a href="/blog/read/<%= blog._id %>" class="text-decoration-none">خواندن</a></div>
+                          <div class="col text-primary text-center">
+                            <a href="/blog/read/<%= blog._id %>" class="text-decoration-none">خواندن</a>
+                          </div>
                           <div class="col text-end">
-                            <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-success">تأیید</a> \
-                            <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-danger">حذف</a>
+                            <form action="/blog/approve" method="POST" class="d-inline-block me-1">
+                              <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                              <button class="btn btn-primary py-1 px-2 fs-sm">تأیید</button>
+                            </form>
+                            <form action="/blog/delete" method="POST" class="d-inline-block delete-blog">
+                              <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                              <button class="btn btn-danger py-1 px-2 fs-sm delete-blog">حذف</button>
+                            </form>
                           </div>
                         </li>
                         <% }) %>
@@ -174,43 +207,6 @@
                 </div>
               </div>
               <!--/ Blogs -->
-              <!-- Comments -->
-              <div class="row col">
-                <div class="col">
-                  <div class="card border shadow-sm mb-3">
-                    <div class="card-header font-bold">کامنت های در انتظار تأیید</div>
-                    <div class="card-body py-0">
-                      <ul class="list-unstyled row border-bottom mb-0 pb-3 text-dark mt-3">
-                        <li class="col">نام و نام خانوادگی</li>
-                        <li class="col">متن کامنت</li>
-                        <li class="col">پست مربوطه</li>
-                        <li class="col text-end">تأیید \ حذف</li>
-                      </ul>
-                      <ul class="list-unstyled mb-0">
-                        <li class="row py-3 border-bottom">
-                          <div class="col text-primary">امیررضا درویشی</div>
-                          <div class="col text-secondary"><a href="#" class="text-decoration-none">خواندن</a></div>
-                          <div class="col"><span class="badge bg-primary">@blog-230233</span></div>
-                          <div class="col text-end">
-                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
-                            <a href="#" class="text-decoration-none text-danger">حذف</a>
-                          </div>
-                        </li>
-                        <li class="row py-3">
-                          <div class="col text-primary">امیررضا درویشی</div>
-                          <div class="col text-secondary"><a href="#" class="text-decoration-none">خواندن</a></div>
-                          <div class="col"><span class="badge bg-primary">@blog-230233</span></div>
-                          <div class="col text-end">
-                            <a href="#" class="text-decoration-none text-success">تأیید</a> \
-                            <a href="#" class="text-decoration-none text-danger">حذف</a>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--/ Comments -->
             </div>
             <!--/ Blogs and Comments that waiting for approval -->
           </div>

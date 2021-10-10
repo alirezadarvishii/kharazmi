@@ -1,9 +1,0 @@
-1: Complete forget password section
-2: Coding contact us section
-3: Coding access control for users
-4: Coding share blogs in social media feature
-5: Use of rate limiter for protect routes againt brute-force and DDOS
-6: Coding form validations in front-end
-7: Config webpack for front-end assets
-8: Coding blogs search and sort features also coding this options for some sections in dashboard
-9: Clean Code and Refactoring

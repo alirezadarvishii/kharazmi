@@ -18,13 +18,14 @@ exports.blog = async (req, res) => {
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
-  const blogsLength = await Blog.countDocuments({});
+  const blogsLength = await Blog.countDocuments({ status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
     blogs,
     pagination,
+    blogsLength,
     currentSlide: slide,
   });
 };
@@ -47,6 +48,7 @@ exports.getBlog = async (req, res) => {
       },
     },
   ]);
+  if (!blog) return res.status(400).redirect("/404");
   await Blog.populate(blog, { path: "author" });
   const otherBlogs = await Blog.find({}).limit(10);
   const isBeforeVisited = blog.visit.findIndex((ip) => ip === ip);
@@ -84,9 +86,13 @@ exports.handleAddBlog = async (req, res) => {
     // generate a name for image.
     const filename = `${Date.now()}.jpeg`;
     // Handle download image with sharp.
-    await sharp(req.files.blogImg[0].buffer)
+     await sharp(req.files.blogImg[0].buffer)
       .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "blogs", filename));
+      .toFile(path.join(__dirname, "..", "public", "blog", filename))
+      .catch((err) => {
+        console.log("SHARP ERROR: ", err);
+        throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");
+      });
     // set author model for population author.
     const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
     const tags = req.body.tags.split("/");
@@ -189,17 +195,23 @@ exports.likeBlog = async (req, res) => {
   res.status(200).json({ blogLikesLength: blog.likes.length, message: "Operation completed successfuly!" });
 };
 
-exports.blogChangeReleaseStatus = async (req, res) => {
+exports.approveBlog = async (req, res) => {
   const permission = ac.can(req.user.role).updateAny("blog");
   if (permission.granted) {
-    const { blogId } = req.params;
-    const blog = await Blog.findOne({ _id: blogId });
-    if (blog.status === "approved") {
-      blog.status = "notApproved";
-    } else {
-      blog.status = "approved";
-    }
-    await blog.save();
+    const { blogId } = req.body;
+    await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
+    req.flash("success", "تغییرات با موفقیت اعمال شد!");
+    res.redirect("back");
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.unApproveBlog = async (req, res) => {
+  const permission = ac.can(req.user.role).updateAny("blog");
+  if (permission.granted) {
+    const { blogId } = req.body;
+    await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
     req.flash("success", "تغییرات با موفقیت اعمال شد!");
     res.redirect("back");
   } else {

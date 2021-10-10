@@ -1,55 +1,8 @@
 const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
+const User = require("../model/user");
 const getUserByRole = require("../utils/getUserByRole");
 const ac = require("../security/accesscontrol");
-
-exports.approveAdmin = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("user");
-  if (permission.granted) {
-    const { adminId } = req.params;
-    await Admin.updateOne({ _id: adminId }, { $set: { status: "approved" } });
-    req.flash("success", "عملیات با موفقیت انجام شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
-};
-
-exports.unApproveAdmin = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("user");
-  if (permission.granted) {
-    const { adminId } = req.params;
-    await Admin.updateOne({ _id: adminId }, { $set: { status: "notApproved" } });
-    req.flash("success", "عملیات با موفقیت انجام شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
-};
-
-exports.approveTeacher = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("user");
-  if (permission.granted) {
-    const { teacherId } = req.params;
-    await Teacher.updateOne({ _id: teacherId }, { $set: { status: "approved" } });
-    req.flash("success", "عملیات با موفقیت انجام شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
-};
-
-exports.unApproveTeacher = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("user");
-  if (permission.granted) {
-    const { teacherId } = req.params;
-    await Teacher.updateOne({ _id: teacherId }, { $set: { status: "notApproved" } });
-    req.flash("success", "عملیات با موفقیت انجام شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
-};
 
 exports.profile = async (req, res) => {
   const { userId, role } = req.params;
@@ -59,4 +12,42 @@ exports.profile = async (req, res) => {
     headerTitle: `پروفایل  ${user.fullname}`,
     user,
   });
+};
+
+exports.approve = async (req, res) => {
+  const permission = ac.can(req.user.role).updateAny("user");
+  const { role, userId } = req.body;
+  if (permission.granted) {
+    if (role === "admin") {
+      await Admin.updateOne({ _id: userId }, { $set: { status: "approved" } });
+    } else if (role === "teacher") {
+      await Teacher.updateOne({ _id: userId }, { $set: { status: "approved" } });
+    } else if (role === "user") {
+      await User.updateOne({ _id: userId }, { $set: { status: "approved" } });
+    }
+    req.flash("success", "عملیات با موفقیت انجام شد!");
+    res.redirect("back");
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.unApprove = async (req, res) => {
+  const { role, userId } = req.body;
+  const permission = ac.can(req.user.role).updateAny("user");
+  if (permission.granted) {
+    if (role === "admin") {
+      await Admin.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
+    } else if (role === "teacher") {
+      await Teacher.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
+    } else if (role === "user") {
+      await User.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
+    } else {
+      res.redirect("back");
+    }
+    req.flash("success", "عملیات با موفقیت انجام شد!");
+    res.redirect("back");
+  } else {
+    res.redirect("/");
+  }
 };

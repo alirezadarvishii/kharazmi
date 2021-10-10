@@ -392,6 +392,9 @@ header.header-small {
 .blogs-area .blogs .card-text * {
   font-size: .9rem;
 }
+.manage-blogs .blog-title {
+  white-space: nowrap;
+}
 /*!---------------------- Single Blogs page styles ---------------------- */
 .blog {
   margin-top: 6em;

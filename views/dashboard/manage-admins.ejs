@@ -43,23 +43,31 @@
                         <div class="col text-primary"><%= admin.fullname %></div>
                         <div class="col text-secondary"><%= admin.email %></div>
                         <div class="col text-center">
+                          <% if(admin.superadmin) { %>
+                          <span class="badge bg-warning">سرپرست ادمین ها</span>
+                          <% } else { %>
                           <span class="badge <%= admin.status === 'approved' ? 'bg-success': 'bg-danger' %>">
                             <%= admin.status === "approved" ? "تأیید شده": "در انتظار" %>
                           </span>
-                        </div>
-                        <% if(admin.superadmin) { %>
-                        <div class="col text-end text-secondary d-flex justify-content-end">
-                          <% if(admin.status === "approved") { %>
-                          <a href="/user/unapprove-admin/<%= admin._id %>" class="btn btn-danger fs-sm py-1 px-2">
-                            تعلیق کاربر
-                          </a>
-                          <% } else { %>
-                          <a href="/user/approve-admin/<%= admin._id %>" class="btn btn-warning fs-sm py-1 px-2">
-                            تأیید کاربر
-                          </a>
                           <% } %>
                         </div>
-                        <% } %>
+                        <div class="col text-end text-secondary d-flex justify-content-end">
+                          <% if(!admin.superadmin) { %> <% if(admin.status === "approved") { %>
+                            <form action="/user/unapprove" method="POST">
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                              <input type="hidden" name="role" value="admin" />
+                              <input type="hidden" name="userId" value="<%= admin._id %>" />
+                              <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                            </form>
+                          <% } else { %>
+                          <form action="/user/approve" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <input type="hidden" name="role" value="admin" />
+                            <input type="hidden" name="userId" value="<%= admin._id %>" />
+                            <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                          </form>
+                          <% } %> <% } %>
+                        </div>
                       </li>
                       <% }) %> <% } %>
                     </ul>

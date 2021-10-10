@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema(
     profileImg: {
       type: String,
     },
+    status: {
+      type: String,
+      enum: ["approved", "notApproved"],
+      default: "approved",
+    },
     role: {
       type: String,
       default: "user",

@@ -38,7 +38,7 @@
                     </ul>
                     <ul class="list-unstyled">
                       <% if(teachers) { %> <% teachers.forEach((teacher, index) => { %>
-                      <li class="row py-3 border-bottom">
+                      <li class="row py-3 border-bottom align-items-center">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= teacher.fullname %></div>
                         <div class="col text-secondary"><%= teacher.email %></div>
@@ -49,9 +49,20 @@
                         </div>
                         <div class="col text-end">
                           <% if(teacher.status === "approved") { %>
-                          <a href="/user/unapprove-teachers/<%= teacher._id %>" class="text-decoration-none text-warning">در انتظار</a> <% }
-                          else { %> <a href="/user/approve-teachers/<%= teacher._id %>" class="text-decoration-none text-success">تأیید</a>
-                          <% } %>
+                          <form action="/user/unapprove" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <input type="hidden" name="role" value="teacher" />
+                            <input type="hidden" name="userId" value="<%= teacher._id %>" />
+                            <button type="submit" class="btn btn-danger fs-sm py-1 px-2">تعلیق کاربر</button>
+                          </form>
+                          <% } else { %>
+                          <form action="/user/approve" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <input type="hidden" name="role" value="teacher" />
+                            <input type="hidden" name="userId" value="<%= teacher._id %>" />
+                            <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                          </form>
+                          <% } %> 
                         </div>
                       </li>
                       <% }) %> <% } %>

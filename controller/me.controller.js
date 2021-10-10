@@ -41,7 +41,7 @@ exports.handleEdit = async (req, res) => {
   if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "back");
   if (req.files.profileImg) {
     await sharp(req.files.profileImg[0].buffer)
-      .jpeg({ quality: 60 })
+      .jpeg({ quality: 20 })
       .toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
   }
   user.fullname = fullname;

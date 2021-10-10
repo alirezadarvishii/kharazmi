@@ -11,7 +11,7 @@
   </head>
   <body>
     <!-- Main Container -->
-    <section class="container-fluid dashboard py-3 px-0">
+    <section class="container-fluid dashboard manage-blogs py-3 px-0">
       <!-- Row -->
       <div class="row m-0">
         <%- include("../includes/admin-panel-aside.ejs") %>
@@ -42,26 +42,36 @@
                       <% if(blogs) { %> <% blogs.forEach((blog, index) => { %>
                       <li class="row py-3 border-bottom">
                         <div class="col-1 text-secondary"><%= ++index %></div>
-                        <div class="col text-secondary"><%= blog.title %></div>
+                        <div class="col text-secondary blog-title overflow-hidden"><%= blog.title %></div>
                         <div class="col text-primary"><%= blog.author.fullname %></div>
                         <div class="col">
                           <span class="badge <%= blog.status === 'approved' ? 'bg-success' : 'bg-danger' %>">
                             <%= blog.status === "approved" ? "تأیید شده": "در انتظار" %>
                           </span>
                         </div>
-                        <div class="col text-primary">خواندن</div>
+                        <div class="col text-primary"><a href="/blog/read/<%= blog._id %>/<%= blog.slug %>">خواندن</a></div>
                         <div class="col text-end text-secondary">
                           <% if(blog.status === "notApproved") { %>
-                          <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-success">تأیید</a>
+                            <form action="/blog/approve" method="POST" class="d-inline-block me-1">
+                              <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                              <button class="btn btn-primary py-1 px-2 fs-sm">
+                                تأیید
+                              </button>
+                            </form>
                           <% } else { %>
-                          <a href="/blog/release/<%= blog._id %>" class="text-decoration-none text-warning">
-                            حالت انتظار
-                          </a>
-                          <% } %> \
+                          <form action="/blog/unapprove" method="POST" class="d-inline-block me-1">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                            <button class="btn btn-warning py-1 px-2 fs-sm">
+                              تعلیق
+                            </button>
+                          </form>
+                          <% } %>
                           <form action="/blog/delete" method="POST" class="d-inline-block delete-blog">
                             <input type="hidden" name="blogId" value="<%= blog._id %>" />
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                            <button class="shadow-none text-decoration-none btn p-0 text-danger delete-blog">
+                            <button class="btn btn-danger py-1 px-2 fs-sm delete-blog">
                               حذف
                             </button>
                           </form>

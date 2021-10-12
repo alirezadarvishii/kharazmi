@@ -9,7 +9,6 @@ const Comment = require("../model/comment");
 exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
   const notApprovedTeachers = await Teacher.find({ status: "notApproved" });
-  console.log(notApprovedTeachers);
   const notApprovedUsers = [...notApprovedAdmins, ...notApprovedTeachers];
   // Users length informations.
   const lengthOfAdmins = await Admin.countDocuments({});

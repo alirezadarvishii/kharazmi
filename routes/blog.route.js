@@ -17,6 +17,8 @@ router.get("/new", isAuth, blogController.addBlog);
 //? Route and Method: /read/:blogId & GET
 router.get("/read/:blogId/:slug", asyncHandler(blogController.getBlog));
 
+router.get("/read/private/:blogId/:slug", isAuth, asyncHandler(blogController.getBlogInPrivateMode));
+
 //? Route and Method: /blog/update/:blogId & GET
 router.get("/update/:blogId", asyncHandler(blogController.updateBlog));
 

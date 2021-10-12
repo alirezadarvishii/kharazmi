@@ -44,7 +44,7 @@ app.use(
     name: "FuckYouHacker",
     resave: false,
     saveUninitialized: true,
-    cookie: { httpOnly: true },
+    cookie: { httpOnly: true, sameSite: true },
     store: mongoStore.create({ mongoUrl: process.env.MONGODB_URI, ttl: 1 * 24 * 60 * 60 }),
   })
 );

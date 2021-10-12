@@ -37,7 +37,8 @@ exports.unApprove = async (req, res) => {
   const permission = ac.can(req.user.role).updateAny("user");
   if (permission.granted) {
     if (role === "admin") {
-      await Admin.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
+      // If the user was not an admin
+      await Admin.updateOne({ _id: userId, superadmin: { $exists: false } }, { $set: { status: "notApproved" } });
     } else if (role === "teacher") {
       await Teacher.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
     } else if (role === "user") {

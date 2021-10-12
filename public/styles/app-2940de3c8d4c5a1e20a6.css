@@ -302,10 +302,6 @@ footer ul li {
   list-style: none;
   cursor: pointer;
   -webkit-transition: color 0.3s;
-  transition: color 0.3s;
-}
-footer ul li:hover {
-  color: #6610f2 !important;
 }
 footer ul li:before {
   position: absolute;
@@ -390,7 +386,7 @@ header.header-small {
   line-height: 28px;
 }
 .blogs-area .blogs .card-text * {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .manage-blogs .blog-title {
   white-space: nowrap;

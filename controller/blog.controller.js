@@ -63,6 +63,16 @@ exports.getBlog = async (req, res) => {
   });
 };
 
+exports.getBlogInPrivateMode = async (req, res) => {
+  if (req.user.role === "admin") {
+    const { blogId } = req.params;
+    const blog = await Blog.findOne({ _id: blogId });
+    console.log(blog);
+  } else {
+    res.status(403).redirect("/");
+  }
+};
+
 exports.addBlog = (req, res) => {
   const permission = ac.can(req.user.role).create("blog");
   if (permission.granted) {
@@ -86,7 +96,7 @@ exports.handleAddBlog = async (req, res) => {
     // generate a name for image.
     const filename = `${Date.now()}.jpeg`;
     // Handle download image with sharp.
-     await sharp(req.files.blogImg[0].buffer)
+    await sharp(req.files.blogImg[0].buffer)
       .jpeg({ quality: 60 })
       .toFile(path.join(__dirname, "..", "public", "blog", filename))
       .catch((err) => {

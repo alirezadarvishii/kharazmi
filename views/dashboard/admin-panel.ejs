@@ -26,30 +26,15 @@
                   <div class="card-body text-primary d-flex justify-content-between">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-primary rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="مدیر"
-                        ></span>
+                        <span class="p-2 bg-primary rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="مدیر"></span>
                         <%= lengthOfAdmins %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-success rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="معلم"
-                        ></span>
+                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="معلم"></span>
                         <%= lengthOfTeachers %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-warning rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="کاربر عادی"
-                        ></span>
+                        <span class="p-2 bg-warning rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="کاربر عادی"></span>
                         <%= lengthOfNormalUsers %>
                       </div>
                     </div>
@@ -63,22 +48,11 @@
                   <div class="card-body text-success d-flex justify-content-between align-items-center">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-success rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="بلاگ های تأیید شده"
-                        >
-                        </span>
+                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="بلاگ های تأیید شده"> </span>
                         <%= lengthOfApprovedBlogs %>
                       </div>
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-danger rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="بلاگ های در انتظار تأیید"
-                        ></span>
+                        <span class="p-2 bg-danger rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="بلاگ های در انتظار تأیید"></span>
                         <%= lengthOfNotApprovedBlogs %>
                       </div>
                     </div>
@@ -92,22 +66,8 @@
                   <div class="card-body text-info d-flex justify-content-between align-items-center">
                     <div class="d-flex">
                       <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-success rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="کامنت های تأیید شده"
-                        ></span>
+                        <span class="p-2 bg-success rounded-circle me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="کامنت های تأیید شده"></span>
                         <%= lengthOfTotalComments %>
-                      </div>
-                      <div class="d-flex align-items-center me-2 font-regular text-secondary">
-                        <span
-                          class="p-2 bg-danger rounded-circle me-1"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="bottom"
-                          title="کامنت های در انتظار تأیید"
-                        ></span>
-                        0
                       </div>
                     </div>
                     <h3 class="font-black mb-0"><%= lengthOfTotalComments %></h3>
@@ -137,25 +97,19 @@
                         <div class="col text-primary"><%= user.fullname %></div>
                         <div class="col text-secondary"><%= user.email %></div>
                         <div class="col text-center">
-                          <span class="badge <%= user.role === 'admin' ? 'bg-primary' : 'bg-success' %>"
-                            ><%= user.role === "admin" ? "مدیر" : "معلم" %>
-                          </span>
+                          <span class="badge <%= user.role === 'admin' ? 'bg-primary' : 'bg-success' %>"><%= user.role === "admin" ? "مدیر" : "معلم" %> </span>
                         </div>
                         <div class="col text-center">
                           <form action="/user/approve" method="POST">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                            <input
-                              type="hidden"
-                              name="role"
-                              value="<%= user.role === 'admin' ? 'admin' : 'teacher' %>"
-                            />
+                            <input type="hidden" name="role" value="<%= user.role === 'admin' ? 'admin' : 'teacher' %>" />
                             <input type="hidden" name="userId" value="<%= user._id %>" />
                             <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
                           </form>
                         </div>
                       </li>
                       <% }) %> <% } else { %>
-                      <h5 class="text-center my-4 text-danger font-black">موردی یافت نشد!</h5>
+                      <h5 class="text-center my-4 text-danger font-black">موردی موجود نیست!</h5>
                       <% } %>
                     </ul>
                   </div>
@@ -200,7 +154,7 @@
                         <% }) %>
                       </ul>
                       <% }else { %>
-                      <h4 class="font-black my-5 text-danger text-center">موردی موجود نیست!</h4>
+                      <h5 class="text-center my-4 text-danger font-black">موردی موجود نیست!</h5>
                       <% } %>
                     </div>
                   </div>

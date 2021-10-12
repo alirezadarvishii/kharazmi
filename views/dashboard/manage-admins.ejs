@@ -52,20 +52,21 @@
                           <% } %>
                         </div>
                         <div class="col text-end text-secondary d-flex justify-content-end">
-                          <% if(!admin.superadmin) { %> <% if(admin.status === "approved") { %>
-                            <form action="/user/unapprove" method="POST">
-                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                              <input type="hidden" name="role" value="admin" />
-                              <input type="hidden" name="userId" value="<%= admin._id %>" />
-                              <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
-                            </form>
-                          <% } else { %>
-                          <form action="/user/approve" method="POST">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                            <input type="hidden" name="role" value="admin" />
-                            <input type="hidden" name="userId" value="<%= admin._id %>" />
-                            <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
-                          </form>
+                          <% if(!admin.superadmin) { %> 
+                            <% if(admin.status === "approved") { %>
+                                <form action="/user/unapprove" method="POST">
+                                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                  <input type="hidden" name="role" value="admin" />
+                                  <input type="hidden" name="userId" value="<%= admin._id %>" />
+                                  <button type="submit" class="btn btn-danger fs-sm py-1 px-2">تعلیق کاربر</button>
+                                </form>
+                              <% } else { %>
+                              <form action="/user/approve" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                                <input type="hidden" name="role" value="admin" />
+                                <input type="hidden" name="userId" value="<%= admin._id %>" />
+                                <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
+                              </form>
                           <% } %> <% } %>
                         </div>
                       </li>

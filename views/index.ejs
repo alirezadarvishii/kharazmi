@@ -14,9 +14,9 @@
     <%- include("./includes/nav.ejs") %>
     <!--! Header -->
     <header class="landing-header d-flex align-items-center justify-content-center flex-column position-relative shadowlg">
-      <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان خوارزمی )</span></h1>
+      <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان کمبریج )</span></h1>
       <p class="text-light text-center font-light mt-3 px-2 px-lg-0">
-        هنرستان خوارزمی با داشتن چندین رشته متفاوت در خدمت شما والدین و دانش آموزان عزیز می باشد!
+        هنرستان کمبریج با داشتن چندین رشته متفاوت در خدمت شما والدین و دانش آموزان عزیز می باشد!
       </p>
       <div class="row position-absolute mx-auto services">
         <div class="col-12 col-md-4 mt-5 mt-md-0">
@@ -228,7 +228,7 @@
                 </div>
                 <div class="card-body pt-2 d-flex flex-column justify-content-between">
                   <div>
-                    <a href="/blog/read/<%= blog._id %>" class="text-decoration-none">
+                    <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none">
                       <h5 class="card-title font-black text-primary"><%= blog.title %></h5>
                     </a>
                     <div class="d-flex align-content-center justify-content-between border-bottom pb-2 mt-3 mb-2">
@@ -274,7 +274,7 @@
                     </div>
                   </div>
                   <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
-                  <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">ادامه خواندن...</a>
+                  <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none d-block text-end my-2">ادامه خواندن...</a>
                 </div>
               </div>
             </div>

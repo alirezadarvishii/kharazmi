@@ -49,7 +49,7 @@
                             <%= blog.status === "approved" ? "تأیید شده": "در انتظار" %>
                           </span>
                         </div>
-                        <div class="col text-primary"><a href="/blog/read/<%= blog._id %>/<%= blog.slug %>">خواندن</a></div>
+                        <div class="col text-primary"><a href="/blog/read/private/<%= blog._id %>/<%= blog.slug %>">خواندن</a></div>
                         <div class="col text-end text-secondary">
                           <% if(blog.status === "notApproved") { %>
                             <form action="/blog/approve" method="POST" class="d-inline-block me-1">

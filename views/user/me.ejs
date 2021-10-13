@@ -17,24 +17,23 @@
           <div class="shadow-sm rounded-3 p-3">
             <h6 class="font-bold text-dark border-bottom pb-3">اطلاعات حساب کاربری</h6>
             <ul class="list-unstyled mt-4 row">
-              <li class="col-12 col-md-6 my-3 font-regular text-dark">
-                نام و نام خانوادگی: <span class="text-secondary"><%= user.fullname %> </span>
-              </li>
+              <li class="col-12 col-md-6 my-3 font-regular text-dark">نام و نام خانوادگی: <span class="text-secondary"><%= user.fullname %> </span></li>
               <li class="col-12 col-md-6 my-3 font-regular text-dark">ایمیل: <span class="text-secondary"><%= user.email %> </span></li>
               <li class="col-12 col-md-6 my-3 font-regular text-dark">شماره تماس: <span class="text-secondary"><%= user.phoneNumber %> </span></li>
               <li class="col-12 col-md-6 my-3 font-regular text-dark">
                 درجه کاربری:
-                <span class="<% if(user.role === 'admin') {  %> text-warning <% } else if(user.role === 'teacher') { %> text-primary <% } else { %> text-secondary <% } %>">
+                <span class="<% if(user.role === 'admin') { %> text-warning <% } else if(user.role === 'teacher') { %> text-primary <% } else { %> text-secondary <% } %>">
                   <% if(user.role === "admin") { %> مدیریت <% } else if(user.role === "teacher") { %> معلم <% } else { %> کاربر عادی <% } %>
                 </span>
               </li>
               <li class="col-12 col-md-6 my-3 font-regular text-dark">تاریخ عضویت: <span class="text-secondary"><%= moment(user.createdAt) %> / <%= momentTime(user.createdAt) %></span></li>
-                <li class="col-12 my-3 font-regular text-dark d-flex flex-wrap align-items-center">
-                  <p class="text-dark text-justify lh-lg m-0 ms-2">
-                    بیوگرافی: <span class="text-secondary"><%= user.bio ? user.bio : "بیوگرافی تنظیم نشده!" %></span>
-                  </p>
-                </li>
+              <li class="col-12 my-3 font-regular text-dark d-flex flex-wrap align-items-center">
+                <p class="text-dark text-justify lh-lg m-0 ms-2">بیوگرافی: <span class="text-secondary"><%= user.bio ? user.bio : "بیوگرافی تنظیم نشده!" %></span></p>
+              </li>
             </ul>
+            <div class="text-end">
+              <a href="/me/delete-acount" class="btn btn-danger">حذف حساب کاربری</a>
+            </div>
           </div>
         </main>
       </div>
@@ -43,26 +42,5 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
-  <script>
-    if ("<%= message.success %>") {
-      Swal.fire({
-        titleText: "مــــوفــــق!",
-        text: "<%= message.success %>",
-        footer: "هنرستان خوارزمی فیروزآباد",
-        icon: "success",
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    }else if("<%= message.error %>") {
-      Swal.fire({
-        titleText: "خــــطــــا!",
-        text: "<%= message.error %>",
-        icon: "error",
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    }
-  </script>
+  <%- include("../includes/message") %>
 </html>

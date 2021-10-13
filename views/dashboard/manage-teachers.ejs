@@ -43,9 +43,7 @@
                         <div class="col text-primary"><%= teacher.fullname %></div>
                         <div class="col text-secondary"><%= teacher.email %></div>
                         <div class="col text-center">
-                          <span class="badge <%= teacher.status === 'approved' ? 'bg-success' : 'bg-danger' %>">
-                            <%= teacher.status === "approved" ? "تأیید شده": "در انتظار" %>
-                          </span>
+                          <span class="badge <%= teacher.status === 'approved' ? 'bg-success' : 'bg-danger' %>"> <%= teacher.status === "approved" ? "تأیید شده": "در انتظار" %> </span>
                         </div>
                         <div class="col text-end">
                           <% if(teacher.status === "approved") { %>
@@ -62,7 +60,7 @@
                             <input type="hidden" name="userId" value="<%= teacher._id %>" />
                             <button type="submit" class="btn btn-warning fs-sm py-1 px-2">تأیید کاربر</button>
                           </form>
-                          <% } %> 
+                          <% } %>
                         </div>
                       </li>
                       <% }) %> <% } %>
@@ -81,26 +79,5 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
-  <script>
-    if ("<%= message.success %>") {
-      Swal.fire({
-        titleText: "مــــوفــــق!",
-        text: "<%= message.success %>",
-        footer: "هنرستان خوارزمی فیروزآباد",
-        icon: "success",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    } else if ("<%= message.error %>") {
-      Swal.fire({
-        titleText: "خــــطــــا!",
-        text: "<%= message.error %>",
-        icon: "error",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    }
-  </script>
+  <%- include("../includes/message") %>
 </html>

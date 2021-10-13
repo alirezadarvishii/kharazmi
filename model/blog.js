@@ -40,4 +40,6 @@ const blogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+blogSchema.index({ title: "text" });
+
 module.exports = mongoose.model("Blog", blogSchema);

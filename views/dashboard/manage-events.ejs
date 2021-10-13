@@ -213,26 +213,5 @@
   <script src="/datepicker/persian-datepicker.js"></script>
   <script src="/fastest-validator/fastest-validator.js"></script>
   <script src="/js/manage-events.js"></script>
-  <script>
-    if ("<%= message.success %>") {
-      Swal.fire({
-        titleText: "مــــوفــــق!",
-        text: "<%= message.success %>",
-        footer: "هنرستان خوارزمی فیروزآباد",
-        icon: "success",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    } else if ("<%= message.error %>") {
-      Swal.fire({
-        titleText: "خــــطــــا!",
-        text: "<%= message.error %>",
-        icon: "error",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    }
-  </script>
+  <%- include("../includes/message") %>
 </html>

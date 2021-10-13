@@ -20,12 +20,12 @@
     </section>
 
     <div class="container-fluid">
-      <form action="" method="GET" id="filter-form">
+      <form method="GET" id="filter-form">
         <section class="blogs-nav container-md shadow bg-white rounded-3 p-3">
           <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div class="d-flex align-items-center input-group mb-md-0 mb-3">
-              <input type="hidden" name="slide" />
-              <input type="text" name="q" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" />
+              <input type="hidden" name="slide" value="1" />
+              <input type="text" name="q" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" autocomplete="off" />
               <button type="submit" class="btn btn-primary py-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -113,12 +113,16 @@
                               stroke-linejoin="round"
                             />
                           </svg>
-                          <%= blog.author.fullname %>
+                          <% if(blog.author !== null) { %>
+                            <%= blog.author.fullname %>
+                          <% } else { %>
+                            کاربر دلیت اکانت شده
+                          <% } %>
                         </span>
                       </div>
                     </div>
                     <div class="card-text font-light text-secondary text-justify mb-1"><%- blog.body %></div>
-                    <a href="/blog/read/<%= blog._id %>" class="text-decoration-none d-block text-end my-2">
+                    <a href="/blog/read/<%= blog._id %>/<%= blog.slug %>" class="text-decoration-none d-block text-end my-2">
                       ادامه خواندن...
                     </a>
                   </div>

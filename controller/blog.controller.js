@@ -12,7 +12,7 @@ const genPagination = require("../utils/pagination");
 const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
-  const { slide = 1 } = req.query;
+  const { slide = 1, q = "" } = req.query;
   const BLOGS_PER_PAGE = 9;
   const blogs = await Blog.find({ status: "approved" })
     .populate("author")
@@ -98,7 +98,7 @@ exports.handleAddBlog = async (req, res) => {
     // Handle download image with sharp.
     await sharp(req.files.blogImg[0].buffer)
       .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "blog", filename))
+      .toFile(path.join(__dirname, "..", "public", "blogs", filename))
       .catch((err) => {
         console.log("SHARP ERROR: ", err);
         throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");

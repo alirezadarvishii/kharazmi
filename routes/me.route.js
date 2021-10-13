@@ -4,7 +4,7 @@ const router = Router();
 
 const meController = require("../controller/me.controller");
 const asyncHandler = require("../middleware/asyncHandler");
-const {isAuth} = require("../middleware/authMiddleware");
+const { isAuth } = require("../middleware/authMiddleware");
 
 //! ---------------------- GET ROUTES ----------------------
 
@@ -27,5 +27,7 @@ router.post("/edit/:role", asyncHandler(meController.handleEdit));
 
 //? Handle user change password
 router.post("/change-password", asyncHandler(meController.handleChangePassword));
+
+router.post("/delete-acount", isAuth, meController.deleteAcount);
 
 module.exports = router;

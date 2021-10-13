@@ -1,0 +1,22 @@
+<script>
+  if ("<%= message.success %>") {
+    Swal.fire({
+      titleText: "مــــوفــــق!",
+      text: "<%= message.success %>",
+      footer: "هنرستان خوارزمی فیروزآباد",
+      icon: "success",
+      timer: 5000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  } else if ("<%= message.error %>") {
+    Swal.fire({
+      titleText: "خــــطــــا!",
+      text: "<%= message.error %>",
+      icon: "error",
+      timer: 5000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  }
+</script>

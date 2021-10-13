@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
-    <link rel="shortcut icon" href="http://localhost:3000/images/kharazmi.png" type="image/x-icon">
+    <link rel="shortcut icon" href="http://localhost:3000/images/kharazmi.png" type="image/x-icon" />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
     <link rel="stylesheet" href="/swiper/swiper-bundle.min.css" />
     <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
@@ -15,29 +15,15 @@
     <!--! Header -->
     <header class="landing-header d-flex align-items-center justify-content-center flex-column position-relative shadowlg">
       <h1 class="text-center text-white font-black px-2 px-lg-0">ما بر رشد فرزندان شما متمرکز میشویم! <span>( هنرستان کمبریج )</span></h1>
-      <p class="text-light text-center font-light mt-3 px-2 px-lg-0">
-        هنرستان کمبریج با داشتن چندین رشته متفاوت در خدمت شما والدین و دانش آموزان عزیز می باشد!
-      </p>
+      <p class="text-light text-center font-light mt-3 px-2 px-lg-0">هنرستان کمبریج با داشتن چندین رشته متفاوت در خدمت شما والدین و دانش آموزان عزیز می باشد!</p>
       <div class="row position-absolute mx-auto services">
         <div class="col-12 col-md-4 mt-5 mt-md-0">
           <div class="text-center d-flex flex-column justify-content-center align-items-center px-1 rounded-3 shadow bg-light service">
             <span class="bg-primary rounded-pill p-3 d-inline-block">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M24 0H0V24H24V0Z" />
-                <path
-                  d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-                  stroke="#fff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                  stroke="#fff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+                <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </span>
             <h4 class="font-bold mt-3">سـاعـت کـاری</h4>
@@ -53,11 +39,7 @@
                   stroke="#fff"
                   stroke-width="2"
                 />
-                <path
-                  d="M3.6 8.49998C5.6 -0.200025 18.4 -0.200025 20.4 8.49998C21.5 13.6 18.4 17.9 15.6 20.5C13.6 22.4 10.4 22.4 8.4 20.5C5.6 17.9 2.5 13.6 3.6 8.49998Z"
-                  stroke="#fff"
-                  stroke-width="2"
-                />
+                <path d="M3.6 8.49998C5.6 -0.200025 18.4 -0.200025 20.4 8.49998C21.5 13.6 18.4 17.9 15.6 20.5C13.6 22.4 10.4 22.4 8.4 20.5C5.6 17.9 2.5 13.6 3.6 8.49998Z" stroke="#fff" stroke-width="2" />
               </svg>
             </span>
             <h4 class="font-bold mt-3">آدرس</h4>
@@ -122,12 +104,7 @@
           <div class="swiper-slide rounded-8 gallery-image">
             <div class="h-100 border-0 shadow-md rounded-8">
               <a href="#galleryImg" class="open-gallery-modal" data-bs-toggle="modal" data-bs-target="#galleryImg">
-                <img
-                  src="http://localhost:3000/gallery/<%= image.img %>"
-                  data-img-id="<%= image._id %>"
-                  class="p-1 rounded-8 fit-cover w-100 h-100"
-                  alt=""
-                />
+                <img src="http://localhost:3000/gallery/<%= image.img %>" data-img-id="<%= image._id %>" class="p-1 rounded-8 fit-cover w-100 h-100" alt="" />
               </a>
             </div>
           </div>
@@ -242,13 +219,7 @@
                             stroke-linecap="round"
                             stroke-linejoin="round"
                           />
-                          <path
-                            d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-                            stroke="#6c757d"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
+                          <path d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         <%= moment(blog.createdAt) %>
                       </span>
@@ -269,7 +240,11 @@
                             stroke-linejoin="round"
                           />
                         </svg>
-                        <%= blog.author.fullname %>
+                        <% if(blog.author !== null) { %>
+                          <%= blog.author.fullname %>
+                        <% } else { %>
+                          کاربر دلیت اکانت شده
+                        <% } %>
                       </span>
                     </div>
                   </div>
@@ -371,7 +346,7 @@
           <h1 class="font-black mb-5 mt-5 text-center">با ما تماس بگیرید</h1>
           <div class="row">
             <div class="mb-5 col-6">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
               <input type="text" name="fullname" class="form-control text-start py-2 rounded-3 font-light text-secondary" placeholder="نام و نام خانوادگی" />
             </div>
             <div class="mb-5 col-6">
@@ -402,30 +377,8 @@
   <script src="/swiper/swiper-bundle.min.js"></script>
   <script src="/js/app-ffbfe456f36267f13b08.js"></script>
   <script src="/swal/swal.js"></script>
-  <script>
-    if ("<%= message.success %>") {
-      Swal.fire({
-        titleText: "مــــوفــــق!",
-        text: "<%= message.success %>",
-        footer: "هنرستان خوارزمی فیروزآباد",
-        icon: "success",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    } else if ("<%= message.error %>") {
-      Swal.fire({
-        titleText: "خــــطــــا!",
-        text: "<%= message.error %>",
-        icon: "error",
-        timer: 5000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      });
-    }
-  </script>
+  <%- include("./includes/message") %>
 </html>
-
 <!-- Coding and Designing with 💛 and ☕ -->
 <!--
   Developed by: Alireza Darvishi 🤞

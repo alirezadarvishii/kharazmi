@@ -14,10 +14,11 @@ router.get("/", blogController.blog);
 //? Route and Method: /blog/new & GET
 router.get("/new", isAuth, blogController.addBlog);
 
+router.get("/read/private/:blogId", isAuth, asyncHandler(blogController.getBlogInPrivateMode));
+    
 //? Route and Method: /read/:blogId & GET
 router.get("/read/:blogId/:slug", asyncHandler(blogController.getBlog));
 
-router.get("/read/private/:blogId/:slug", isAuth, asyncHandler(blogController.getBlogInPrivateMode));
 
 //? Route and Method: /blog/update/:blogId & GET
 router.get("/update/:blogId", asyncHandler(blogController.updateBlog));

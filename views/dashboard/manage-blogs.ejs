@@ -43,37 +43,29 @@
                       <li class="row py-3 border-bottom">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-secondary blog-title overflow-hidden"><%= blog.title %></div>
-                        <div class="col text-primary"><%= blog.author.fullname %></div>
+                        <div class="col <%= blog.author !== null ? 'text-primary' : 'text-secondary' %>"><%= blog.author !== null ? blog.author.fullname : "کاربر دلیت اکانت شده" %></div>
                         <div class="col">
-                          <span class="badge <%= blog.status === 'approved' ? 'bg-success' : 'bg-danger' %>">
-                            <%= blog.status === "approved" ? "تأیید شده": "در انتظار" %>
-                          </span>
+                          <span class="badge <%= blog.status === 'approved' ? 'bg-success' : 'bg-danger' %>"> <%= blog.status === "approved" ? "تأیید شده": "در انتظار" %> </span>
                         </div>
-                        <div class="col text-primary"><a href="/blog/read/private/<%= blog._id %>/<%= blog.slug %>">خواندن</a></div>
+                        <div class="col text-primary get-blog"><button class="btn btn-info fs-sm" data-blog-id="<%= blog._id %>" data-bs-toggle="modal" data-bs-target="#readBlogModal">خواندن</button></div>
                         <div class="col text-end text-secondary">
                           <% if(blog.status === "notApproved") { %>
-                            <form action="/blog/approve" method="POST" class="d-inline-block me-1">
-                              <input type="hidden" name="blogId" value="<%= blog._id %>" />
-                              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                              <button class="btn btn-primary py-1 px-2 fs-sm">
-                                تأیید
-                              </button>
-                            </form>
+                          <form action="/blog/approve" method="POST" class="d-inline-block me-1">
+                            <input type="hidden" name="blogId" value="<%= blog._id %>" />
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <button class="btn btn-primary py-1 px-2 fs-sm">تأیید</button>
+                          </form>
                           <% } else { %>
                           <form action="/blog/unapprove" method="POST" class="d-inline-block me-1">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                             <input type="hidden" name="blogId" value="<%= blog._id %>" />
-                            <button class="btn btn-warning py-1 px-2 fs-sm">
-                              تعلیق
-                            </button>
+                            <button class="btn btn-warning py-1 px-2 fs-sm">تعلیق</button>
                           </form>
                           <% } %>
                           <form action="/blog/delete" method="POST" class="d-inline-block delete-blog">
                             <input type="hidden" name="blogId" value="<%= blog._id %>" />
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                            <button class="btn btn-danger py-1 px-2 fs-sm delete-blog">
-                              حذف
-                            </button>
+                            <button class="btn btn-danger py-1 px-2 fs-sm delete-blog">حذف</button>
                           </form>
                         </div>
                       </li>
@@ -84,6 +76,23 @@
               </div>
             </div>
           </div>
+          <!-- Read blog modal -->
+          <div class="modal fade" id="readBlogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title font-black text-primary"></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"></div>
+                <ul class="blog-tags d-flex list-unstyled mt-3 ms-3"></ul>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ Read blog modal -->
         </main>
         <!--/ Main -->
       </div>
@@ -93,25 +102,6 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
-  <script>
-    const deleteBlogForm = document.querySelectorAll("form.delete-blog");
-    deleteBlogForm.forEach((el) => {
-      el.addEventListener("submit", (e) => {
-        e.preventDefault();
-        Swal.fire({
-          title: "احتیاط!",
-          text: "از حذف این پست مطمئن هستی؟",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "بله، مطمئنم",
-          cancelButtonText: "لغو عملیات",
-        }).then(async (result) => {
-          if (result.isConfirmed) e.target.closest("form").submit();
-        });
-      });
-    });
-  </script>
+  <script src="/js/manage-blogs.js"></script>
   <%- include("../includes/message") %>
 </html>

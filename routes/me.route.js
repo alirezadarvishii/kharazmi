@@ -28,6 +28,6 @@ router.post("/edit/:role", asyncHandler(meController.handleEdit));
 //? Handle user change password
 router.post("/change-password", asyncHandler(meController.handleChangePassword));
 
-router.post("/delete-acount", isAuth, meController.deleteAcount);
+router.post("/delete-account", isAuth, asyncHandler(meController.deleteAccount));
 
 module.exports = router;

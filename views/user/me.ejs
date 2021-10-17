@@ -32,7 +32,10 @@
               </li>
             </ul>
             <div class="text-end">
-              <a href="/me/delete-acount" class="btn btn-danger">حذف حساب کاربری</a>
+              <form action="/me/delete-account" method="POST" id="delete-account">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn-danger">حذف حساب کاربری</button>
+              </form>
             </div>
           </div>
         </main>
@@ -42,5 +45,6 @@
   </body>
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/swal/swal.js"></script>
+  <script src="/js/me.js"></script>
   <%- include("../includes/message") %>
 </html>

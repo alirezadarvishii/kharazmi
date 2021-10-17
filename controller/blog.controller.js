@@ -66,8 +66,8 @@ exports.getBlog = async (req, res) => {
 exports.getBlogInPrivateMode = async (req, res) => {
   if (req.user.role === "admin") {
     const { blogId } = req.params;
-    const blog = await Blog.findOne({ _id: blogId });
-    console.log(blog);
+    const blog = await Blog.findOne({ _id: blogId }, { title: 1, body: 1, tags: 1 });
+    res.status(200).json({ message: "Operation successful", blog });
   } else {
     res.status(403).redirect("/");
   }

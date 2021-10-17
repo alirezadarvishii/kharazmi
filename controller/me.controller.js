@@ -3,6 +3,9 @@ const path = require("path");
 const sharp = require("sharp");
 const { hash, compare } = require("bcrypt");
 
+const Admin = require("../model/admin");
+const Teacher = require("../model/teacher");
+const User = require("../model/user");
 const Blog = require("../model/blog");
 const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
 const authValidation = require("../validation/auth.validation");
@@ -30,10 +33,21 @@ exports.changePassword = (req, res) => {
   });
 };
 
-// TODO
-exports.deleteAcount = (req, res) => {
-  console.log("Delete acount route called");
-  // res.redirect("/");
+exports.deleteAccount = async (req, res) => {
+  const { user } = req;
+  if (user.role === "admin") {
+    await Admin.deleteOne({ _id: user._id });
+  } else if (user.role === "teacher") {
+    await Teacher.deleteOne({ _id: user._id });
+  } else if (user.role === "user") {
+    await User.deleteOne({ _id: user._id });
+  } else {
+    throw new ErrorResponse(404, "مشکلی پیش آمده لطفا دوباره تلاش کنید!", "back");
+  }
+  req.session.destroy((err) => {
+    if (err) throw new ErrorResponse(500, "Something went wrong!");
+    res.redirect("/");
+  });
 };
 
 exports.handleEdit = async (req, res) => {

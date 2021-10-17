@@ -22,11 +22,6 @@ const teacherSchema = new mongoose.Schema(
     profileImg: {
       type: String
     },
-    lesson: {
-      type: String,
-      enum: ["specialist", "general", "both"],
-      required: true,
-    },
     status: {
       type: String,
       enum: ["approved", "notApproved"],

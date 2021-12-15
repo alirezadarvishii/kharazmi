@@ -13,12 +13,16 @@ const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
   const { slide = 1, q = "" } = req.query;
+  const filters = {};
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
   const BLOGS_PER_PAGE = 9;
-  const blogs = await Blog.find({ status: "approved" })
+  const blogs = await Blog.find({ ...filters, status: "approved" })
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
-  const blogsLength = await Blog.countDocuments({ status: "approved" });
+  const blogsLength = await Blog.countDocuments({ ...filters, status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
@@ -27,6 +31,7 @@ exports.blog = async (req, res) => {
     pagination,
     blogsLength,
     currentSlide: slide,
+    q,
   });
 };
 
@@ -227,4 +232,18 @@ exports.unApproveBlog = async (req, res) => {
   } else {
     res.redirect("/");
   }
+};
+
+exports.uploadImage = async (req, res) => {
+  // generate a name for image.
+  const filename = `${Date.now()}.jpeg`;
+  // Handle download image with sharp.
+  await sharp(req.files.blogImg[0].buffer)
+    .jpeg({ quality: 60 })
+    .toFile(path.join(__dirname, "..", "public", "blogs", filename))
+    .catch((err) => {
+      console.log("SHARP ERROR: ", err);
+      return res.status(422).json({ message: "خطا در بارگیری تصویر" });
+    });
+  res.status(200).json({ message: "Uploading successfully!", url: `http://localhost:3000/blogs/${filename}` });
 };

@@ -25,7 +25,7 @@
           <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div class="d-flex align-items-center input-group mb-md-0 mb-3">
               <input type="hidden" name="slide" value="1" />
-              <input type="text" name="q" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" autocomplete="off" />
+              <input type="text" name="q" class="form-control py-2" placeholder="دنبال چیز خاصی میگردی؟ سرچش کن!" value="<%= q !== '' ? q : null %>" autocomplete="off" />
               <button type="submit" class="btn btn-primary py-2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path

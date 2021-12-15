@@ -28,16 +28,16 @@ const errorHandler = require("./controller/error.controller");
 const app = express();
 const csrfProtection = csrf({ cookie: true });
 
-// Configuration view engin.
+// View engin configuration.
 app.set("view engine", "ejs");
 app.set("views", "views");
 
 // Middlewares
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
+// Cookie & Session configuation
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -80,6 +80,7 @@ app.use(errorHandler._404);
 app.use(errorHandler._500);
 
 const { PORT, NODE_ENV } = process.env;
+
 database
   .then(() => {
     app.listen(PORT, () => console.log(`Server Runing On Port: ${PORT}, mode: ${NODE_ENV}! (:`));

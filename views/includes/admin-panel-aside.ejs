@@ -21,54 +21,12 @@
       <li class="my-4 position-relative <%= path === '/dashboard' ? 'active' : '' %>">
         <a href="/dashboard" class="text-decoration-none text-secondary">
           <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M19 22V14"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M19 5V2"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M12 22V19"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M12 10V2"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M5 22V14"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M5 5V2"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M19 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M19 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 22V19" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 10V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 22V14" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M5 5V2" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             <path
               d="M5 14C6.1 14 7 13.1 7 12V7C7 5.9 6.1 5 5 5C3.9 5 3 5.9 3 7V12C3 13.1 3.9 14 5 14Z"
               stroke="#6c757d"
@@ -97,16 +55,9 @@
           پنل ادمین
         </a>
       </li>
-      <!-- users links -->
+      <!-- Users management area -->
       <li class="my-4 position-relative">
-        <a
-          class="text-secondary text-decoration-none"
-          data-bs-toggle="collapse"
-          href="#collapseExample"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
+        <a class="text-secondary text-decoration-none" data-bs-toggle="collapse" href="#usersCollapse" role="button" aria-expanded="false" aria-controls="usersCollapse">
           <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M9.16 10.87C9.06 10.86 8.94 10.86 8.83 10.87C6.45 10.79 4.56 8.84 4.56 6.44C4.56 3.99 6.54 2 9 2C11.45 2 13.44 3.99 13.44 6.44C13.43 8.84 11.54 10.79 9.16 10.87Z"
@@ -115,13 +66,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <path
-              d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M16.41 4C18.35 4 19.91 5.57 19.91 7.5C19.91 9.39 18.41 10.93 16.54 11C16.46 10.99 16.37 10.99 16.28 11" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             <path
               d="M4.16 14.56C1.74 16.18 1.74 18.82 4.16 20.43C6.91 22.27 11.42 22.27 14.17 20.43C16.59 18.81 16.59 16.17 14.17 14.56C11.43 12.73 6.92 12.73 4.16 14.56Z"
               stroke="#6c757d"
@@ -139,7 +84,7 @@
           </svg>
           مدیریت کاربران
         </a>
-        <div class="collapse <%= path.match(/\/dashboard\/users/) ? 'show' : '' %>" id="collapseExample">
+        <div class="collapse <%= path.match(/\/dashboard\/users/) ? 'show' : '' %>" id="usersCollapse">
           <div class="card card-body border-0 bg-light mt-2 ms-2 p-2 ps-3">
             <ul class="p-0">
               <li class="py-2 <%= path.match(/\/dashboard\/users\/admins/) ? 'active' : '' %>">
@@ -149,18 +94,17 @@
                 <a href="/dashboard/users/teachers" class="text-secondary text-decoration-none">مدیریت معلم ها</a>
               </li>
               <li class="py-2 <%= path.match(/\/dashboard\/users\/normal-users/) ? 'active' : '' %>">
-                <a href="/dashboard/users/normal-users" class="text-secondary text-decoration-none"
-                  >مدیریت کاربران معمولی</a
-                >
+                <a href="/dashboard/users/normal-users" class="text-secondary text-decoration-none">مدیریت کاربران معمولی</a>
               </li>
             </ul>
           </div>
         </div>
       </li>
-      <!--/ users links -->
-      <li class="my-4 position-relative <%= path.match(/\/dashboard\/blogs/) ? 'active' : '' %>">
-        <a href="/dashboard/blogs" class="text-decoration-none text-secondary">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!--/ Users management area -->
+      <!-- Blogs management area -->
+      <li class="my-4 position-relative">
+        <a class="text-decoration-none text-secondary" data-bs-toggle="collapse" href="#blogCollapse" role="button" aria-expanded="false" aria-controls="blogCollapse">
+          <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M7 12C3 12 3 13.79 3 16V17C3 19.76 3 22 8 22H16C20 22 21 19.76 21 17V16C21 13.79 21 12 17 12C16 12 15.72 12.21 15.2 12.6L14.18 13.68C13 14.94 11 14.94 9.81 13.68L8.8 12.6C8.28 12.21 8 12 7 12Z"
               stroke="#6c757d"
@@ -169,29 +113,30 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <path
-              d="M19 12V6C19 3.79 19 2 15 2H9C5 2 5 3.79 5 6V12"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M19 12V6C19 3.79 19 2 15 2H9C5 2 5 3.79 5 6V12" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
             <path d="M10.5 6H13.5" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path
-              d="M9.75 9H14.25"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M9.75 9H14.25" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-          مدیریت بلاگ ها
+          پنل بلاگ
         </a>
+        <div class="collapse <%= path.match(/\/dashboard\/blogs/) ? 'show' : '' %>" id="blogCollapse">
+          <div class="card card-body border-0 bg-light mt-2 ms-2 p-2 ps-3">
+            <ul class="p-0">
+              <li class="py-2 <%= path.match(/\/dashboard\/blogs/) ? 'active' : '' %>">
+                <a href="/dashboard/blogs" class="text-secondary text-decoration-none">مدیریت بلاگ ها</a>
+              </li>
+              <li class="py-2 <%= path.match(/\/dashboard\/blogs\/settings/) ? 'active' : '' %>">
+                <a href="/dashboard/blogs/settings" class="text-secondary text-decoration-none">تنظیمات ناحیه بلاگ</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </li>
+      <!--/ Blogs management area -->
+      <!-- Gallery management area -->
       <li class="my-4 position-relative <%= path.match(/\/dashboard\/gallery/) ? 'active' : '' %>">
         <a href="/dashboard/gallery" class="text-decoration-none text-secondary">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M9 10C10.1046 10 11 9.10457 11 8C11 6.89543 10.1046 6 9 6C7.89543 6 7 6.89543 7 8C7 9.10457 7.89543 10 9 10Z"
               stroke="#6c757d"
@@ -199,27 +144,9 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <path
-              d="M4.2 20.3L11.5 15.2C13.6 13.6 14.8 13.6 16.9 15.2L21.2 18.3"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M9.3 16.1L8.3 15.3C5.9 13.5 5.8 13.5 3.3 15.3L2.4 16"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M13 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V10"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M4.2 20.3L11.5 15.2C13.6 13.6 14.8 13.6 16.9 15.2L21.2 18.3" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9.3 16.1L8.3 15.3C5.9 13.5 5.8 13.5 3.3 15.3L2.4 16" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V10" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             <path
               d="M19.1 2.6L15.5 6.2C15.4 6.3 15.2 6.6 15.2 6.8L15 8.2C14.9 8.7 15.3 9.1 15.8 9L17.2 8.8C17.4 8.8 17.7 8.6 17.8 8.5L21.4 4.9C22 4.3 22.3 3.5 21.4 2.6C20.5 1.7 19.8 2 19.1 2.6Z"
               stroke="#6c757d"
@@ -228,49 +155,29 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <path
-              d="M18.6 3.09998C18.9 4.19998 19.8 5.09998 20.9 5.39998"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+            <path d="M18.6 3.09998C18.9 4.19998 19.8 5.09998 20.9 5.39998" stroke="#6c757d" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           مدیریت گالری
         </a>
       </li>
+      <!--/ Gallery management area -->
+      <!-- Events management area -->
       <li class="my-4 position-relative <%= path.match(/\/dashboard\/events/) ? 'active' : '' %>">
         <a href="/dashboard/events" class="text-decoration-none text-secondary">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001"
-              stroke="#6c757d"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 12C22 17.52 17.52 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M15.71 15.18L12.61 13.33C12.07 13.01 11.63 12.24 11.63 11.61V7.51001" stroke="#6c757d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           مدیریت رویداد ها
         </a>
       </li>
+      <!--/ Events management area -->
     </ul>
-    <!-- User profile info -->
+    <!-- User profile area -->
     <div class="user border-top pt-4 px-2">
       <div class="d-flex align-items-center">
         <div class="profile-img rounded-pill p-1 bg-white shadow">
-          <img
-            src="http://localhost:3000/users/<%= user.profileImg %>"
-            class="fit-cover h-100 w-100 rounded-pill"
-            alt=""
-          />
+          <img src="http://localhost:3000/users/<%= user.profileImg %>" class="fit-cover h-100 w-100 rounded-pill" alt="" />
         </div>
         <div class="d-flex flex-column ms-2">
           <span class="text-dark font-black"><%= user.fullname %></span>
@@ -278,7 +185,7 @@
         </div>
       </div>
     </div>
-    <!-- User profile info -->
+    <!-- User profile area -->
   </div>
 </aside>
 <!--/ Aside -->

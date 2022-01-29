@@ -6,6 +6,10 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     body: {
       type: String,
       required: true,
@@ -30,6 +34,11 @@ const blogSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
+      required: true,
+    },
+    category: {
+      type: mongoose.Types.ObjectId,
+      ref: "blog_categories",
       required: true,
     },
     tags: [{ type: String, required: true }],

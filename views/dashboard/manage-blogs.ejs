@@ -20,7 +20,7 @@
           <div class="bg-light rounded-8 p-3 pb-0">
             <div class="mb-4 d-flex justify-content-between">
               <h3 class="font-black text-dark">مدیریت بلاگ های وبسایت</h3>
-              <a href="/blog/news" class="btn btn-primary">نوشتن یک پست</a>
+              <a href="/blog/new" class="btn btn-primary">نوشتن یک پست</a>
             </div>
             <div class="row mt-2">
               <div class="col">
@@ -39,8 +39,8 @@
                       <li class="col text-end">تأیید \ حذف</li>
                     </ul>
                     <ul class="list-unstyled">
-                      <% if(blogs) { %> <% blogs.forEach((blog, index) => { %>
-                      <li class="row py-3 border-bottom">
+                      <% if(blogs.length) { %> <% blogs.forEach((blog, index) => { %>
+                      <li class="row py-3 border-bottom align-items-center">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-secondary blog-title overflow-hidden"><%= blog.title %></div>
                         <div class="col <%= blog.author !== null ? 'text-primary' : 'text-secondary' %>"><%= blog.author !== null ? blog.author.fullname : "کاربر دلیت اکانت شده" %></div>
@@ -69,7 +69,13 @@
                           </form>
                         </div>
                       </li>
-                      <% }) %> <% } %>
+                      <% }) %> <% } else { %>
+                        <div class="my-5 d-flex align-items-center justify-content-center flex-column">
+                          <img src="http://localhost:3000/images/blog-notfound.png" alt="" />
+                          <h5 class="text-secondary font-bold my-4">تـاکـنـون بـلـاگـی ثـبـت نـشـده!</h5>
+                          <a href="/blog/new" class="btn btn-outline-primary">نوشتن یک پست</a>
+                        </div>
+                      <% } %> 
                     </ul>
                   </div>
                 </div>

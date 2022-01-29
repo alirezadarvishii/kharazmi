@@ -37,7 +37,7 @@
                       <li class="col text-end">مدیریت</li>
                     </ul>
                     <ul class="list-unstyled">
-                      <% if(users) { %> <% users.forEach((user, index) => { %>
+                      <% if(users.length) { %> <% users.forEach((user, index) => { %>
                       <li class="row py-3 border-bottom align-items-center">
                         <div class="col-1 text-secondary"><%= ++index %></div>
                         <div class="col text-primary"><%= user.fullname %></div>
@@ -67,7 +67,9 @@
                           <% } %>
                         </div>
                       </li>
-                      <% }) %> <% } %>
+                      <% }) %> <% } else { %>
+                        <h3 class="text-center my-5 text-danger font-black">کاربری برای نمایش موجود نیست</h3>
+                      <% } %> 
                     </ul>
                   </div>
                 </div>

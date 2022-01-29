@@ -8,7 +8,9 @@ const compression = require("compression");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
 
-require("dotenv").config({ path: "./config/env.config" });
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/env.config" });
+
 const database = require("./utils/database");
 const handleMulter = require("./middleware/handleMulter");
 const { moment, momentTime } = require("./utils/moment");

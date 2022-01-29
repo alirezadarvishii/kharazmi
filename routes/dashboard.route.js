@@ -23,6 +23,8 @@ router.get("/users/normal-users", isAuth, isAdmin, asyncHandler(dashboardControl
 //? Get blogs management page.
 router.get("/blogs", isAuth, isAdmin, asyncHandler(dashboardController.manageBlogs));
 
+router.get("/blogs/settings", isAuth, isAdmin, asyncHandler(dashboardController.blogsSettingPage));
+
 //? Get gallery images management page.
 router.get("/gallery", isAuth, isAdmin, asyncHandler(dashboardController.manageGallery));
 

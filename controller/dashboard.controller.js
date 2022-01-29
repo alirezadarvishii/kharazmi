@@ -2,9 +2,10 @@ const Admin = require("../model/admin");
 const Teacher = require("../model/teacher");
 const User = require("../model/user");
 const Blog = require("../model/blog");
+const BlogCategory = require("../model/blog.categories");
 const Gallery = require("../model/gallery");
 const Event = require("../model/event");
-const Comment = require("../model/comment");
+const Comment = require("../model/blogs.comment");
 
 exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
@@ -83,5 +84,13 @@ exports.manageEvents = async (req, res) => {
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
     events,
+  });
+};
+
+exports.blogsSettingPage = async (req, res) => {
+  const blogCategories = await BlogCategory.find({});
+  res.render("dashboard/blog-settings", {
+    title: "ناحیه تنظیمات بلاگ ها",
+    blogCategories
   });
 };

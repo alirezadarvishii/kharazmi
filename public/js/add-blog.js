@@ -1,4 +1,5 @@
 const addPostFrom = document.querySelector("form");
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
 
 let ck;
 ClassicEditor.create(document.querySelector("#ckeditor"), {
@@ -13,6 +14,19 @@ ClassicEditor.create(document.querySelector("#ckeditor"), {
       { model: "heading5", view: "h5", title: "تیتر نویس 5", class: "ck-heading_heading3" },
       { model: "heading6", view: "h6", title: "تیتر نویس 6", class: "ck-heading_heading3" },
     ],
+  },
+  toolbar: {
+    items: ["heading", "|", "bold", "italic", "link", "|", "fontSize", "fontColor", "|", "imageUpload", "blockQuote", "insertTable", "undo", "redo", "codeBlock"],
+  },
+  table: {
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+  },
+  simpleUpload: {
+    // The URL that the images are uploaded to.
+    uploadUrl: "/blog/blogImg",
+    headers: {
+      "CSRF-Token": csrfToken,
+    },
   },
 })
   .then((editor) => {
@@ -36,6 +50,7 @@ const formValidation = (e) => {
   const category = document.querySelector("form [name=category]");
   const blogImg = document.querySelector("form [name=blogImg]");
   const tags = document.querySelector("form [name=tags]");
+  const description = document.querySelector("form [name=description]");
   const body = ck.data.get();
 
   const validator = new FastestValidator();
@@ -50,6 +65,7 @@ const formValidation = (e) => {
       min: 2,
       messages: { arrayMin: "حدااقل 2 تگ الزامی است!", arrayUnique: "تگ ها باید متفاوت باشند!" },
     },
+    description: { type: "string", min: 20, messages: { stringMin: "دسکریپشن حدااقل 20 کاراکتر باشد!", stringMax: "دسکریپشن حدااکثر 50 کاراکتر باشد!" } },
     body: { type: "string", min: 200, messages: { stringMin: "متن پست حدااقل 200 کاراکتر باشد!" } },
   };
   const check = validator.compile(schema);
@@ -58,6 +74,7 @@ const formValidation = (e) => {
     category: category.value,
     blogImg: blogImg.value,
     tags: tags.value.split("/").filter((item) => item.length !== 0),
+    description: description.value,
     body,
   });
   document.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());

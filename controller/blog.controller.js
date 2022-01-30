@@ -13,18 +13,12 @@ const genPagination = require("../utils/pagination");
 const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
   const { slide = 1, q = "" } = req.query;
   const filters = {};
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
   const BLOGS_PER_PAGE = 9;
-  const blogs = await Blog.find({ ...filters, status: "approved" })
-=======
-=======
->>>>>>> develop
   const { slide = 1, q = "", sort, category } = req.query;
   const BLOGS_PER_PAGE = 9;
   const filters = pick(req.query, ["category"]);
@@ -33,10 +27,6 @@ exports.blog = async (req, res) => {
   }
   const blogs = await Blog.find({ ...filters, status: "approved" })
     .sort(sort)
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
@@ -50,20 +40,11 @@ exports.blog = async (req, res) => {
     pagination,
     blogsLength,
     currentSlide: slide,
-<<<<<<< HEAD
-<<<<<<< HEAD
     q,
-=======
-=======
->>>>>>> develop
     query: q,
     categories,
     sort,
     selectedCategory: category,
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
   });
 };
 
@@ -268,37 +249,23 @@ exports.unApproveBlog = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 exports.uploadImage = async (req, res) => {
   // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
   // Handle download image with sharp.
   await sharp(req.files.blogImg[0].buffer)
-=======
-=======
->>>>>>> develop
 exports.downloadBlogImg = async (req, res) => {
   // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
   // Handle download image with sharp.
   await sharp(req.files.upload[0].buffer)
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
     .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "blogs", filename))
     .catch((err) => {
       console.log("SHARP ERROR: ", err);
-<<<<<<< HEAD
-<<<<<<< HEAD
       return res.status(422).json({ message: "خطا در بارگیری تصویر" });
     });
   res.status(200).json({ message: "Uploading successfully!", url: `http://localhost:3000/blogs/${filename}` });
-=======
-=======
->>>>>>> develop
       return res.status(400).json({ message: "Error in image downloading" });
     });
   return res.status(200).json({ url: `http://localhost:3000/blogs/${filename}` });
@@ -320,8 +287,4 @@ exports.deleteCategory = async (req, res) => {
   await BlogCategory.deleteOne({ _id: categoryId });
   req.flash("success", "دسته بندی مورد نظر حذف گردید");
   res.status(200).redirect("back");
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
 };

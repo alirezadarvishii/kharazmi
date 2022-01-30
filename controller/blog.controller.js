@@ -13,12 +13,6 @@ const genPagination = require("../utils/pagination");
 const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
-  const { slide = 1, q = "" } = req.query;
-  const filters = {};
-  if (q.length) {
-    Object.assign(filters, { $text: { $search: q } });
-  }
-  const BLOGS_PER_PAGE = 9;
   const { slide = 1, q = "", sort, category } = req.query;
   const BLOGS_PER_PAGE = 9;
   const filters = pick(req.query, ["category"]);
@@ -30,7 +24,7 @@ exports.blog = async (req, res) => {
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
-  const blogsLength = await Blog.countDocuments({ ...filters, status: "approved" });
+  const blogsLength = await Blog.countDocuments({ status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
   const categories = await BlogCategory.find({});
   res.render("blog/blog", {
@@ -40,7 +34,6 @@ exports.blog = async (req, res) => {
     pagination,
     blogsLength,
     currentSlide: slide,
-    q,
     query: q,
     categories,
     sort,
@@ -249,11 +242,6 @@ exports.unApproveBlog = async (req, res) => {
   }
 };
 
-exports.uploadImage = async (req, res) => {
-  // generate a name for image.
-  const filename = `${Date.now()}.jpeg`;
-  // Handle download image with sharp.
-  await sharp(req.files.blogImg[0].buffer)
 exports.downloadBlogImg = async (req, res) => {
   // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
@@ -263,9 +251,6 @@ exports.downloadBlogImg = async (req, res) => {
     .toFile(path.join(__dirname, "..", "public", "blogs", filename))
     .catch((err) => {
       console.log("SHARP ERROR: ", err);
-      return res.status(422).json({ message: "خطا در بارگیری تصویر" });
-    });
-  res.status(200).json({ message: "Uploading successfully!", url: `http://localhost:3000/blogs/${filename}` });
       return res.status(400).json({ message: "Error in image downloading" });
     });
   return res.status(200).json({ url: `http://localhost:3000/blogs/${filename}` });

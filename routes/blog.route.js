@@ -5,11 +5,12 @@ const router = Router();
 const asyncHandler = require("../middleware/asyncHandler");
 const blogController = require("../controller/blog.controller");
 const { isAuth } = require("../middleware/authMiddleware");
+const filterQuery = require("../middleware/filter-query");
 
 //! ---------------------- GET ROUTES ----------------------
 
 //? Route and Method: /blog & GET
-router.get("/", blogController.blog);
+router.get("/", filterQuery, blogController.blog);
 
 //? Route and Method: /blog/new & GET
 router.get("/new", isAuth, asyncHandler(blogController.addBlog));

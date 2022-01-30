@@ -13,16 +13,20 @@ const genPagination = require("../utils/pagination");
 const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
-  const { slide = 1, q = "" } = req.query;
-  const filter = pick(req.query, [""]);
+  const { slide = 1, q = "", sort, category } = req.query;
   const BLOGS_PER_PAGE = 9;
-  const blogs = await Blog.find({ ...filter, status: "approved" })
-    .sort(req.query.sort)
+  const filters = pick(req.query, ["category"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const blogs = await Blog.find({ ...filters, status: "approved" })
+    .sort(sort)
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
   const blogsLength = await Blog.countDocuments({ status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
+  const categories = await BlogCategory.find({});
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
@@ -31,6 +35,9 @@ exports.blog = async (req, res) => {
     blogsLength,
     currentSlide: slide,
     query: q,
+    categories,
+    sort,
+    selectedCategory: category,
   });
 };
 

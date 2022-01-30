@@ -224,7 +224,7 @@ nav.navbar {
   border: none;
 }
 .blogs .card img {
-  height: 200px;
+  height: 250px;
 }
 .blogs .card-body span {
   font-size: 13px;
@@ -374,7 +374,7 @@ header.header-small {
   width: 450px;
 }
 .blogs-area .blogs > div {
-  height: 400px;
+  height: 450px;
 }
 .blogs-area .blogs .blogImg img {
   height: 220px;

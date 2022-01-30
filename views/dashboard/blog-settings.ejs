@@ -20,17 +20,17 @@
           <div class="bg-light rounded-8 p-3 pb-0">
             <div class="mb-4 d-flex justify-content-between">
               <h3 class="font-black text-dark">تنظیمات بخش بلاگ</h3>
+              <button class="btn btn-primary fs-sm" data-bs-toggle="modal" data-bs-target="#addNewCategory">ایجاد دسته بندی جدید</button>
             </div>
             <div class="row mt-2">
               <div class="col">
                 <div class="card border shadow-sm mb-3">
-                  <div class="card-header font-bold d-flex align-items-center justify-content-between">
+                  <div class="card-header font-bold">
                     <div>
                       مدیریت دسته بندی بلاگ ها
-                      <span class="text-secondary font-light number-of-blugs">( <%= blogCategories.length %>  دسته بندی )</span>
+                      <span class="text-secondary font-light number-of-blugs">( <%= blogCategories.length %> دسته بندی )</span>
                     </div>
-                    <button class="btn btn-primary fs-sm" data-bs-toggle="modal" data-bs-target="#addNewCategory">ایجاد دسته بندی جدید</button>
-                    <!--! Add New Category Modal -->
+                    <!-- Add New Category Modal -->
                     <div class="modal fade" id="addNewCategory" tabindex="-1" aria-labelledby="addNewCategory" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
@@ -40,7 +40,7 @@
                           <form action="/blog/new-category" method="POST" enctype="multipart/form-data" id="addNewCategory">
                             <div class="modal-body my-4">
                               <div>
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                                 <div>
                                   <label class="text-secondary mb-2 font-medium">نام نمایشی دسته بندی</label>
                                   <input type="text" name="categoryNameInPersian" class="form-control" autocomplete="off" />

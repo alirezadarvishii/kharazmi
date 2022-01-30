@@ -1,12 +1,12 @@
 const path = require("path");
 
 const express = require("express");
-const flash = require("connect-flash");
-const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const compression = require("compression");
+const session = require("express-session");
 const csrf = require("csurf");
+const compression = require("compression");
 const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
 
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/env.config" });

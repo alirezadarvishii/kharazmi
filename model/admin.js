@@ -38,4 +38,6 @@ const adminSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+adminSchema.index({ fullname: "text" });
+
 module.exports = mongoose.model("Admin", adminSchema);

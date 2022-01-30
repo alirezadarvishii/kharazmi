@@ -7,6 +7,8 @@ const Gallery = require("../model/gallery");
 const Event = require("../model/event");
 const Comment = require("../model/blogs.comment");
 
+const pick = require("../utils/pick");
+
 exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
   const notApprovedTeachers = await Teacher.find({ status: "notApproved" });
@@ -40,34 +42,70 @@ exports.adminPanel = async (req, res) => {
 };
 
 exports.manageAdmins = async (req, res) => {
-  const admins = await Admin.find({}).select("-password");
+  const { status, sort, q = "" } = req.query;
+  const filters = pick(req.query, ["status"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const admins = await Admin.find({ ...filters })
+    .sort(sort)
+    .select("-password");
   res.render("dashboard/manage-admins", {
     title: "مدیریت ادمین های وبسایت",
     admins,
+    status,
+    query: q,
   });
 };
 
 exports.manageTeachers = async (req, res) => {
-  const teachers = await Teacher.find({}).select("-password");
+  const { status, sort, q = "" } = req.query;
+  const filters = pick(req.query, ["status"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const teachers = await Teacher.find({ ...filters })
+    .sort(sort)
+    .select("-password");
   res.render("dashboard/manage-teachers", {
     title: "مدیریت معلم های وبسایت",
     teachers,
+    status,
+    query: q,
   });
 };
 
 exports.manageNormalUsers = async (req, res) => {
-  const users = await User.find({}).select("-password");
+  const { status, sort, q = "" } = req.query;
+  const filters = pick(req.query, ["status"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const users = await User.find({ ...filters })
+    .sort(sort)
+    .select("-password");
   res.render("dashboard/manage-normalusers", {
     title: "مدیریت کاربران وبسایت",
     users,
+    status,
+    query: q,
   });
 };
 
 exports.manageBlogs = async (req, res) => {
-  const blogs = await Blog.find({}).populate("author");
+  const { status, q = "", sort } = req.query;
+  const filters = pick(req.query, ["status"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const blogs = await Blog.find({ ...filters })
+    .sort(sort)
+    .populate("author");
   res.render("dashboard/manage-blogs", {
     title: "مدیریت بلاگ های وبسایت",
     blogs,
+    query: q,
+    status,
   });
 };
 
@@ -91,6 +129,6 @@ exports.blogsSettingPage = async (req, res) => {
   const blogCategories = await BlogCategory.find({});
   res.render("dashboard/blog-settings", {
     title: "ناحیه تنظیمات بلاگ ها",
-    blogCategories
+    blogCategories,
   });
 };

@@ -6,7 +6,11 @@ const asyncHandler = require("../middleware/asyncHandler");
 const blogController = require("../controller/blog.controller");
 const { isAuth } = require("../middleware/authMiddleware");
 <<<<<<< HEAD
+<<<<<<< HEAD
 const filterQueries = require("../utils/filterQueries");
+=======
+const filterQuery = require("../middleware/filter-query");
+>>>>>>> develop
 =======
 const filterQuery = require("../middleware/filter-query");
 >>>>>>> develop
@@ -15,7 +19,11 @@ const filterQuery = require("../middleware/filter-query");
 
 //? Route and Method: /blog & GET
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.get("/", filterQueries, blogController.blog);
+=======
+router.get("/", filterQuery, blogController.blog);
+>>>>>>> develop
 =======
 router.get("/", filterQuery, blogController.blog);
 >>>>>>> develop
@@ -54,7 +62,13 @@ router.post("/blogImg", asyncHandler(blogController.downloadBlogImg));
 router.post("/update", asyncHandler(blogController.handleUpdateBlog));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 router.post("/image/upload", blogController.uploadImage);
+=======
+router.post("/new-category", asyncHandler(blogController.addNewCategory));
+
+router.post("/delete-category", asyncHandler(blogController.deleteCategory));
+>>>>>>> develop
 =======
 router.post("/new-category", asyncHandler(blogController.addNewCategory));
 

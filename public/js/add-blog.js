@@ -122,8 +122,11 @@ ClassicEditor.create(document.querySelector("#ckeditor"), {
     ],
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   extraPlugins: [MyCustomUploadAdapterPlugin],
 =======
+=======
+>>>>>>> develop
   toolbar: {
     items: ["heading", "|", "bold", "italic", "link", "|", "fontSize", "fontColor", "|", "imageUpload", "blockQuote", "insertTable", "undo", "redo", "codeBlock"],
   },
@@ -137,6 +140,9 @@ ClassicEditor.create(document.querySelector("#ckeditor"), {
       "CSRF-Token": csrfToken,
     },
   },
+<<<<<<< HEAD
+>>>>>>> develop
+=======
 >>>>>>> develop
 })
   .then((editor) => {

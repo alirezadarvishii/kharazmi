@@ -36,4 +36,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.index({ fullname: "text" });
+
 module.exports = mongoose.model("User", userSchema);

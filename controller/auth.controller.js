@@ -52,7 +52,7 @@ exports.handleRegisterAdmin = async (req, res) => {
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 20 })
+    .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   const adminUsersLength = await Admin.countDocuments();
   if (adminUsersLength < 1) {
@@ -84,7 +84,7 @@ exports.handleRegisterTeacher = async (req, res) => {
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 20 })
+    .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   // Save new teacher to the database
   await Teacher.create({ ...req.body, profileImg: filename, password: hashPassword });
@@ -113,7 +113,7 @@ exports.handleRegisterUser = async (req, res) => {
   const filename = `${Date.now()}.jpeg`;
   // Download image with sharp
   await sharp(req.files.profileImg[0].buffer)
-    .jpeg({ quality: 20 })
+    .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "users", filename));
   await User.create({ ...req.body, profileImg: filename, password: hashPassword });
   req.flash("success", "ثبت نام شما با موفقیت انجام شد و میتوانید وارد اکانت خود شوید!");

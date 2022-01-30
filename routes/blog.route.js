@@ -5,15 +5,23 @@ const router = Router();
 const asyncHandler = require("../middleware/asyncHandler");
 const blogController = require("../controller/blog.controller");
 const { isAuth } = require("../middleware/authMiddleware");
+<<<<<<< HEAD
 const filterQueries = require("../utils/filterQueries");
+=======
+const filterQuery = require("../middleware/filter-query");
+>>>>>>> develop
 
 //! ---------------------- GET ROUTES ----------------------
 
 //? Route and Method: /blog & GET
+<<<<<<< HEAD
 router.get("/", filterQueries, blogController.blog);
+=======
+router.get("/", filterQuery, blogController.blog);
+>>>>>>> develop
 
 //? Route and Method: /blog/new & GET
-router.get("/new", isAuth, blogController.addBlog);
+router.get("/new", isAuth, asyncHandler(blogController.addBlog));
 
 router.get("/read/private/:blogId", isAuth, asyncHandler(blogController.getBlogInPrivateMode));
 
@@ -40,9 +48,17 @@ router.post("/delete", asyncHandler(blogController.handleDeleteBlog));
 //? Route and Method: /blog/new & POST
 router.post("/new", isAuth, asyncHandler(blogController.handleAddBlog));
 
+router.post("/blogImg", asyncHandler(blogController.downloadBlogImg));
+
 //? Route and Method: /blog/update & POST
 router.post("/update", asyncHandler(blogController.handleUpdateBlog));
 
+<<<<<<< HEAD
 router.post("/image/upload", blogController.uploadImage);
+=======
+router.post("/new-category", asyncHandler(blogController.addNewCategory));
+
+router.post("/delete-category", asyncHandler(blogController.deleteCategory));
+>>>>>>> develop
 
 module.exports = router;

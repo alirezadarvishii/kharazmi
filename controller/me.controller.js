@@ -60,7 +60,7 @@ exports.handleEdit = async (req, res) => {
   const user = await getUserByRole(role, { _id: req.user._id });
   if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "back");
   if (req.files.profileImg) {
-    await sharp(req.files.profileImg[0].buffer).jpeg({ quality: 20 }).toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
+    await sharp(req.files.profileImg[0].buffer).jpeg({ quality: 60 }).toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
   }
   user.fullname = fullname;
   user.bio = bio;

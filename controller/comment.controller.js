@@ -3,7 +3,7 @@ const path = require("path");
 const ejs = require("ejs");
 
 const Blog = require("../model/blog");
-const Comment = require("../model/comment");
+const Comment = require("../model/blogs.comment");
 const ErrorResponse = require("../utils/errorResponse");
 const commentValidation = require("../validation/comment.validation");
 const { moment } = require("../utils/moment");

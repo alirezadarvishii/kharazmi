@@ -5,6 +5,7 @@ const router = Router();
 const dashboardController = require("../controller/dashboard.controller");
 const asyncHandler = require("../middleware/asyncHandler");
 const { isAuth, isAdmin } = require("../middleware/authMiddleware");
+const filterQuery = require("../middleware/filter-query");
 
 //! ---------------------- GET ROUTES ----------------------
 
@@ -12,7 +13,7 @@ const { isAuth, isAdmin } = require("../middleware/authMiddleware");
 router.get("/", isAuth, isAdmin, dashboardController.adminPanel);
 
 //? Get admin users managment page.
-router.get("/users/admins", isAuth, isAdmin, asyncHandler(dashboardController.manageAdmins));
+router.get("/users/admins", isAuth, isAdmin, filterQuery, asyncHandler(dashboardController.manageAdmins));
 
 //? Get teacher users management page
 router.get("/users/teachers", isAuth, isAdmin, asyncHandler(dashboardController.manageTeachers));
@@ -21,7 +22,9 @@ router.get("/users/teachers", isAuth, isAdmin, asyncHandler(dashboardController.
 router.get("/users/normal-users", isAuth, isAdmin, asyncHandler(dashboardController.manageNormalUsers));
 
 //? Get blogs management page.
-router.get("/blogs", isAuth, isAdmin, asyncHandler(dashboardController.manageBlogs));
+router.get("/blogs", isAuth, isAdmin, filterQuery, asyncHandler(dashboardController.manageBlogs));
+
+router.get("/blogs/settings", isAuth, isAdmin, asyncHandler(dashboardController.blogsSettingPage));
 
 //? Get gallery images management page.
 router.get("/gallery", isAuth, isAdmin, asyncHandler(dashboardController.manageGallery));

@@ -4,6 +4,7 @@ const sharp = require("sharp");
 const { Types } = require("mongoose");
 
 const Blog = require("../model/blog");
+const BlogCategory = require("../model/blog.categories");
 const ErrorResponse = require("../utils/ErrorResponse");
 const blogValidation = require("../validation/blog.validation");
 const isObjectId = require("../utils/isObjectId");
@@ -12,6 +13,7 @@ const genPagination = require("../utils/pagination");
 const ac = require("../security/accesscontrol");
 
 exports.blog = async (req, res) => {
+<<<<<<< HEAD
   const { slide = 1, q = "" } = req.query;
   const filters = {};
   if (q.length) {
@@ -19,11 +21,22 @@ exports.blog = async (req, res) => {
   }
   const BLOGS_PER_PAGE = 9;
   const blogs = await Blog.find({ ...filters, status: "approved" })
+=======
+  const { slide = 1, q = "", sort, category } = req.query;
+  const BLOGS_PER_PAGE = 9;
+  const filters = pick(req.query, ["category"]);
+  if (q.length) {
+    Object.assign(filters, { $text: { $search: q } });
+  }
+  const blogs = await Blog.find({ ...filters, status: "approved" })
+    .sort(sort)
+>>>>>>> develop
     .populate("author")
     .skip(BLOGS_PER_PAGE * (slide - 1))
     .limit(BLOGS_PER_PAGE);
   const blogsLength = await Blog.countDocuments({ ...filters, status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
+  const categories = await BlogCategory.find({});
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
@@ -31,7 +44,14 @@ exports.blog = async (req, res) => {
     pagination,
     blogsLength,
     currentSlide: slide,
+<<<<<<< HEAD
     q,
+=======
+    query: q,
+    categories,
+    sort,
+    selectedCategory: category,
+>>>>>>> develop
   });
 };
 
@@ -54,7 +74,7 @@ exports.getBlog = async (req, res) => {
     },
   ]);
   if (!blog) return res.status(400).redirect("/404");
-  await Blog.populate(blog, { path: "author" });
+  await Blog.populate(blog, ["author", "category"]);
   const otherBlogs = await Blog.find({}).limit(10);
   const isBeforeVisited = blog.visit.findIndex((ip) => ip === ip);
   if (isBeforeVisited < 0) {
@@ -78,12 +98,14 @@ exports.getBlogInPrivateMode = async (req, res) => {
   }
 };
 
-exports.addBlog = (req, res) => {
+exports.addBlog = async (req, res) => {
   const permission = ac.can(req.user.role).create("blog");
+  const categories = await BlogCategory.find({});
   if (permission.granted) {
     res.render("blog/add-blog", {
       title: "افزودن پست جدید",
       headerTitle: "افزودن پست جدید",
+      categories,
     });
   } else {
     res.redirect("/");
@@ -93,7 +115,7 @@ exports.addBlog = (req, res) => {
 exports.handleAddBlog = async (req, res) => {
   const permission = ac.can(req.user.role).create("blog");
   if (permission.granted) {
-    const validate = blogValidation.blog.validate(req.body);
+    const validate = blogValidation.validate(req.body);
     // Validation process.
     if (validate.error) {
       throw new ErrorResponse(422, validate.error.message, "back");
@@ -234,16 +256,48 @@ exports.unApproveBlog = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 exports.uploadImage = async (req, res) => {
   // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
   // Handle download image with sharp.
   await sharp(req.files.blogImg[0].buffer)
+=======
+exports.downloadBlogImg = async (req, res) => {
+  // generate a name for image.
+  const filename = `${Date.now()}.jpeg`;
+  // Handle download image with sharp.
+  await sharp(req.files.upload[0].buffer)
+>>>>>>> develop
     .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "blogs", filename))
     .catch((err) => {
       console.log("SHARP ERROR: ", err);
+<<<<<<< HEAD
       return res.status(422).json({ message: "خطا در بارگیری تصویر" });
     });
   res.status(200).json({ message: "Uploading successfully!", url: `http://localhost:3000/blogs/${filename}` });
+=======
+      return res.status(400).json({ message: "Error in image downloading" });
+    });
+  return res.status(200).json({ url: `http://localhost:3000/blogs/${filename}` });
+};
+
+exports.addNewCategory = async (req, res) => {
+  const { categoryNameInPersian, categoryNameInEnglish } = req.body;
+  const category = {
+    name: categoryNameInPersian,
+    enName: categoryNameInEnglish,
+  };
+  await BlogCategory.create(category);
+  req.flash("success", "دسته بندی با موفقیت افزوده شد!");
+  res.status(200).redirect("back");
+};
+
+exports.deleteCategory = async (req, res) => {
+  const { categoryId } = req.body;
+  await BlogCategory.deleteOne({ _id: categoryId });
+  req.flash("success", "دسته بندی مورد نظر حذف گردید");
+  res.status(200).redirect("back");
+>>>>>>> develop
 };

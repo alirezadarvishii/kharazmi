@@ -44,7 +44,7 @@ app.use(compression());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    name: "FuckYouHacker",
+    name: "Nothing",
     resave: false,
     saveUninitialized: true,
     cookie: { httpOnly: true, sameSite: true },

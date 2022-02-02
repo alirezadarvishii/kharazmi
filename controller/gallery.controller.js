@@ -7,7 +7,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const galleryValidation = require("../validation/gallery.validation");
 const ac = require("../security/accesscontrol");
 
-exports.addNewImageToGallery = async (req, res) => {
+module.exports.addNewImageToGallery = async (req, res) => {
   const permission = ac.can(req.user.role).create("galleryImage");
   if (permission.granted) {
     const { caption } = req.body;
@@ -21,14 +21,21 @@ exports.addNewImageToGallery = async (req, res) => {
         .jpeg({
           quality: 60,
         })
-        .toFile(path.join(__dirname, "..", "public", "gallery", filename), async (err) => {
-          if (err) {
-            throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "/register?type=user");
-          }
-          await Gallery.create({ img: filename, caption });
-          req.flash("success", "تصویر جدید با موفقیت به گالری افزوده شد");
-          res.redirect("back");
-        });
+        .toFile(
+          path.join(__dirname, "..", "public", "gallery", filename),
+          async (err) => {
+            if (err) {
+              throw new ErrorResponse(
+                402,
+                "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!",
+                "/register?type=user",
+              );
+            }
+            await Gallery.create({ img: filename, caption });
+            req.flash("success", "تصویر جدید با موفقیت به گالری افزوده شد");
+            res.redirect("back");
+          },
+        );
     } else {
       throw new ErrorResponse(404, "تصویر رو یادت رفته آپلود کنی!", "back");
     }
@@ -37,7 +44,7 @@ exports.addNewImageToGallery = async (req, res) => {
   }
 };
 
-exports.editGalleryImg = async (req, res) => {
+module.exports.editGalleryImg = async (req, res) => {
   const permission = ac.can(req.user.role).update("galleryImage");
   if (permission.granted) {
     const { caption, imgId } = req.body;
@@ -51,15 +58,22 @@ exports.editGalleryImg = async (req, res) => {
         .jpeg({
           quality: 60,
         })
-        .toFile(path.join(__dirname, "..", "public", "gallery", img.img), async (err) => {
-          if (err) {
-            throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "back");
-          }
-          img.caption = caption;
-          await img.save();
-          req.flash("success", "ویرایش با موفقیت انجام گردید!");
-          res.redirect("back");
-        });
+        .toFile(
+          path.join(__dirname, "..", "public", "gallery", img.img),
+          async (err) => {
+            if (err) {
+              throw new ErrorResponse(
+                402,
+                "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!",
+                "back",
+              );
+            }
+            img.caption = caption;
+            await img.save();
+            req.flash("success", "ویرایش با موفقیت انجام گردید!");
+            res.redirect("back");
+          },
+        );
     } else {
       img.caption = caption;
       await img.save();
@@ -71,7 +85,7 @@ exports.editGalleryImg = async (req, res) => {
   }
 };
 
-exports.deleteGalleryImg = async (req, res) => {
+module.exports.deleteGalleryImg = async (req, res) => {
   const permission = ac.can(req.user.role).delete("galleryImage");
   if (permission.granted) {
     const { imgId } = req.body;

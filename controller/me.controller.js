@@ -12,28 +12,28 @@ const authValidation = require("../validation/auth.validation");
 const getUserByRole = require("../utils/getUserByRole");
 const { changePasswordValidation } = require("../validation/auth.validation");
 
-exports.userPanel = async (req, res) => {
+module.exports.userPanel = (req, res) => {
   res.render("user/me", {
     title: "پنل کاربری",
     headerTitle: "حساب کاربری",
   });
 };
 
-exports.edit = (req, res) => {
+module.exports.edit = (req, res) => {
   res.render("user/edit", {
     title: "ویرایش اطلاعات حساب کاربری",
     headerTitle: "ویرایش اطلاعات حساب کاربری",
   });
 };
 
-exports.changePassword = (req, res) => {
+module.exports.changePassword = (req, res) => {
   res.render("user/change-password", {
     title: "تغییر رمز عبور",
     headerTitle: "تغییر رمز عبور",
   });
 };
 
-exports.deleteAccount = async (req, res) => {
+module.exports.deleteAccount = async (req, res) => {
   const { user } = req;
   if (user.role === "admin") {
     await Admin.deleteOne({ _id: user._id });
@@ -42,7 +42,11 @@ exports.deleteAccount = async (req, res) => {
   } else if (user.role === "user") {
     await User.deleteOne({ _id: user._id });
   } else {
-    throw new ErrorResponse(404, "مشکلی پیش آمده لطفا دوباره تلاش کنید!", "back");
+    throw new ErrorResponse(
+      404,
+      "مشکلی پیش آمده لطفا دوباره تلاش کنید!",
+      "back",
+    );
   }
   req.session.destroy((err) => {
     if (err) throw new ErrorResponse(500, "Something went wrong!");
@@ -50,7 +54,7 @@ exports.deleteAccount = async (req, res) => {
   });
 };
 
-exports.handleEdit = async (req, res) => {
+module.exports.handleEdit = async (req, res) => {
   const { fullname, bio } = req.body;
   const { role } = req.params;
   const validate = authValidation.editUserValidation.validate(req.body);
@@ -58,9 +62,16 @@ exports.handleEdit = async (req, res) => {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
   const user = await getUserByRole(role, { _id: req.user._id });
-  if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "back");
+  if (!user)
+    throw new ErrorResponse(
+      402,
+      "مشکلی پیش آمده، لطفا بعدا تلاش کنید!",
+      "back",
+    );
   if (req.files.profileImg) {
-    await sharp(req.files.profileImg[0].buffer).jpeg({ quality: 60 }).toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
+    await sharp(req.files.profileImg[0].buffer)
+      .jpeg({ quality: 60 })
+      .toFile(path.join(__dirname, "..", "public", "users", user.profileImg));
   }
   user.fullname = fullname;
   user.bio = bio;
@@ -70,7 +81,7 @@ exports.handleEdit = async (req, res) => {
   res.redirect("/me");
 };
 
-exports.handleChangePassword = async (req, res) => {
+module.exports.handleChangePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
   const { role, _id } = req.user;
   const validate = changePasswordValidation.validate(req.body);
@@ -78,7 +89,9 @@ exports.handleChangePassword = async (req, res) => {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
   const user = await getUserByRole(role, { _id });
-  if (!user) throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "/me");
+  if (!user) {
+    throw new ErrorResponse(402, "مشکلی پیش آمده، لطفا بعدا تلاش کنید!", "/me");
+  }
   const isMatchPassword = await compare(currentPassword, user.password);
   if (isMatchPassword) {
     const hashPassword = await hash(newPassword, 12);
@@ -90,7 +103,7 @@ exports.handleChangePassword = async (req, res) => {
   throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
 };
 
-exports.manageOwnBlogs = async (req, res) => {
+module.exports.manageOwnBlogs = async (req, res) => {
   const blogs = await Blog.find({ author: req.user._id, status: "approved" });
   res.render("user/manage-blogs", {
     title: "مدیریت مقاله های من",

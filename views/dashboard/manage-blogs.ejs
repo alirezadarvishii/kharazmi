@@ -51,6 +51,17 @@
                           <option value="approved" <%= status === "approved" ? "selected" : '' %>>بلاگ های تأیید شده</option>
                           <option value="notApproved" <%= status === "notApproved" ? "selected" : '' %>>بلاگ های در انتظار تأیید</option>
                         </select>
+                        <select name="sort" class="ms-3 form-select text-secondary filter-form-input font-regular">
+                          <option value="">مرتب سازی بر اساس</option>
+                          <option value="-createdAt" <%= sort === "-createdAt" ? "selected" : '' %>>جدیدترین ها</option>
+                          <option value="createdAt" <%= sort === "createdAt" ? "selected" : '' %>>قدیمی ترین ها</option>
+                          <option value="-likes" <%= sort === "-likes" ? "selected" : '' %>>بیشترین لایک</option>
+                          <option value="likes" <%= sort === "likes" ? "selected" : '' %>>کمترین لایک</option>
+                          <option value="-visit" <%= sort === "-visit" ? "selected" : '' %>>بیشترین بازدید</option>
+                          <option value="visit" <%= sort === "visit" ? "selected" : '' %>>کمترین بازدید</option>
+                          <option value="-comments" <%= sort === "-comments" ? "selected" : '' %>>بیشترین کامنت</option>
+                          <option value="comments" <%= sort === "comments" ? "selected" : '' %>>کمترین کامنت</option>
+                        </select>
                       </div>
                     </div>
                   </form>

@@ -9,7 +9,7 @@ const Comment = require("../model/blogs.comment");
 
 const pick = require("../utils/pick");
 
-exports.adminPanel = async (req, res) => {
+module.exports.adminPanel = async (req, res) => {
   const notApprovedAdmins = await Admin.find({ status: "notApproved" });
   const notApprovedTeachers = await Teacher.find({ status: "notApproved" });
   const notApprovedUsers = [...notApprovedAdmins, ...notApprovedTeachers];
@@ -17,15 +17,22 @@ exports.adminPanel = async (req, res) => {
   const lengthOfAdmins = await Admin.countDocuments({});
   const lengthOfTeachers = await Teacher.countDocuments({});
   const lengthOfNormalUsers = await User.countDocuments({});
-  const lengthOfTotalUsers = lengthOfAdmins + lengthOfTeachers + lengthOfNormalUsers;
+  const lengthOfTotalUsers =
+    lengthOfAdmins + lengthOfTeachers + lengthOfNormalUsers;
   // Blogs length information
-  const lengthOfApprovedBlogs = await Blog.countDocuments({ status: "approved" });
-  const lengthOfNotApprovedBlogs = await Blog.countDocuments({ status: "notApproved" });
+  const lengthOfApprovedBlogs = await Blog.countDocuments({
+    status: "approved",
+  });
+  const lengthOfNotApprovedBlogs = await Blog.countDocuments({
+    status: "notApproved",
+  });
   const lengthOfTotalBlogs = lengthOfApprovedBlogs + lengthOfNotApprovedBlogs;
   // Comments length information.
   const lengthOfTotalComments = await Comment.countDocuments({});
   // Waiting for approved blogs.
-  const waitingForApproveBlogs = await Blog.find({ status: "notApproved" }).populate("author").limit(3);
+  const waitingForApproveBlogs = await Blog.find({ status: "notApproved" })
+    .populate("author")
+    .limit(3);
   res.render("dashboard/admin-panel", {
     title: "پنل ادمین",
     notApprovedUsers,
@@ -41,7 +48,7 @@ exports.adminPanel = async (req, res) => {
   });
 };
 
-exports.manageAdmins = async (req, res) => {
+module.exports.manageAdmins = async (req, res) => {
   const { status, sort, q = "" } = req.query;
   const filters = pick(req.query, ["status"]);
   if (q.length) {
@@ -55,10 +62,11 @@ exports.manageAdmins = async (req, res) => {
     admins,
     status,
     query: q,
+    sort,
   });
 };
 
-exports.manageTeachers = async (req, res) => {
+module.exports.manageTeachers = async (req, res) => {
   const { status, sort, q = "" } = req.query;
   const filters = pick(req.query, ["status"]);
   if (q.length) {
@@ -72,10 +80,11 @@ exports.manageTeachers = async (req, res) => {
     teachers,
     status,
     query: q,
+    sort,
   });
 };
 
-exports.manageNormalUsers = async (req, res) => {
+module.exports.manageNormalUsers = async (req, res) => {
   const { status, sort, q = "" } = req.query;
   const filters = pick(req.query, ["status"]);
   if (q.length) {
@@ -89,11 +98,12 @@ exports.manageNormalUsers = async (req, res) => {
     users,
     status,
     query: q,
+    sort,
   });
 };
 
-exports.manageBlogs = async (req, res) => {
-  const { status, q = "", sort } = req.query;
+module.exports.manageBlogs = async (req, res) => {
+  const { status, q = "", sort = "-createdAt" } = req.query;
   const filters = pick(req.query, ["status"]);
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
@@ -106,10 +116,11 @@ exports.manageBlogs = async (req, res) => {
     blogs,
     query: q,
     status,
+    sort,
   });
 };
 
-exports.manageGallery = async (req, res) => {
+module.exports.manageGallery = async (req, res) => {
   const images = await Gallery.find({});
   res.render("dashboard/manage-gallery.ejs", {
     title: "مدیریت گالری وبسایت",
@@ -117,7 +128,7 @@ exports.manageGallery = async (req, res) => {
   });
 };
 
-exports.manageEvents = async (req, res) => {
+module.exports.manageEvents = async (req, res) => {
   const events = await Event.find({});
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
@@ -125,7 +136,7 @@ exports.manageEvents = async (req, res) => {
   });
 };
 
-exports.blogsSettingPage = async (req, res) => {
+module.exports.blogsSettingPage = async (req, res) => {
   const blogCategories = await BlogCategory.find({});
   res.render("dashboard/blog-settings", {
     title: "ناحیه تنظیمات بلاگ ها",

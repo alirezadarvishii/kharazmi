@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 
 const dotenv = require("dotenv");
+
 dotenv.config({ path: "./config/env.config" });
 
 const database = require("./utils/database");
@@ -47,8 +48,11 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { httpOnly: true, sameSite: true },
-    store: mongoStore.create({ mongoUrl: process.env.MONGODB_URI, ttl: 1 * 24 * 60 * 60 }),
-  })
+    store: mongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      ttl: 1 * 24 * 60 * 60,
+    }),
+  }),
 );
 app.use(flash());
 app.use(cookieParser());
@@ -85,6 +89,8 @@ const { PORT, NODE_ENV } = process.env;
 
 database
   .then(() => {
-    app.listen(PORT, () => console.log(`Server Runing On Port: ${PORT}, mode: ${NODE_ENV}! (:`));
+    app.listen(PORT, () =>
+      console.log(`Server Runing On Port: ${PORT}, mode: ${NODE_ENV}! (:`),
+    );
   })
   .catch(() => console.log("Database connection failed! ):"));

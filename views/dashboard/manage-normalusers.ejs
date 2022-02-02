@@ -50,6 +50,11 @@
                         <option value="approved" <%= status === 'approved' ? 'selected' : '' %> >کاربران تأیید شده</option>
                         <option value="notApproved" <%= status === 'notApproved' ? 'selected' : '' %> >کاربران در انتظار تأیید</option>
                       </select>
+                      <select name="sort" class="ms-3 form-select text-secondary filter-form-input font-regular">
+                        <option value="">مرتب سازی بر اساس</option>
+                        <option value="-createdAt" <%= sort === "-createdAt" ? "selected" : '' %>>جدیدترین ها</option>
+                        <option value="createdAt" <%= sort === "createdAt" ? "selected" : '' %>>قدیمی ترین ها</option>
+                      </select>
                     </div>
                   </div>
                   </form>

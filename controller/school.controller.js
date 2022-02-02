@@ -7,9 +7,11 @@ const genPagination = require("../utils/pagination");
 const ErrorResponse = require("../utils/ErrorResponse");
 const contactValidation = require("../validation/contact.validation");
 
-exports.indexPage = async (req, res) => {
+module.exports.indexPage = async (req, res) => {
   const galleryImages = await Gallery.find({});
-  const blogs = await Blog.find({ status: "approved" }).limit(10).populate("author");
+  const blogs = await Blog.find({ status: "approved" })
+    .limit(10)
+    .populate("author");
   const teachers = await Teacher.find({ status: "approved" });
   const admins = await Admin.find({ status: "approved" });
   const departman = [...admins, ...teachers];
@@ -23,11 +25,13 @@ exports.indexPage = async (req, res) => {
   });
 };
 
-exports.departman = async (req, res) => {
+module.exports.departman = async (req, res) => {
   const { slide = 1 } = req.query;
   const DEPARTMAN_PER_PAGE = 12;
   const admins = await Admin.find({ status: "approved" }).select("-password");
-  const teachers = await Teacher.find({ status: "approved" }).select("-password");
+  const teachers = await Teacher.find({ status: "approved" }).select(
+    "-password",
+  );
   const departman = [...admins, ...teachers];
   const startIndex = DEPARTMAN_PER_PAGE * (slide - 1);
   const endIndex = startIndex + DEPARTMAN_PER_PAGE;
@@ -42,7 +46,7 @@ exports.departman = async (req, res) => {
   });
 };
 
-exports.gallery = async (req, res) => {
+module.exports.gallery = async (req, res) => {
   const { slide = 1 } = req.query;
   const IMAGE_PER_PAGE = 9;
   const images = await Gallery.find({})
@@ -60,20 +64,20 @@ exports.gallery = async (req, res) => {
 };
 
 // API
-exports.getGalleryImg = async (req, res) => {
+module.exports.getGalleryImg = async (req, res) => {
   const { imgId } = req.params;
   const img = await Gallery.findOne({ _id: imgId });
   res.status(200).json(img);
 };
 
-exports.about = (req, res) => {
+module.exports.about = (req, res) => {
   res.render("about", {
     title: "درباره ما",
     headerTitle: "دربـاره مـا",
   });
 };
 
-exports.handleContactUs = async (req, res) => {
+module.exports.handleContactUs = async (req, res) => {
   const { fullname, email, phone, subject, content } = req.body;
   const validate = contactValidation.comment.validate(req.body);
   // Validation process.

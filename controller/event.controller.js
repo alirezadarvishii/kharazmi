@@ -10,13 +10,13 @@ const eventValidation = require("../validation/event.validation");
 const ac = require("../security/accesscontrol");
 
 // Public API for any type of users.
-exports.getEvent = async (req, res) => {
+module.exports.getEvent = async (req, res) => {
   const { eventId } = req.params;
   const event = await Event.findOne({ _id: eventId });
   res.status(200).json(event);
 };
 
-exports.newEvent = async (req, res) => {
+module.exports.newEvent = (req, res) => {
   const permission = ac.can(req.user.role).create("event");
   if (permission.granted) {
     const validate = eventValidation.eventSchema.validate(req.body);
@@ -31,20 +31,27 @@ exports.newEvent = async (req, res) => {
       .jpeg({
         quality: 40,
       })
-      .toFile(path.join(__dirname, "..", "public", "events", filename), async (err) => {
-        if (err) {
-          throw new ErrorResponse(402, "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!", "back");
-        }
-        await Event.create({ ...req.body, eventImg: filename });
-        req.flash("success", "رویداد جدید با موفقیت ایجاد شد!");
-        res.redirect("back");
-      });
+      .toFile(
+        path.join(__dirname, "..", "public", "events", filename),
+        async (err) => {
+          if (err) {
+            throw new ErrorResponse(
+              402,
+              "خطا در بارگیری تصویر، لطفا دوباره تلاش کنید!",
+              "back",
+            );
+          }
+          await Event.create({ ...req.body, eventImg: filename });
+          req.flash("success", "رویداد جدید با موفقیت ایجاد شد!");
+          res.redirect("back");
+        },
+      );
   } else {
     res.redirect("/");
   }
 };
 
-exports.editEvent = async (req, res) => {
+module.exports.editEvent = async (req, res) => {
   const permission = ac.can(req.user.role).update("event");
   if (permission.granted) {
     const { eventId } = req.body;
@@ -65,12 +72,13 @@ exports.editEvent = async (req, res) => {
   }
 };
 
-exports.deleteEvent = async (req, res) => {
+module.exports.deleteEvent = async (req, res) => {
   const permission = ac.can(req.user.role).delete("event");
   if (permission.granted) {
     const { eventId } = req.body;
     const event = await Event.findOneAndDelete({ _id: eventId });
-    if (!event) throw new ErrorResponse(404, "رویدادی با چنین مشخصاتی یافت نشد!", "/404");
+    if (!event)
+      throw new ErrorResponse(404, "رویدادی با چنین مشخصاتی یافت نشد!", "/404");
     deleteFile(path.join(__dirname, "..", "public", "events", event.eventImg));
     req.flash("success", "رویداد مورد نظر با موفقیت حذف گردید!");
     res.redirect("back");

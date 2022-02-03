@@ -2,10 +2,10 @@ const { AccessControl } = require("accesscontrol");
 
 const ac = new AccessControl();
 
-//! GRANT: User
+// GRANT: User
 ac.grant("user")
   .deleteOwn("comment")
-  //! GRANT: Teachers
+  // GRANT: Teachers
   .grant("teacher")
   // Blog
   .create("blog")
@@ -13,7 +13,7 @@ ac.grant("user")
   .deleteOwn("blog")
   // User
   .updateOwn("user")
-  //! GRANT: admins
+  // GRANT: admins
   .grant("admin")
   // Blog
   .create("blog")

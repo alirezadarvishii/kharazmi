@@ -36,9 +36,16 @@ function defineAdminRules({ can }) {
 }
 
 function defineTeacherRule({ can }, user) {
-  can(["read", "create", "delete", "update"], ["Blog", "Comment"], {
-    author: user._id,
-  });
+  can(
+    ["read", "create", "delete", "update"],
+    ["Blog", "Comment"],
+    {
+      author: user._id,
+    },
+    {
+      user: user._id,
+    },
+  );
   can(["read", "update"], "User", { _id: user._id });
 }
 

@@ -10,7 +10,6 @@ const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
 const ac = require("../security/accesscontrol");
 
-// API: Public api for any type of users
 module.exports.getComments = async (req, res) => {
   const { blogId } = req.params;
   const { slide = 1 } = req.query;

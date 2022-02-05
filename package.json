@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/vivisen/kharazmi#readme",
   "dependencies": {
-    "accesscontrol": "2.2.1",
+    "@casl/ability": "5.4.3",
     "axios": "0.21.4",
     "bcrypt": "5.0.1",
     "compression": "1.7.4",

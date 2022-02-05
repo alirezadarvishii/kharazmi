@@ -15,6 +15,7 @@ dotenv.config({ path: "./config/env.config" });
 const database = require("./utils/database");
 const handleMulter = require("./middleware/handleMulter");
 const { moment, momentTime } = require("./utils/moment");
+const { defineAbilityFor } = require("./security/abilities");
 
 // Routes
 const schoolRoutes = require("./routes/school.route");
@@ -44,7 +45,7 @@ app.use(compression());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    name: "FuckYouHacker",
+    name: "Nothing",
     resave: false,
     saveUninitialized: true,
     cookie: { httpOnly: true, sameSite: true },
@@ -61,6 +62,7 @@ app.use(csrfProtection);
 app.use((req, res, next) => {
   const { user } = req.session;
   if (user) req.user = user;
+  req.ability = defineAbilityFor(user);
   app.locals.user = req.user;
   app.locals.message = req.flash();
   app.locals.moment = moment;

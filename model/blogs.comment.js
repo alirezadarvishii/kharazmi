@@ -5,14 +5,14 @@ const ReplyCommentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userModel: {
+  authorModel: {
     type: String,
     enum: ["User", "Teacher", "Admin"],
     required: true,
   },
-  user: {
+  author: {
     type: mongoose.Types.ObjectId,
-    refPath: "replies.userModel",
+    refPath: "replies.authorModel",
     required: true,
   },
 });
@@ -29,19 +29,19 @@ const CommentSchema = new mongoose.Schema(
       ref: "Blog",
       required: true,
     },
-    userModel: {
+    authorModel: {
       type: String,
       enum: ["User", "Teacher", "Admin"],
       required: true,
     },
-    user: {
+    author: {
       type: mongoose.Types.ObjectId,
-      refPath: "userModel",
+      refPath: "authorModel",
       required: true,
     },
     votes: [{ type: mongoose.Types.ObjectId }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Comment", CommentSchema);

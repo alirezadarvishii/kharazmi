@@ -21,7 +21,7 @@ function defineRulesFor(user) {
       defineTeacherRule(builder, user);
       break;
     case "user":
-      defineAnonymousRules(builder, user);
+      defineNormalUserRules(builder, user);
       break;
     default:
       defineAnonymousRules(builder, user);
@@ -36,21 +36,20 @@ function defineAdminRules({ can }) {
 }
 
 function defineTeacherRule({ can }, user) {
-  can(
-    ["read", "create", "delete", "update"],
-    ["Blog", "Comment"],
-    {
-      author: user._id,
-    },
-    {
-      user: user._id,
-    },
-  );
+  can(["read", "create", "delete", "update"], ["Blog", "Comment"], {
+    author: user._id,
+  });
   can(["read", "update"], "User", { _id: user._id });
 }
 
+function defineNormalUserRules({ can }, user) {
+  can(["read", "create", "delete", "update"], ["Comment"], {
+    author: user._id,
+  });
+}
+
 function defineAnonymousRules({ can }) {
-  can("read", ["Article", "Comment"], { published: true });
+  //
 }
 
 module.exports = {

@@ -9,7 +9,7 @@ module.exports._404 = (req, res) => {
 // eslint-disable-next-line
 module.exports._500 = (err, req, res, next) => {
   const { statusCode = 500, redirectionPath, message } = err;
-  if (process.env === "development") {
+  if (process.env.NODE_ENV === "development") {
     console.log(err);
   }
   if (err instanceof ForbiddenError) {

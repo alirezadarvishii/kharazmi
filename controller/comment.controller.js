@@ -16,7 +16,7 @@ module.exports.getComments = async (req, res) => {
   const COMMENT_PER_PAGE = 10;
   const comments = await Comment.find({ blog: blogId })
     .sort({ createdAt: "desc" })
-    .populate("user replies.user")
+    .populate("author replies.author")
     .limit(slide * COMMENT_PER_PAGE);
   const commentsUI = await ejs.renderFile(
     path.join(__dirname, "..", "views", "includes", "comments.ejs"),
@@ -40,28 +40,28 @@ module.exports.addComment = async (req, res) => {
   if (validate.error) {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
-  let userModel;
+  let authorModel;
   if (user.role === "admin") {
-    userModel = "Admin";
+    authorModel = "Admin";
   } else if (user.role === "teacher") {
-    userModel = "Teacher";
+    authorModel = "Teacher";
   } else if (user.role === "user") {
-    userModel = "User";
+    authorModel = "User";
   }
   const blog = await Blog.findOne({ _id: blogId });
   if (!replyId) {
     await Comment.create({
       comment: commentBody,
-      user: user._id,
+      author: user._id,
       blog: blog._id,
-      userModel,
+      authorModel,
     });
   } else {
     const comment = await Comment.findOne({ _id: replyId });
     const replyDoc = {
       comment: commentBody,
-      userModel,
-      user: user._id,
+      authorModel,
+      author: user._id,
     };
     comment.replies.push(replyDoc);
     await comment.save();
@@ -91,8 +91,9 @@ module.exports.deleteComment = async (req, res) => {
       return cm._id.toString() === replyId.toString();
     });
     const replyCm = parentCm.replies[replyIndex];
+    const comment = new Comment(replyCm);
     try {
-      ForbiddenError.from(req.ability).throwUnlessCan("delete", replyCm);
+      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
     } catch (error) {
       return res.status(403).json({ message: "Forbidden!" });
     }

@@ -22,6 +22,6 @@ router.post("/update", asyncHandler(commentController.updateComment));
 
 // API
 // Delete a comment
-router.delete("/delete", asyncHandler(commentController.deleteComment));
+router.delete("/delete", commentController.deleteComment);
 
 module.exports = router;

@@ -21,5 +21,7 @@ const upload = multer({
 ]);
 
 module.exports = (req, res, next) => {
-  upload(req, res, (err) => (err instanceof multer.MulterError ? next(err) : next()));
+  upload(req, res, (err) => {
+    return err instanceof multer.MulterError ? next(err) : next();
+  });
 };

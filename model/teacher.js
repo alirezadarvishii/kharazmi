@@ -20,7 +20,7 @@ const teacherSchema = new mongoose.Schema(
       required: true,
     },
     profileImg: {
-      type: String
+      type: String,
     },
     status: {
       type: String,
@@ -33,7 +33,7 @@ const teacherSchema = new mongoose.Schema(
     },
     bio: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 teacherSchema.index({ fullname: "text" });

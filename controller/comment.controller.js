@@ -1,6 +1,7 @@
 const path = require("path");
 
 const ejs = require("ejs");
+const { ForbiddenError } = require("@casl/ability");
 
 const Blog = require("../model/blog");
 const Comment = require("../model/blogs.comment");
@@ -8,16 +9,14 @@ const ErrorResponse = require("../utils/errorResponse");
 const commentValidation = require("../validation/comment.validation");
 const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
-const ac = require("../security/accesscontrol");
 
-// API: Public api for any type of users
 module.exports.getComments = async (req, res) => {
   const { blogId } = req.params;
   const { slide = 1 } = req.query;
   const COMMENT_PER_PAGE = 10;
   const comments = await Comment.find({ blog: blogId })
     .sort({ createdAt: "desc" })
-    .populate("user replies.user")
+    .populate("author replies.author")
     .limit(slide * COMMENT_PER_PAGE);
   const commentsUI = await ejs.renderFile(
     path.join(__dirname, "..", "views", "includes", "comments.ejs"),
@@ -41,28 +40,28 @@ module.exports.addComment = async (req, res) => {
   if (validate.error) {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
-  let userModel;
+  let authorModel;
   if (user.role === "admin") {
-    userModel = "Admin";
+    authorModel = "Admin";
   } else if (user.role === "teacher") {
-    userModel = "Teacher";
+    authorModel = "Teacher";
   } else if (user.role === "user") {
-    userModel = "User";
+    authorModel = "User";
   }
   const blog = await Blog.findOne({ _id: blogId });
   if (!replyId) {
     await Comment.create({
       comment: commentBody,
-      user: user._id,
+      author: user._id,
       blog: blog._id,
-      userModel,
+      authorModel,
     });
   } else {
     const comment = await Comment.findOne({ _id: replyId });
     const replyDoc = {
       comment: commentBody,
-      userModel,
-      user: user._id,
+      authorModel,
+      author: user._id,
     };
     comment.replies.push(replyDoc);
     await comment.save();
@@ -72,35 +71,35 @@ module.exports.addComment = async (req, res) => {
 };
 
 module.exports.deleteComment = async (req, res) => {
-  const permission = ac.can(req.user.role).deleteAny("comment");
   const { commentId, replyComment, replyId } = req.body;
+  // If target was comment not reply comment
   if (!replyComment && !replyId) {
-    const user = req.user._id;
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment)
-      return res.status(404).json({ message: "Comment not founded!" });
-    if (!permission.granted) {
-      if (comment.user.toString() !== user.toString())
-        return res.status(402).json({ message: "Forbidden!" });
+    try {
+      const comment = await Comment.findOne({ _id: commentId });
+      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+      if (!comment) {
+        return res.status(404).json({ message: "Comment not founded!" });
+      }
+      await Comment.deleteOne({ _id: commentId });
+      res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
+    } catch (error) {
+      res.status(403).json({ message: "Forbidden!" });
     }
-    await Comment.deleteOne({ _id: commentId });
-    res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   } else if (replyComment === true && replyId) {
     const parentCm = await Comment.findOne({ "replies._id": replyId });
-    const replyIndex = parentCm.replies.findIndex(
-      (cm) => cm._id.toString() === replyId.toString(),
-    );
-    if (
-      parentCm.replies[replyIndex].user.toString() ===
-        req.user._id.toString() ||
-      permission.granted
-    ) {
-      parentCm.replies.splice(replyIndex, 1);
-      await parentCm.save();
-    } else {
-      return res.status(402).json({ message: "Forbidden!" });
+    const replyIndex = parentCm.replies.findIndex((cm) => {
+      return cm._id.toString() === replyId.toString();
+    });
+    const replyCm = parentCm.replies[replyIndex];
+    const comment = new Comment(replyCm);
+    try {
+      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+    } catch (error) {
+      return res.status(403).json({ message: "Forbidden!" });
     }
-    res.status(200).json({ message: "کامنت حذف گردید!" });
+    parentCm.replies.splice(replyIndex, 1);
+    await parentCm.save();
+    res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   }
 };
 
@@ -110,16 +109,18 @@ module.exports.readComment = async (req, res) => {
   const { replyId } = req.query;
   if (!replyId) {
     const comment = await Comment.findOne({ _id: commentId });
-    if (!comment)
+    if (!comment) {
       return res.status(404).json({ message: "Comment not founded!" });
-    if (req.user._id.toString() !== comment.user.toString())
+    }
+    if (req.user._id.toString() !== comment.user.toString()) {
       return res.status(402).json({ message: "Forbidden!" });
+    }
     res.status(200).json({ message: "Get comment successful!", comment });
   } else {
     const comment = await Comment.findOne({ _id: commentId });
-    const [replyComment] = comment.replies.filter(
-      (comment) => comment._id.toString() === replyId.toString(),
-    );
+    const [replyComment] = comment.replies.filter((cm) => {
+      return cm._id.toString() === replyId.toString();
+    });
     res
       .status(200)
       .json({ message: "Get comment successful!", comment: replyComment });

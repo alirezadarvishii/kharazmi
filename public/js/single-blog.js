@@ -1,4 +1,4 @@
-//! Variabales
+// Variabales
 const addCommentCkEditor = document.querySelector("#addCommentCkeditor");
 const editCommentCkEditor = document.querySelector("#editComment textarea");
 const replyCommentCkEditor = document.querySelector("#replyCommentCkeditor");
@@ -34,7 +34,7 @@ ClassicEditor.create(replyCommentCkEditor, ckEditorConfig)
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
 
-//! Functions
+// Functions
 const spinner = () => {
   const spinner = document.createElement("span");
   spinner.classList = "spinner-border spinner-border-sm ms-1";
@@ -45,7 +45,6 @@ const spinner = () => {
 const like = async () => {
   const { blogId } = likeBtn.dataset;
   const likeBlog = await fetch(`http://localhost:3000/blog/like/${blogId}`);
-  console.log(likeBlog);
   if (likeBlog.status === 200) {
     const response = await likeBlog.json();
     likeNumber.textContent = response.blogLikesLength;
@@ -151,6 +150,7 @@ const deleteReplyComment = async (e) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       const { commentId } = e.target.closest("button").dataset;
+      console.log(commentId)
       const csrfToken = document.querySelector("meta[name=csrfToken]").getAttribute("content");
       e.target.append(spinner());
       const fetchToDelete = await fetch("http://localhost:3000/comment/delete", {
@@ -281,7 +281,7 @@ const closeEditModal = () => {
   editCommentModal.querySelector("input[name=replyId]").value = "";
 };
 
-//! EventListeners
+// EventListeners
 document.addEventListener("DOMContentLoaded", loadComments);
 
 likeBtn.addEventListener("click", like);

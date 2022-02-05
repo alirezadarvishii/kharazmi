@@ -2,6 +2,7 @@ const path = require("path");
 
 const sharp = require("sharp");
 const { Types } = require("mongoose");
+const { ForbiddenError } = require("@casl/ability");
 
 const Blog = require("../model/blog");
 const BlogCategory = require("../model/blog.categories");
@@ -10,7 +11,6 @@ const blogValidation = require("../validation/blog.validation");
 const isObjectId = require("../utils/isObjectId");
 const pick = require("../utils/pick");
 const genPagination = require("../utils/pagination");
-const ac = require("../security/accesscontrol");
 
 module.exports.blog = async (req, res) => {
   const { slide = 1, q = "", sort, category } = req.query;
@@ -74,6 +74,7 @@ module.exports.getBlog = async (req, res) => {
   });
 };
 
+// TODO check it
 module.exports.getBlogInPrivateMode = async (req, res) => {
   if (req.user.role === "admin") {
     const { blogId } = req.params;
@@ -88,136 +89,103 @@ module.exports.getBlogInPrivateMode = async (req, res) => {
 };
 
 module.exports.addBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).create("blog");
   const categories = await BlogCategory.find({});
-  if (permission.granted) {
-    res.render("blog/add-blog", {
-      title: "افزودن پست جدید",
-      headerTitle: "افزودن پست جدید",
-      categories,
-    });
-  } else {
-    res.redirect("/");
-  }
+  ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
+  res.render("blog/add-blog", {
+    title: "افزودن پست جدید",
+    headerTitle: "افزودن پست جدید",
+    categories,
+  });
 };
 
 module.exports.handleAddBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).create("blog");
-  if (permission.granted) {
-    const validate = blogValidation.validate(req.body);
-    // Validation process.
-    if (validate.error) {
-      throw new ErrorResponse(422, validate.error.message, "back");
-    }
-    // generate a name for image.
-    const filename = `${Date.now()}.jpeg`;
-    // Handle download image with sharp.
-    await sharp(req.files.blogImg[0].buffer)
-      .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "blogs", filename))
-      .catch((err) => {
-        console.log("SHARP ERROR: ", err);
-        throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");
-      });
-    // set author model for population author.
-    const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
-    const tags = req.body.tags.split("/");
-    const slug = req.body.title.split(" ").join("-");
-    await Blog.create({
-      ...req.body,
-      slug,
-      tags,
-      blogImg: filename,
-      author: req.user._id,
-      authorModel,
-    });
-    req.flash(
-      "success",
-      "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!",
-    );
-    res.redirect("/");
-  } else {
-    res.redirect("/");
+  ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
+  const validate = blogValidation.validate(req.body);
+  // Validation process.
+  if (validate.error) {
+    throw new ErrorResponse(422, validate.error.message, "back");
   }
+  // generate a name for image.
+  const filename = `${Date.now()}.jpeg`;
+  // Handle download image with sharp.
+  await sharp(req.files.blogImg[0].buffer)
+    .jpeg({ quality: 60 })
+    .toFile(path.join(__dirname, "..", "public", "blogs", filename))
+    .catch((err) => {
+      console.log("SHARP ERROR: ", err);
+      throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");
+    });
+  // set author model for population author.
+  const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
+  const tags = req.body.tags.split("/");
+  const slug = req.body.title.split(" ").join("-");
+  await Blog.create({
+    ...req.body,
+    slug,
+    tags,
+    blogImg: filename,
+    author: req.user._id,
+    authorModel,
+  });
+  req.flash(
+    "success",
+    "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!",
+  );
+  res.redirect("/");
 };
 
 module.exports.updateBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).updateOwn("blog");
-  if (permission.granted) {
-    const { blogId } = req.params;
-    const blog = await Blog.findOne({ _id: blogId });
-    if (blog.author.toString() === req.user._id.toString()) {
-      res.render("blog/update-blog", {
-        title: `ویرایش بلاگ ${blog.title}`,
-        headerTitle: `ویرایش ${blog.title}`,
-        blog,
-      });
-    } else {
-      res.redirect("/");
-    }
-  } else {
-    res.redirect("/");
-  }
+  const { blogId } = req.params;
+  const blog = await Blog.findOne({ _id: blogId });
+  ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
+  res.render("blog/update-blog", {
+    title: `ویرایش بلاگ ${blog.title}`,
+    headerTitle: `ویرایش ${blog.title}`,
+    blog,
+  });
 };
 
 module.exports.handleUpdateBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).updateOwn("blog");
-  if (permission.granted) {
-    const { blogId } = req.body;
-    const validate = blogValidation.blog.validate(req.body);
-    if (validate.error) {
-      throw new ErrorResponse(402, validate.error.message, "back");
-    }
-    const blog = await Blog.findOne({ _id: blogId });
-    if (blog.author.toString() !== req.user._id.toString()) {
-      return res.redirect("/");
-    }
-    const newValues = pick(req.body, ["title", "category", "body"]);
-    const tags = req.body.tags.split("/");
-    if (req.files.blogImg) {
-      await sharp(req.files.blogImg[0].buffer)
-        .jpeg({
-          quality: 60,
-        })
-        .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg));
-    }
-    await Blog.updateOne({ _id: blog._id }, { ...newValues, tags });
-    req.flash("success", "پست شما با موفقیت ویرایش گردید!");
-    res.redirect("/me/blogs");
-  } else {
-    res.redirect("/");
+  const { blogId } = req.body;
+  const validate = blogValidation.blog.validate(req.body);
+  if (validate.error) {
+    throw new ErrorResponse(402, validate.error.message, "back");
   }
+  const blog = await Blog.findOne({ _id: blogId });
+  ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
+  if (blog.author.toString() !== req.user._id.toString()) {
+    return res.redirect("/");
+  }
+  const newValues = pick(req.body, ["title", "category", "body"]);
+  const tags = req.body.tags.split("/");
+  if (req.files.blogImg) {
+    await sharp(req.files.blogImg[0].buffer)
+      .jpeg({
+        quality: 60,
+      })
+      .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg));
+  }
+  await Blog.updateOne({ _id: blog._id }, { ...newValues, tags });
+  req.flash("success", "پست شما با موفقیت ویرایش گردید!");
+  res.redirect("/me/blogs");
 };
 
 module.exports.handleDeleteBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).deleteOwn("blog");
-  if (permission.granted) {
-    const { blogId } = req.body;
-    // Check that ID is valid
-    if (!isObjectId(blogId)) throw new ErrorResponse(402, "Forbidden!", "back");
-    const blog = await Blog.findOne({ _id: blogId });
-    // If blog not found
-    if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
-    // Check current user permission level.
-    const fullPermission = ac.can(req.user.role).deleteAny("blog");
-    if (!fullPermission.granted) {
-      // If blog author not match with current user.
-      if (blog.author.toString() !== req.user._id.toString()) {
-        throw new ErrorResponse(403, "Forbidden!", "/");
-      }
-    }
-    await Blog.deleteOne({ _id: blogId });
-    req.flash("success", "پست مورد نظر با موفقیت حذف گردید!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
+  const { blogId } = req.body;
+  if (!isObjectId(blogId)) throw new ErrorResponse(402, "Forbidden!", "back");
+  const blog = await Blog.findOne({ _id: blogId });
+  ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
+  if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
+  await Blog.deleteOne({ _id: blogId });
+  req.flash("success", "پست مورد نظر با موفقیت حذف گردید!");
+  res.redirect("back");
 };
 
 // API: Public api for any type of users.
 module.exports.likeBlog = async (req, res) => {
-  if (!req.user)
+  if (!req.user) {
     return res.status(401).json({ message: "Authentication ERROR!" });
+  }
   const { blogId } = req.params;
   const { _id } = req.user;
   const blog = await Blog.findOne({ _id: blogId });
@@ -238,27 +206,19 @@ module.exports.likeBlog = async (req, res) => {
 };
 
 module.exports.approveBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("blog");
-  if (permission.granted) {
-    const { blogId } = req.body;
-    await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
-    req.flash("success", "تغییرات با موفقیت اعمال شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
+  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
+  const { blogId } = req.body;
+  await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
+  req.flash("success", "تغییرات با موفقیت اعمال شد!");
+  res.redirect("back");
 };
 
 module.exports.unApproveBlog = async (req, res) => {
-  const permission = ac.can(req.user.role).updateAny("blog");
-  if (permission.granted) {
-    const { blogId } = req.body;
-    await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
-    req.flash("success", "تغییرات با موفقیت اعمال شد!");
-    res.redirect("back");
-  } else {
-    res.redirect("/");
-  }
+  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
+  const { blogId } = req.body;
+  await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
+  req.flash("success", "تغییرات با موفقیت اعمال شد!");
+  res.redirect("back");
 };
 
 module.exports.downloadBlogImg = async (req, res) => {
@@ -278,6 +238,7 @@ module.exports.downloadBlogImg = async (req, res) => {
 };
 
 module.exports.addNewCategory = async (req, res) => {
+  ForbiddenError.from(req.ability).throwUnlessCan("create", "Category");
   const { categoryNameInPersian, categoryNameInEnglish } = req.body;
   const category = {
     name: categoryNameInPersian,
@@ -289,6 +250,7 @@ module.exports.addNewCategory = async (req, res) => {
 };
 
 module.exports.deleteCategory = async (req, res) => {
+  ForbiddenError.from(req.ability).throwUnlessCan("delete", "Category");
   const { categoryId } = req.body;
   await BlogCategory.deleteOne({ _id: categoryId });
   req.flash("success", "دسته بندی مورد نظر حذف گردید");

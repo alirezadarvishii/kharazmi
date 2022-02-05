@@ -46,7 +46,7 @@ const blogSchema = new mongoose.Schema(
     likes: [{ type: mongoose.Types.ObjectId }],
     visit: [{ type: String }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 blogSchema.index({ title: "text" });

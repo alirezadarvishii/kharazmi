@@ -1,13 +1,13 @@
 const { ForbiddenError } = require("@casl/ability");
 
-module.exports._404 = (req, res) => {
+module.exports.notFound = (req, res) => {
   res.render("error/404", {
     title: "صفحه مورد نظر یافت نشد | 404",
   });
 };
 
 // eslint-disable-next-line
-module.exports._500 = (err, req, res, next) => {
+module.exports.serverError = (err, req, res, next) => {
   const { statusCode = 500, redirectionPath, message } = err;
   if (process.env.NODE_ENV === "development") {
     console.log(err);

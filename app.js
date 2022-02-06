@@ -87,8 +87,8 @@ function createApp() {
   app.use("/dashboard", dashboardRoutes);
 
   // ---- Error handling middleware --------
-  app.use(errorHandler._404);
-  app.use(errorHandler._500);
+  app.use(errorHandler.notFound);
+  app.use(errorHandler.serverError);
 
   return app;
 }

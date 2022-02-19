@@ -1,3 +1,7 @@
 {
-  "extends": ["@fullstacksjs"]
+  "extends": ["@fullstacksjs"],
+  "rules": {
+    "no-unused-private-class-members": "off",
+    "prefer-object-has-own": "off"
+  }
 }

@@ -10,7 +10,7 @@ const flash = require("connect-flash");
 
 const dotenv = require("dotenv");
 
-dotenv.config({ path: "./config/env.config" });
+dotenv.config({ path: "./config/.env" });
 
 const connectDb = require("./utils/database");
 const handleMulter = require("./middleware/handleMulter");

@@ -5,6 +5,7 @@ const { Types } = require("mongoose");
 const { ForbiddenError } = require("@casl/ability");
 
 const Blog = require("../model/blog");
+const BlogService = require("../services/blog.service");
 const BlogCategory = require("../model/blog.categories");
 const ErrorResponse = require("../utils/ErrorResponse");
 const blogValidation = require("../validation/blog.validation");
@@ -19,11 +20,15 @@ module.exports.blog = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const blogs = await Blog.find({ ...filters, status: "approved" })
-    .sort(sort)
-    .populate("author")
-    .skip(BLOGS_PER_PAGE * (slide - 1))
-    .limit(BLOGS_PER_PAGE);
+  const paginationConfig = {
+    slide,
+    BLOGS_PER_PAGE,
+  };
+  const blogs = await new BlogService().getBlogs(
+    filters,
+    sort,
+    paginationConfig,
+  );
   const blogsLength = await Blog.countDocuments({ status: "approved" });
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
   const categories = await BlogCategory.find({});

@@ -1,15 +1,13 @@
 const path = require("path");
 
 const sharp = require("sharp");
-const { Types } = require("mongoose");
 const { ForbiddenError } = require("@casl/ability");
 
 const Blog = require("../model/blog");
 const BlogService = require("../services/blog.service");
-const BlogCategory = require("../model/blog.categories");
+const CategoryService = require("../services/category.service");
 const ErrorResponse = require("../utils/ErrorResponse");
 const blogValidation = require("../validation/blog.validation");
-const isObjectId = require("../utils/isObjectId");
 const pick = require("../utils/pick");
 const genPagination = require("../utils/pagination");
 
@@ -29,9 +27,9 @@ module.exports.blog = async (req, res) => {
     sort,
     paginationConfig,
   );
-  const blogsLength = await Blog.countDocuments({ status: "approved" });
+  const blogsLength = await new BlogService().blogsLength();
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
-  const categories = await BlogCategory.find({});
+  const categories = await new CategoryService().getCategory();
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
@@ -49,29 +47,9 @@ module.exports.blog = async (req, res) => {
 module.exports.getBlog = async (req, res) => {
   const { blogId } = req.params;
   const { ip } = req;
-  const userId = Types.ObjectId(req.user?._id);
-  const [blog] = await Blog.aggregate([
-    { $match: { _id: Types.ObjectId(blogId), status: "approved" } },
-    {
-      $addFields: {
-        isLiked: {
-          $cond: {
-            if: { $gte: [{ $indexOfArray: ["$likes", userId] }, 0] },
-            then: true,
-            else: false,
-          },
-        },
-      },
-    },
-  ]);
-  if (!blog) return res.status(400).redirect("/404");
-  await Blog.populate(blog, ["author", "category"]);
-  const otherBlogs = await Blog.find({}).limit(10);
-  const isBeforeVisited = blog.visit.findIndex((ip) => ip === ip);
-  if (isBeforeVisited < 0) {
-    await Blog.updateOne({ _id: blogId }, { $push: { visit: ip } });
-  }
-  if (!blog) throw new ErrorResponse(404, "Not founded!", "/notFounded");
+  const blog = await new BlogService().getBlog(blogId, req.user);
+  await new BlogService().increamentViews(blogId, ip);
+  const otherBlogs = await new BlogService().getBlogs();
   res.render("blog/single-blog", {
     title: blog.title,
     blog,
@@ -94,8 +72,8 @@ module.exports.getBlogInPrivateMode = async (req, res) => {
 };
 
 module.exports.addBlog = async (req, res) => {
-  const categories = await BlogCategory.find({});
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
+  const categories = await new CategoryService().getCategory();
   res.render("blog/add-blog", {
     title: "افزودن پست جدید",
     headerTitle: "افزودن پست جدید",
@@ -106,32 +84,16 @@ module.exports.addBlog = async (req, res) => {
 module.exports.handleAddBlog = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
   const validate = blogValidation.validate(req.body);
-  // Validation process.
   if (validate.error) {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
-  // generate a name for image.
-  const filename = `${Date.now()}.jpeg`;
-  // Handle download image with sharp.
-  await sharp(req.files.blogImg[0].buffer)
-    .jpeg({ quality: 60 })
-    .toFile(path.join(__dirname, "..", "public", "blogs", filename))
-    .catch((err) => {
-      console.log("SHARP ERROR: ", err);
-      throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");
-    });
-  // set author model for population author.
-  const authorModel = req.user.role === "admin" ? "Admin" : "Teacher";
-  const tags = req.body.tags.split("/");
-  const slug = req.body.title.split(" ").join("-");
-  await Blog.create({
+  const blogDto = {
     ...req.body,
-    slug,
-    tags,
-    blogImg: filename,
-    author: req.user._id,
-    authorModel,
-  });
+    user: req.user._id,
+    authorModel: req.user.role,
+    blogImg: req.files.blogImg[0],
+  };
+  await new BlogService().createBlog(blogDto);
   req.flash(
     "success",
     "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!",
@@ -158,70 +120,44 @@ module.exports.handleUpdateBlog = async (req, res) => {
   }
   const blog = await Blog.findOne({ _id: blogId });
   ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
-  if (blog.author.toString() !== req.user._id.toString()) {
-    return res.redirect("/");
-  }
   const newValues = pick(req.body, ["title", "category", "body"]);
-  const tags = req.body.tags.split("/");
-  if (req.files.blogImg) {
-    await sharp(req.files.blogImg[0].buffer)
-      .jpeg({
-        quality: 60,
-      })
-      .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg));
-  }
-  await Blog.updateOne({ _id: blog._id }, { ...newValues, tags });
+  const blogDto = {
+    ...newValues,
+  };
+  await new BlogService().update(blogId, blogDto);
   req.flash("success", "پست شما با موفقیت ویرایش گردید!");
   res.redirect("/me/blogs");
 };
 
 module.exports.handleDeleteBlog = async (req, res) => {
   const { blogId } = req.body;
-  if (!isObjectId(blogId)) throw new ErrorResponse(402, "Forbidden!", "back");
-  const blog = await Blog.findOne({ _id: blogId });
-  ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
-  if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
-  await Blog.deleteOne({ _id: blogId });
+  await new BlogService().delete(blogId, { ability: req.ability });
   req.flash("success", "پست مورد نظر با موفقیت حذف گردید!");
   res.redirect("back");
 };
 
-// API: Public api for any type of users.
 module.exports.likeBlog = async (req, res) => {
+  const { blogId } = req.params;
   if (!req.user) {
     return res.status(401).json({ message: "Authentication ERROR!" });
   }
-  const { blogId } = req.params;
-  const { _id } = req.user;
-  const blog = await Blog.findOne({ _id: blogId });
-  const isLiked = blog.likes.includes(_id);
-  if (!isLiked) {
-    blog.likes.push(_id);
-  } else {
-    const likes = blog.likes.filter(
-      (like) => like.toString() !== _id.toString(),
-    );
-    blog.likes = [...likes];
-  }
-  await blog.save();
+  const result = await new BlogService().like(blogId, req.user._id);
   res.status(200).json({
-    blogLikesLength: blog.likes.length,
+    blogLikesLength: result.likesLength,
     message: "Operation completed successfuly!",
   });
 };
 
 module.exports.approveBlog = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
   const { blogId } = req.body;
-  await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
+  await new BlogService().approve(blogId, { ability: req.ability });
   req.flash("success", "تغییرات با موفقیت اعمال شد!");
   res.redirect("back");
 };
 
 module.exports.unApproveBlog = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
   const { blogId } = req.body;
-  await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
+  await new BlogService().unApprove(blogId, { ability: req.ability });
   req.flash("success", "تغییرات با موفقیت اعمال شد!");
   res.redirect("back");
 };
@@ -243,21 +179,19 @@ module.exports.downloadBlogImg = async (req, res) => {
 };
 
 module.exports.addNewCategory = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("create", "Category");
   const { categoryNameInPersian, categoryNameInEnglish } = req.body;
-  const category = {
+  const categoryDto = {
     name: categoryNameInPersian,
     enName: categoryNameInEnglish,
   };
-  await BlogCategory.create(category);
+  await new CategoryService().create(categoryDto, { ability: req.ability });
   req.flash("success", "دسته بندی با موفقیت افزوده شد!");
   res.status(200).redirect("back");
 };
 
 module.exports.deleteCategory = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("delete", "Category");
   const { categoryId } = req.body;
-  await BlogCategory.deleteOne({ _id: categoryId });
+  await new CategoryService().delete(categoryId, { ability: req.ability });
   req.flash("success", "دسته بندی مورد نظر حذف گردید");
   res.status(200).redirect("back");
 };

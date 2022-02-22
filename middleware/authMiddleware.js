@@ -1,3 +1,5 @@
+const { ForbiddenError } = require("@casl/ability");
+
 const ErrorResponse = require("../utils/ErrorResponse");
 
 module.exports.isAuth = (req, res, next) => {
@@ -14,5 +16,10 @@ module.exports.isAdmin = (req, res, next) => {
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (req.user) return res.status(429).redirect("/");
+  next();
+};
+
+module.exports.hasPermission = (can, model) => (req, res, next) => {
+  ForbiddenError.from(req.ability).throwUnlessCan(can, model);
   next();
 };

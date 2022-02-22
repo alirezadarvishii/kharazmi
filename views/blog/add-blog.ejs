@@ -4,15 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
-<<<<<<< HEAD
     <meta name="csrf-token" content="<%= csrfToken %>">
-=======
     <meta name="csrf-token" content="<%= csrfToken %>" />
->>>>>>> develop
-=======
     <meta name="csrf-token" content="<%= csrfToken %>" />
->>>>>>> develop
     <title><%= title %></title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.rtl.min.css" />
     <link href="/styles/app-2940de3c8d4c5a1e20a6.css" rel="stylesheet" />
@@ -32,19 +26,13 @@
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">دسته بندی پست</label>
             <select class="form-control p-2" name="category">
-<<<<<<< HEAD
               <option value="shit">گزینه ای را انتخاب کنید</option>
-=======
               <option value="">گزینه ای را انتخاب کنید</option>
               <% if(categories.length) { %>
               <!--  -->
               <% categories.forEach(category => { %>
               <option value="<%= category._id %>"><%= category.name %></option>
               <% }) %> <% } %>
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
             </select>
           </div>
           <div class="col-12 col-md-6 col-lg-4 my-3">

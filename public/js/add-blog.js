@@ -1,4 +1,5 @@
 const csrfToken = document.querySelector("meta[name=csrf-token]").getAttribute("content");
+const addPostFrom = document.querySelector("form");
 
 class MyUploadAdapter {
   constructor(loader) {
@@ -104,9 +105,6 @@ function MyCustomUploadAdapterPlugin(editor) {
   };
 }
 
-const addPostFrom = document.querySelector("form");
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-
 let ck;
 ClassicEditor.create(document.querySelector("#ckeditor"), {
   language: "fa",
@@ -121,12 +119,7 @@ ClassicEditor.create(document.querySelector("#ckeditor"), {
       { model: "heading6", view: "h6", title: "تیتر نویس 6", class: "ck-heading_heading3" },
     ],
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
   extraPlugins: [MyCustomUploadAdapterPlugin],
-=======
-=======
->>>>>>> develop
   toolbar: {
     items: ["heading", "|", "bold", "italic", "link", "|", "fontSize", "fontColor", "|", "imageUpload", "blockQuote", "insertTable", "undo", "redo", "codeBlock"],
   },
@@ -140,10 +133,6 @@ ClassicEditor.create(document.querySelector("#ckeditor"), {
       "CSRF-Token": csrfToken,
     },
   },
-<<<<<<< HEAD
->>>>>>> develop
-=======
->>>>>>> develop
 })
   .then((editor) => {
     ck = editor;

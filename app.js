@@ -12,7 +12,7 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: "./config/.env" });
 
-const connectDb = require("./utils/database");
+const connectDb = require("./config/database");
 const handleMulter = require("./middleware/handleMulter");
 const { moment, momentTime } = require("./utils/moment");
 const { defineAbilityFor } = require("./security/abilities");

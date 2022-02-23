@@ -1,4 +1,9 @@
 const jalaliMoment = require("jalali-moment");
 
-exports.moment = (date) => jalaliMoment(date).locale("fa").format("D MMM YYYY");
-exports.momentTime = (time) => jalaliMoment(time).locale("fa").format("HH:mm:ss");
+module.exports.moment = (date) => {
+  return jalaliMoment(date).locale("fa").format("D MMM YYYY");
+};
+
+module.exports.momentTime = (time) => {
+  return jalaliMoment(time).locale("fa").format("HH:mm:ss");
+};

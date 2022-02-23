@@ -3,7 +3,6 @@ const path = require("path");
 const sharp = require("sharp");
 
 const BlogRepo = require("../database/blog.repository");
-const Blog = require("../model/blog");
 const ErrorResponse = require("../utils/ErrorResponse");
 const { ForbiddenError } = require("@casl/ability");
 
@@ -91,10 +90,10 @@ class BlogService {
   }
 
   async deleteBlog(blogId, auth) {
-    const blog = await Blog.findOne({ _id: blogId });
+    const blog = await new BlogRepo().findOne({ _id: blogId });
     ForbiddenError.from(auth.ability).throwUnlessCan("update", blog);
     if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
-    await Blog.deleteOne({ _id: blogId });
+    await new BlogRepo().deleteById({ _id: blogId });
   }
 
   async increamentViews(blogId, ip) {

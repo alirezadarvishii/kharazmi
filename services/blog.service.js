@@ -1,6 +1,5 @@
 const path = require("path");
 
-const { Types } = require("mongoose");
 const sharp = require("sharp");
 
 const BlogRepo = require("../database/blog.repository");
@@ -69,6 +68,7 @@ class BlogService {
     if (!blog) throw new ErrorResponse(404, "Not founded!", "/notFounded");
     // If user liked this blog add isLiked = true filed to blog object, If not isLiked = false
     // TODO create a method for this task in repository, later.
+    // TODO Optimise It.
     if (blog.likes.includes(userId.toString())) {
       blog.isLikde = true;
     } else {
@@ -77,9 +77,9 @@ class BlogService {
     return blog;
   }
 
-  async update(blogId, blogDto) {
+  async updateBlog(blogId, blogDto) {
     const tags = blogDto.tags.split("/");
-    const blog = await Blog.findOne({ _id: blogId });
+    const blog = await new BlogRepo().findOne({ _id: blogId });
     if (blogDto.blogImg) {
       await sharp(blogDto.blogImg.buffer)
         .jpeg({
@@ -87,10 +87,10 @@ class BlogService {
         })
         .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg));
     }
-    await Blog.updateOne({ _id: blogId }, { ...blogDto, tags });
+    await new BlogRepo().updateOne({ _id: blogId }, { ...blogDto, tags });
   }
 
-  async delete(blogId, auth) {
+  async deleteBlog(blogId, auth) {
     const blog = await Blog.findOne({ _id: blogId });
     ForbiddenError.from(auth.ability).throwUnlessCan("update", blog);
     if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
@@ -98,25 +98,25 @@ class BlogService {
   }
 
   async increamentViews(blogId, ip) {
-    const blog = await Blog.find({ _id: blogId });
+    const blog = await new BlogRepo().findOne({ _id: blogId });
     const isBeforeVisited = blog.visit.findIndex((visitIp) => visitIp === ip);
     if (isBeforeVisited < 0) {
-      await Blog.updateOne({ _id: blogId }, { $push: { visit: ip } });
+      await new BlogRepo().updateOne({ _id: blogId }, { $push: { visit: ip } });
     }
   }
 
   async like(blogId, userId) {
-    const blog = await Blog.findOne({ _id: blogId });
+    const blog = await new BlogRepo().findOne({ _id: blogId });
     const isLiked = blog.likes.includes(userId);
     if (!isLiked) {
       blog.likes.push(userId);
     } else {
-      const likes = blog.likes.filter(
-        (like) => like.toString() !== userId.toString(),
-      );
+      const likes = blog.likes.filter((like) => {
+        return like.toString() !== userId.toString();
+      });
       blog.likes = [...likes];
     }
-    await blog.save();
+    await new BlogRepo().save(blog);
     return {
       likesLength: blog.likes.length,
     };
@@ -124,16 +124,22 @@ class BlogService {
 
   async approve(blogId, auth) {
     ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
-    await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
+    await new BlogRepo().updateOne(
+      { _id: blogId },
+      { $set: { status: "approved" } },
+    );
   }
 
   async unApprove(blogId, auth) {
     ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
-    await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
+    await new BlogRepo().updateOne(
+      { _id: blogId },
+      { $set: { status: "notApproved" } },
+    );
   }
 
   async blogsLength() {
-    const length = await Blog.countDocuments({ status: "approved" });
+    const length = await new BlogRepo().countDocuments({ status: "approved" });
     return length;
   }
 }

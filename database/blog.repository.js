@@ -21,9 +21,19 @@ class BlogRepository {
     return result;
   }
 
-  async updateById(blogId, blogDto) {
-    const result = await Blog.updateOne({ _id: blogId }, blogDto);
+  async updateOne(filters, blogDto) {
+    const result = await Blog.updateOne(filters, blogDto);
     return result;
+  }
+
+  async save(doc) {
+    const result = await doc.save();
+    return result;
+  }
+
+  async countDocuments(filters) {
+    const length = await Blog.countDocuments(filters);
+    return length;
   }
 }
 

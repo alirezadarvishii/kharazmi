@@ -1,22 +1,25 @@
 const path = require("path");
 
-const sharp = require("sharp");
+const { Types } = require("mongoose");
 
-const BlogRepo = require("../database/blog.repository");
+const Blog = require("../model/blog");
 const ErrorResponse = require("../utils/ErrorResponse");
 const { ForbiddenError } = require("@casl/ability");
+const downloadFile = require("../shared/download-file");
 
 class BlogService {
   async createBlog(blogDto) {
     const filename = `${Date.now()}.jpeg`;
-    await sharp(blogDto.blogImg[0].buffer)
-      .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "blogs", filename))
-      .catch((err) => {
-        console.log("Sharp Error: ", err);
-        throw new ErrorResponse(422, "خطا در بارگیری تصویر!", "back");
-      });
-    const authorModel = blogDto.user.role === "admin" ? "Admin" : "Teacher";
+    const options = {
+      quality: 60,
+      buffer: blogDto.blogImg.buffer,
+      path: path.join(__dirname, "..", "public", "blogs", filename),
+    };
+    const downloadResult = await downloadFile(options);
+    // TODO Complete this section
+    // if (downloadResult) {
+    // }
+    const authorModel = blogDto.authorModel === "admin" ? "Admin" : "Teacher";
     const tags = blogDto.tags.split("/");
     const slug = blogDto.title.split(" ").join("-");
     const blog = {
@@ -27,85 +30,84 @@ class BlogService {
       author: blogDto.user,
       authorModel,
     };
-    const result = await new BlogRepo().store(blog);
+    const result = await Blog.create(blog);
     console.log(result);
   }
 
-  async getBlogs(filters, sort, pagination) {
-    const { slide, BLOGS_PER_PAGE } = pagination;
+  async find(filters, queryOoptions = {}) {
+    const { slide = 0, BLOGS_PER_PAGE = 0, sort } = queryOoptions;
     const filter = { ...filters, status: "approved" };
-    const option = {
+    const options = {
       sort,
       populate: "author",
       skip: BLOGS_PER_PAGE * (slide - 1),
       limit: BLOGS_PER_PAGE,
     };
-    const blogs = await new BlogRepo().find(filter, option);
+    const blogs = await Blog.find(filter, null, options);
     return blogs;
   }
 
+  async findOne(blogId, projection = {}, options = {}) {
+    const blog = await Blog.findOne({ _id: blogId }, projection, options);
+    return blog;
+  }
+
   async getBlog(blogId, userId) {
-    // const [blog] = await Blog.aggregate([
-    //   { $match: { _id: Types.ObjectId(blogId), status: "approved" } },
-    //   {
-    //     $addFields: {
-    //       isLiked: {
-    //         $cond: {
-    //           if: { $gte: [{ $indexOfArray: ["$likes", userId] }, 0] },
-    //           then: true,
-    //           else: false,
-    //         },
-    //       },
-    //     },
-    //   },
-    // ]);
-    const filters = { _id: blogId, status: "approved" };
-    const option = {
-      populate: ["author", "category"],
-    };
-    const blog = await new BlogRepo().findOne(filters, option);
+    const [blog] = await Blog.aggregate([
+      { $match: { _id: Types.ObjectId(blogId), status: "approved" } },
+      {
+        $addFields: {
+          isLiked: {
+            $cond: {
+              if: {
+                $gte: [
+                  { $indexOfArray: ["$likes", Types.ObjectId(userId)] },
+                  0,
+                ],
+              },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+    ]);
     if (!blog) throw new ErrorResponse(404, "Not founded!", "/notFounded");
-    // If user liked this blog add isLiked = true filed to blog object, If not isLiked = false
-    // TODO create a method for this task in repository, later.
-    // TODO Optimise It.
-    if (blog.likes.includes(userId.toString())) {
-      blog.isLikde = true;
-    } else {
-      blog.isLiked = false;
-    }
+    await Blog.populate(blog, ["author", "category"]);
     return blog;
   }
 
   async updateBlog(blogId, blogDto) {
     const tags = blogDto.tags.split("/");
-    const blog = await new BlogRepo().findOne({ _id: blogId });
+    const blog = await Blog.findOne({ _id: blogId });
     if (blogDto.blogImg) {
-      await sharp(blogDto.blogImg.buffer)
-        .jpeg({
-          quality: 60,
-        })
-        .toFile(path.join(__dirname, "..", "public", "blogs", blog.blogImg));
+      const option = {
+        quality: 60,
+        path: path.join(__dirname, "..", "public", "blogs", blog.blogImg),
+        buffer: blogDto.blogImg,
+      };
+      await downloadFile(option);
     }
-    await new BlogRepo().updateOne({ _id: blogId }, { ...blogDto, tags });
+    await Blog.updateOne({ _id: blogId }, { ...blogDto, tags });
   }
 
   async deleteBlog(blogId, auth) {
-    const blog = await new BlogRepo().findOne({ _id: blogId });
+    const blog = await Blog.findOne({ _id: blogId });
     ForbiddenError.from(auth.ability).throwUnlessCan("update", blog);
     if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
-    await new BlogRepo().deleteById({ _id: blogId });
+    await Blog.deleteOne({ _id: blogId });
   }
 
   async increamentViews(blogId, ip) {
-    const blog = await new BlogRepo().findOne({ _id: blogId });
+    const blog = await Blog.findOne({ _id: blogId });
     const isBeforeVisited = blog.visit.findIndex((visitIp) => visitIp === ip);
     if (isBeforeVisited < 0) {
-      await new BlogRepo().updateOne({ _id: blogId }, { $push: { visit: ip } });
+      await Blog.updateOne({ _id: blogId }, { $push: { visit: ip } });
     }
   }
 
   async like(blogId, userId) {
-    const blog = await new BlogRepo().findOne({ _id: blogId });
+    const blog = await Blog.findOne({ _id: blogId });
     const isLiked = blog.likes.includes(userId);
     if (!isLiked) {
       blog.likes.push(userId);
@@ -115,7 +117,7 @@ class BlogService {
       });
       blog.likes = [...likes];
     }
-    await new BlogRepo().save(blog);
+    await blog.save();
     return {
       likesLength: blog.likes.length,
     };
@@ -123,24 +125,23 @@ class BlogService {
 
   async approve(blogId, auth) {
     ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
-    await new BlogRepo().updateOne(
-      { _id: blogId },
-      { $set: { status: "approved" } },
-    );
+    await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
   }
 
   async unApprove(blogId, auth) {
     ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
-    await new BlogRepo().updateOne(
-      { _id: blogId },
-      { $set: { status: "notApproved" } },
-    );
+    await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
   }
 
-  async blogsLength() {
-    const length = await new BlogRepo().countDocuments({ status: "approved" });
+  async countDocuments() {
+    const length = await Blog.countDocuments({ status: "approved" });
     return length;
+  }
+
+  async getSpecificUserBlog(authorId) {
+    const blogs = await Blog.find({ author: authorId, status: "approved" });
+    return blogs;
   }
 }
 
-module.exports = BlogService;
+module.exports = new BlogService();

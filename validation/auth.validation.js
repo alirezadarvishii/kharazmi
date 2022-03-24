@@ -112,4 +112,5 @@ module.exports.changePasswordValidation = joi.object({
     "string.min": "رمز عبور نباید کمتر از 8 کارکتر باشد",
   }),
   confirmNewPassword: joi.ref("newPassword"),
+  _csrf: joi.allow(),
 });

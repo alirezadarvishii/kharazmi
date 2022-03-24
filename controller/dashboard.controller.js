@@ -1,38 +1,43 @@
-const Admin = require("../model/admin");
-const Teacher = require("../model/teacher");
-const User = require("../model/user");
-const Blog = require("../model/blog");
-const BlogCategory = require("../model/blog.categories");
-const Gallery = require("../model/gallery");
-const Event = require("../model/event");
-const Comment = require("../model/blogs.comment");
+const AdminService = require("../services/admin.service");
+const TeacherService = require("../services/teacher.service");
+const UserService = require("../services/user.service");
+const BlogService = require("../services/blog.service");
+const CategoryService = require("../services/category.service");
+const GalleryService = require("../services/gallery.service");
+const EventService = require("../services/event.service");
+const CommentService = require("../services/comment.service");
 
 const pick = require("../utils/pick");
 
 module.exports.adminPanel = async (req, res) => {
-  const notApprovedAdmins = await Admin.find({ status: "notApproved" });
-  const notApprovedTeachers = await Teacher.find({ status: "notApproved" });
+  const notApprovedAdmins = await AdminService.find({ status: "notApproved" });
+  const notApprovedTeachers = await TeacherService.find({
+    status: "notApproved",
+  });
   const notApprovedUsers = [...notApprovedAdmins, ...notApprovedTeachers];
   // Users length informations.
-  const lengthOfAdmins = await Admin.countDocuments({});
-  const lengthOfTeachers = await Teacher.countDocuments({});
-  const lengthOfNormalUsers = await User.countDocuments({});
+  const lengthOfAdmins = await AdminService.countDocuments({});
+  const lengthOfTeachers = await TeacherService.countDocuments({});
+  const lengthOfNormalUsers = await UserService.countDocuments({});
   const lengthOfTotalUsers =
     lengthOfAdmins + lengthOfTeachers + lengthOfNormalUsers;
   // Blogs length information
-  const lengthOfApprovedBlogs = await Blog.countDocuments({
+  const lengthOfApprovedBlogs = await BlogService.countDocuments({
     status: "approved",
   });
-  const lengthOfNotApprovedBlogs = await Blog.countDocuments({
+  const lengthOfNotApprovedBlogs = await BlogService.countDocuments({
     status: "notApproved",
   });
   const lengthOfTotalBlogs = lengthOfApprovedBlogs + lengthOfNotApprovedBlogs;
   // Comments length information.
-  const lengthOfTotalComments = await Comment.countDocuments({});
+  const lengthOfTotalComments = await CommentService.countDocuments({});
   // Waiting for approved blogs.
-  const waitingForApproveBlogs = await Blog.find({ status: "notApproved" })
-    .populate("author")
-    .limit(3);
+  const waitingForApproveBlogs = await BlogService.find(
+    {
+      status: "notApproved",
+    },
+    { limit: 3 },
+  );
   res.render("dashboard/admin-panel", {
     title: "پنل ادمین",
     notApprovedUsers,
@@ -54,7 +59,7 @@ module.exports.manageAdmins = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const admins = await Admin.find({ ...filters })
+  const admins = await AdminService.find({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-admins", {
@@ -72,7 +77,7 @@ module.exports.manageTeachers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const teachers = await Teacher.find({ ...filters })
+  const teachers = await TeacherService.find({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-teachers", {
@@ -90,7 +95,7 @@ module.exports.manageNormalUsers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const users = await User.find({ ...filters })
+  const users = await UserService.find({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-normalusers", {
@@ -108,7 +113,7 @@ module.exports.manageBlogs = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const blogs = await Blog.find({ ...filters })
+  const blogs = await BlogService.find({ ...filters })
     .sort(sort)
     .populate("author");
   res.render("dashboard/manage-blogs", {
@@ -121,7 +126,7 @@ module.exports.manageBlogs = async (req, res) => {
 };
 
 module.exports.manageGallery = async (req, res) => {
-  const images = await Gallery.find({});
+  const images = await GalleryService.find({});
   res.render("dashboard/manage-gallery.ejs", {
     title: "مدیریت گالری وبسایت",
     images,
@@ -129,7 +134,7 @@ module.exports.manageGallery = async (req, res) => {
 };
 
 module.exports.manageEvents = async (req, res) => {
-  const events = await Event.find({});
+  const events = await EventService.find({});
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
     events,
@@ -137,7 +142,7 @@ module.exports.manageEvents = async (req, res) => {
 };
 
 module.exports.blogsSettingPage = async (req, res) => {
-  const blogCategories = await BlogCategory.find({});
+  const blogCategories = await CategoryService.find({});
   res.render("dashboard/blog-settings", {
     title: "ناحیه تنظیمات بلاگ ها",
     blogCategories,

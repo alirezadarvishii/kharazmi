@@ -1,21 +1,19 @@
-const Admin = require("../model/admin");
-const Teacher = require("../model/teacher");
-const Blog = require("../model/blog");
-const Gallery = require("../model/gallery");
-const Event = require("../model/event");
+const AdminService = require("../services/admin.service");
+const TeacherService = require("../services/teacher.service");
+const BlogService = require("../services/blog.service");
+const GalleryService = require("../services/gallery.service");
+const EventService = require("../services/event.service");
 const genPagination = require("../utils/pagination");
 const ErrorResponse = require("../utils/ErrorResponse");
 const contactValidation = require("../validation/contact.validation");
 
 module.exports.indexPage = async (req, res) => {
-  const galleryImages = await Gallery.find({});
-  const blogs = await Blog.find({ status: "approved" })
-    .limit(10)
-    .populate("author");
-  const teachers = await Teacher.find({ status: "approved" });
-  const admins = await Admin.find({ status: "approved" });
+  const galleryImages = await GalleryService.find({});
+  const blogs = await BlogService.find({ status: "approved" });
+  const teachers = await TeacherService.find({ status: "approved" });
+  const admins = await AdminService.find({ status: "approved" });
   const departman = [...admins, ...teachers];
-  const events = await Event.find({});
+  const events = await EventService.find();
   res.render("index", {
     title: "هنرستان کاردانش خوارزمی | ناحیه فیروزآباد",
     galleryImages,
@@ -28,8 +26,10 @@ module.exports.indexPage = async (req, res) => {
 module.exports.departman = async (req, res) => {
   const { slide = 1 } = req.query;
   const DEPARTMAN_PER_PAGE = 12;
-  const admins = await Admin.find({ status: "approved" }).select("-password");
-  const teachers = await Teacher.find({ status: "approved" }).select(
+  // TODO Check select parameter work later.
+  const admins = await AdminService.find({ status: "approved" }, "-password");
+  const teachers = await TeacherService.find(
+    { status: "approved" },
     "-password",
   );
   const departman = [...admins, ...teachers];
@@ -49,10 +49,9 @@ module.exports.departman = async (req, res) => {
 module.exports.gallery = async (req, res) => {
   const { slide = 1 } = req.query;
   const IMAGE_PER_PAGE = 9;
-  const images = await Gallery.find({})
-    .skip(IMAGE_PER_PAGE * (slide - 1))
-    .limit(IMAGE_PER_PAGE);
-  const imagesLength = await Gallery.countDocuments({});
+  const paginationConfig = { slide, IMAGE_PER_PAGE };
+  const images = await GalleryService.find({}, paginationConfig);
+  const imagesLength = await GalleryService.countDocuments({});
   const pagination = genPagination(IMAGE_PER_PAGE, imagesLength);
   res.render("gallery", {
     title: "گالری وبسایت",
@@ -66,7 +65,7 @@ module.exports.gallery = async (req, res) => {
 // API
 module.exports.getGalleryImg = async (req, res) => {
   const { imgId } = req.params;
-  const img = await Gallery.findOne({ _id: imgId });
+  const img = await GalleryService.findOne({ _id: imgId });
   res.status(200).json(img);
 };
 
@@ -77,6 +76,7 @@ module.exports.about = (req, res) => {
   });
 };
 
+// TODO Fix it later
 module.exports.handleContactUs = async (req, res) => {
   const { fullname, email, phone, subject, content } = req.body;
   const validate = contactValidation.comment.validate(req.body);

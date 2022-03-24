@@ -4,14 +4,13 @@ const ejs = require("ejs");
 const sharp = require("sharp");
 const jwt = require("jsonwebtoken");
 
-const Admin = require("../model/admin");
-const Teacher = require("../model/teacher");
-const User = require("../model/user");
+const AdminService = require("../services/admin.service");
+const TeacherService = require("../services/teacher.service");
+const UserService = require("../services/user.service");
+const EmailService = require("./email.service");
 const ErrorResponse = require("../utils/ErrorResponse");
 const checkEmailExist = require("../utils/checkEmailExist");
 const { hash, compare } = require("bcrypt");
-const getUserByRole = require("../utils/getUserByRole");
-const EmailService = require("./email.service");
 
 class AuthService {
   async registerAdmin(adminDto) {
@@ -26,16 +25,16 @@ class AuthService {
       .jpeg({ quality: 60 })
       .toFile(path.join(__dirname, "..", "public", "users", filename));
 
-    const adminUsersLength = await Admin.countDocuments();
+    const adminUsersLength = await AdminService.countDocuments();
     if (adminUsersLength < 1) {
-      await Admin.create({
+      await AdminService.create({
         ...adminDto,
         status: "approved",
         profileImg: filename,
         password: hashPassword,
       });
     } else {
-      await Admin.create({
+      await AdminService.create({
         ...adminDto,
         profileImg: filename,
         password: hashPassword,
@@ -59,7 +58,7 @@ class AuthService {
       profileImg: filename,
       password: hashPassword,
     };
-    await Teacher.create(teacher);
+    await TeacherService.create(teacher);
   }
 
   async registerUser(userDto) {
@@ -78,12 +77,20 @@ class AuthService {
       profileImg: filename,
       password: hashPassword,
     };
-    await User.create(user);
+    await UserService.create(user);
   }
 
   async login(userDto) {
     const { loginType, email, password } = userDto;
-    const user = await getUserByRole(loginType, { email });
+    // eslint-disable-next-line fp/no-let
+    let user;
+    if (loginType === "admin") {
+      user = await AdminService.findByEmail(email);
+    } else if (loginType === "teacher") {
+      user = await TeacherService.findByEmail(email);
+    } else if (loginType === "user") {
+      user = await UserService.findByEmail(email);
+    }
     if (!user) {
       throw new ErrorResponse(
         400,
@@ -112,7 +119,15 @@ class AuthService {
 
   async forgetPassword(userDto) {
     const { userType, email } = userDto;
-    const user = await getUserByRole(userType, { email });
+    // eslint-disable-next-line fp/no-let
+    let user;
+    if (userType === "admin") {
+      user = await AdminService.findByEmail(email);
+    } else if (userType === "teacher") {
+      user = await TeacherService.findByEmail(email);
+    } else if (userType === "user") {
+      user = await UserService.findByEmail(email);
+    }
     if (!user) {
       throw new ErrorResponse(404, "کاربری با این ایمیل یافت نشد!", "back");
     }
@@ -154,11 +169,19 @@ class AuthService {
       );
     }
     const { email, userRole } = jwtToken;
-    const user = await getUserByRole(userRole, { email });
+    // eslint-disable-next-line fp/no-let
+    let user;
+    if (userRole === "admin") {
+      user = await AdminService.findByEmail(email);
+    } else if (userRole === "teacher") {
+      user = await TeacherService.findByEmail(email);
+    } else if (userRole === "user") {
+      user = await UserService.findByEmail(email);
+    }
     const hashedPassword = await hash(password, 12);
     user.password = hashedPassword;
     await user.save();
   }
 }
 
-module.exports = AuthService;
+module.exports = new AuthService();

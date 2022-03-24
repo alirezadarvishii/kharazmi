@@ -1,10 +1,8 @@
 const path = require("path");
 
 const ejs = require("ejs");
-const { ForbiddenError } = require("@casl/ability");
 
-const Blog = require("../model/blog");
-const Comment = require("../model/blogs.comment");
+const CommentService = require("../services/comment.service");
 const ErrorResponse = require("../utils/errorResponse");
 const commentValidation = require("../validation/comment.validation");
 const { moment } = require("../utils/moment");
@@ -13,11 +11,7 @@ const { momentTime } = require("../utils/moment");
 module.exports.getComments = async (req, res) => {
   const { blogId } = req.params;
   const { slide = 1 } = req.query;
-  const COMMENT_PER_PAGE = 10;
-  const comments = await Comment.find({ blog: blogId })
-    .sort({ createdAt: "desc" })
-    .populate("author replies.author")
-    .limit(slide * COMMENT_PER_PAGE);
+  const comments = await CommentService.getComments(blogId, slide);
   const commentsUI = await ejs.renderFile(
     path.join(__dirname, "..", "views", "includes", "comments.ejs"),
     {
@@ -27,10 +21,9 @@ module.exports.getComments = async (req, res) => {
       user: req.user,
     },
   );
-  const commentsLength = await Comment.countDocuments({ blog: blogId });
-  res
-    .status(200)
-    .json({ commentsUI, commentsLength, commentsPerPage: COMMENT_PER_PAGE });
+  const commentsLength = await CommentService.commentsLength(blogId);
+  // TODO Fix constants
+  res.status(200).json({ commentsUI, commentsLength, commentsPerPage: 10 });
 };
 
 module.exports.addComment = async (req, res) => {
@@ -40,6 +33,7 @@ module.exports.addComment = async (req, res) => {
   if (validate.error) {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
+  // eslint-disable-next-line fp/no-let
   let authorModel;
   if (user.role === "admin") {
     authorModel = "Admin";
@@ -48,23 +42,21 @@ module.exports.addComment = async (req, res) => {
   } else if (user.role === "user") {
     authorModel = "User";
   }
-  const blog = await Blog.findOne({ _id: blogId });
   if (!replyId) {
-    await Comment.create({
+    const commentDto = {
       comment: commentBody,
       author: user._id,
-      blog: blog._id,
+      blog: blogId,
       authorModel,
-    });
-  } else {
-    const comment = await Comment.findOne({ _id: replyId });
-    const replyDoc = {
-      comment: commentBody,
-      authorModel,
-      author: user._id,
     };
-    comment.replies.push(replyDoc);
-    await comment.save();
+    await CommentService.newComment(commentDto);
+  } else {
+    const commentDto = {
+      commentBody,
+      authorModel,
+      author: req.user._id,
+    };
+    await CommentService.newReplyComment(replyId, commentDto);
   }
   req.flash("success", "کامنت شما با موفقیت درج شد!");
   res.redirect("back");
@@ -72,33 +64,12 @@ module.exports.addComment = async (req, res) => {
 
 module.exports.deleteComment = async (req, res) => {
   const { commentId, replyComment, replyId } = req.body;
-  // If target was comment not reply comment
+  // If target was comment, not reply comment
   if (!replyComment && !replyId) {
-    try {
-      const comment = await Comment.findOne({ _id: commentId });
-      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
-      if (!comment) {
-        return res.status(404).json({ message: "Comment not founded!" });
-      }
-      await Comment.deleteOne({ _id: commentId });
-      res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
-    } catch (error) {
-      res.status(403).json({ message: "Forbidden!" });
-    }
+    await CommentService.deleteComment(commentId, req.ability);
   } else if (replyComment === true && replyId) {
-    const parentCm = await Comment.findOne({ "replies._id": replyId });
-    const replyIndex = parentCm.replies.findIndex((cm) => {
-      return cm._id.toString() === replyId.toString();
-    });
-    const replyCm = parentCm.replies[replyIndex];
-    const comment = new Comment(replyCm);
-    try {
-      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
-    } catch (error) {
-      return res.status(403).json({ message: "Forbidden!" });
-    }
-    parentCm.replies.splice(replyIndex, 1);
-    await parentCm.save();
+    await CommentService.deleteReplyComment(replyId, req.ability);
+    // TODO Fix error handling
     res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   }
 };
@@ -108,7 +79,7 @@ module.exports.readComment = async (req, res) => {
   const { commentId } = req.params;
   const { replyId } = req.query;
   if (!replyId) {
-    const comment = await Comment.findOne({ _id: commentId });
+    const comment = await CommentService.getComment(commentId);
     if (!comment) {
       return res.status(404).json({ message: "Comment not founded!" });
     }
@@ -117,10 +88,10 @@ module.exports.readComment = async (req, res) => {
     }
     res.status(200).json({ message: "Get comment successful!", comment });
   } else {
-    const comment = await Comment.findOne({ _id: commentId });
-    const [replyComment] = comment.replies.filter((cm) => {
-      return cm._id.toString() === replyId.toString();
-    });
+    const replyComment = await CommentService.getReplyComment(
+      commentId,
+      replyId,
+    );
     res
       .status(200)
       .json({ message: "Get comment successful!", comment: replyComment });
@@ -134,36 +105,19 @@ module.exports.updateComment = async (req, res) => {
     throw new ErrorResponse(422, validate.error.message, "back");
   }
   if (!replyId.length) {
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment)
-      throw new ErrorResponse(
-        422,
-        "مشکلی پیش آمده، لطفا بعدا دوباره تلاش کنید!",
-        "back",
-      );
-    if (comment.user.toString() !== req.user._id.toString()) {
-      throw new ErrorResponse(402, "Forbidden!", "back");
-    }
-    // Update comment body.
-    comment.comment = commentBody;
-    await comment.save();
+    const commentDto = {
+      commentBody,
+    };
+    await CommentService.updateComment(commentId, commentDto, {
+      user: req.user._id,
+    });
   } else {
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment)
-      throw new ErrorResponse(
-        422,
-        "مشکلی پیش آمده، لطفا بعدا دوباره تلاش کنید!",
-        "back",
-      );
-    const [replyComment] = comment.replies.filter(
-      (comment) => comment._id.toString() === replyId.toString(),
-    );
-    if (replyComment.user.toString() !== req.user._id.toString()) {
-      throw new ErrorResponse(402, "Forbidden!", "back");
-    }
-    // Update comment body.
-    replyComment.comment = commentBody;
-    await comment.save();
+    const commentDto = {
+      commentBody,
+    };
+    await CommentService.updateReplyComment(commentId, replyId, commentDto, {
+      user: req.user._id,
+    });
   }
   req.flash("success", "عملیات با موفقیت انجام شد!");
   res.redirect("back");

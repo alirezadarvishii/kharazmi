@@ -1,6 +1,6 @@
+const AuthService = require("../services/auth.service");
 const ErrorResponse = require("../utils/ErrorResponse");
 const authValidation = require("../validation/auth.validation");
-const AuthService = require("../services/auth.service");
 
 module.exports.regiserType = (req, res) => {
   res.render("register-type", {
@@ -34,7 +34,7 @@ module.exports.handleRegisterAdmin = async (req, res) => {
     ...req.body,
     profileImg: req.files.profileImg[0],
   };
-  await new AuthService().registerAdmin(adminDto);
+  await AuthService.registerAdmin(adminDto);
   req.flash("success", "ثبت نام با موفقیت انجام شد!");
   res.redirect("/login");
 };
@@ -51,7 +51,7 @@ module.exports.handleRegisterTeacher = async (req, res) => {
     ...req.body,
     profileImg: req.files.profileImg[0],
   };
-  await new AuthService().registerTeacher(teacherDto);
+  await AuthService.registerTeacher(teacherDto);
   req.flash(
     "success",
     "ثبت نام شما با موفقیت انجام شد و پس از تأیید حساب کاربری شما از سوی مدیریت، میتوانید وارد حساب خود شوید!",
@@ -68,7 +68,7 @@ module.exports.handleRegisterUser = async (req, res) => {
     throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
   }
   const userDto = { ...req.body, profileImg: req.files.profileImg[0] };
-  await new AuthService().registerUser(userDto);
+  await AuthService.registerUser(userDto);
   req.flash(
     "success",
     "ثبت نام شما با موفقیت انجام شد و میتوانید وارد اکانت خود شوید!",
@@ -82,7 +82,7 @@ module.exports.handleLogin = async (req, res, next) => {
     throw new ErrorResponse(422, validate.error.message, "/login");
   }
   const userDto = { ...req.body };
-  const user = await new AuthService().login(userDto);
+  const user = await AuthService.login(userDto);
   req.session.user = user;
   req.flash("success", "خــــوش آمــــدیــــد");
   next();
@@ -111,7 +111,7 @@ module.exports.forgetPassword = (req, res) => {
 
 module.exports.handleForgetPassword = async (req, res) => {
   const userDto = { ...req.body };
-  await new AuthService().forgetPassword(userDto);
+  await AuthService.forgetPassword(userDto);
   req.flash("success", "ایمیل حاوی لینک بازنشانی رمز عبور برایتان ارسال شد!");
   res.redirect("/");
 };
@@ -126,7 +126,7 @@ module.exports.resetPassword = (req, res) => {
 
 module.exports.handleResetPassword = async (req, res) => {
   const userDto = { ...req.body };
-  await new AuthService().resetPassword(userDto);
+  await AuthService.resetPassword(userDto);
   req.flash("success", "رمز عبور شما با موفقیت تعویض شد!");
   res.redirect("/login");
 };

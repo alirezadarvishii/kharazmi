@@ -12,7 +12,7 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: "./config/.env" });
 
-const connectDb = require("./utils/database");
+const connectDb = require("./config/database");
 const handleMulter = require("./middleware/handleMulter");
 const { moment, momentTime } = require("./utils/moment");
 const { defineAbilityFor } = require("./security/abilities");
@@ -87,10 +87,12 @@ function createApp() {
   app.use("/dashboard", dashboardRoutes);
 
   // ---- Error handling middleware --------
-  app.use(errorHandler._404);
-  app.use(errorHandler._500);
+  app.use(errorHandler.notFound);
+  app.use(errorHandler.serverError);
 
   return app;
 }
 
 module.exports = createApp;
+
+// TODO Fix DTO's data problem

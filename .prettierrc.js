@@ -2,7 +2,7 @@ module.exports = {
   printWidth: 80,
   arrowParens: "always",
   bracketSpacing: true,
-  endOfLine: "lf",
+  endOfLine: "auto",
   htmlWhitespaceSensivity: "css",
   insertPragma: false,
   bracketSameLine: false,
@@ -11,5 +11,5 @@ module.exports = {
   semi: true,
   tabWidth: 2,
   trailingComma: "all",
-  useTabs: false
+  useTabs: false,
 };

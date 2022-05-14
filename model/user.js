@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     },
     bio: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.index({ fullname: "text" });

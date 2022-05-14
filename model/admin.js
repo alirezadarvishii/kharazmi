@@ -35,7 +35,7 @@ const adminSchema = new mongoose.Schema(
     superadmin: { type: Boolean },
     bio: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 adminSchema.index({ fullname: "text" });

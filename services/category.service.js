@@ -3,7 +3,7 @@ const { ForbiddenError } = require("@casl/ability");
 const BlogCategory = require("../model/blog.categories");
 
 class CategoryService {
-  async getCategory() {
+  async find() {
     const category = await BlogCategory.find({});
     return category;
   }

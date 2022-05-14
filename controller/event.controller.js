@@ -39,8 +39,10 @@ module.exports.editEvent = async (req, res) => {
   // TODO Check update mechanism
   const eventDto = {
     ...req.body,
-    eventImg: req.files.eventImg[0].buffer,
   };
+  if (req.files.eventImg) {
+    eventDto.eventImg = req.files.eventImg[0].buffer;
+  }
   await EventService.editEvent(eventId, eventDto);
   req.flash("success", "رویداد مورد نظر با موفقیت ویرایش گردید!");
   res.redirect("back");

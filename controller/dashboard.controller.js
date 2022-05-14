@@ -113,9 +113,13 @@ module.exports.manageBlogs = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const blogs = await BlogService.find({ ...filters })
-    .sort(sort)
-    .populate("author");
+  const blogs = await BlogService.find(
+    { ...filters },
+    {
+      sort,
+      populate: "author",
+    },
+  );
   res.render("dashboard/manage-blogs", {
     title: "مدیریت بلاگ های وبسایت",
     blogs,

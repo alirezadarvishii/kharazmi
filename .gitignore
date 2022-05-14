@@ -1,3 +1,6 @@
 node_modules/
-
 config/.env
+public/blogs
+public/gallery
+public/events
+public/users

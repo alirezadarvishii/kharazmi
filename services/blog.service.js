@@ -34,8 +34,8 @@ class BlogService {
     console.log(result);
   }
 
-  async find(filters, queryOoptions = {}) {
-    const { slide = 0, BLOGS_PER_PAGE = 0, sort } = queryOoptions;
+  async find(filters, queryOption = {}) {
+    const { slide = 0, BLOGS_PER_PAGE = 0, sort } = queryOption;
     const filter = { ...filters, status: "approved" };
     const options = {
       sort,

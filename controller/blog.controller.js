@@ -69,7 +69,7 @@ module.exports.getBlogInPrivateMode = async (req, res) => {
 
 module.exports.addBlog = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
-  const categories = await CategoryService.getCategory();
+  const categories = await CategoryService.find();
   res.render("blog/add-blog", {
     title: "افزودن پست جدید",
     headerTitle: "افزودن پست جدید",

@@ -2,7 +2,7 @@ const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const BlogService = require("../services/blog.service");
-const ErrorResponse = require("../../NodeJS/news-with-backend/utils/errorResponse");
+const ErrorResponse = require("../utils/ErrorResponse");
 const authValidation = require("../validation/auth.validation");
 const { changePasswordValidation } = require("../validation/auth.validation");
 

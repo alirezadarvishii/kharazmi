@@ -94,5 +94,3 @@ function createApp() {
 }
 
 module.exports = createApp;
-
-// TODO Fix DTO's data problem

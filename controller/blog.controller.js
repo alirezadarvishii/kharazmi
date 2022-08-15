@@ -25,7 +25,7 @@ module.exports.blog = async (req, res) => {
   const blogs = await BlogService.getBlogs(filters, queryOptions);
   const blogsLength = await BlogService.countDocuments();
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
-  const categories = await CategoryService.find();
+  const categories = await CategoryService.getCategories();
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
@@ -45,7 +45,7 @@ module.exports.getBlog = async (req, res) => {
   const { ip } = req;
   const blog = await BlogService.getBlog(blogId, req.user._id);
   await BlogService.increamentViews(blogId, ip);
-  const otherBlogs = await BlogService.find();
+  const otherBlogs = await BlogService.getBlogs();
   res.render("blog/single-blog", {
     title: blog.title,
     blog,
@@ -53,14 +53,14 @@ module.exports.getBlog = async (req, res) => {
   });
 };
 
-// TODO check it
 module.exports.getBlogInPrivateMode = async (req, res) => {
   if (req.user.role === "admin") {
     const { blogId } = req.params;
-    const blog = await BlogService.findOne(
-      { _id: blogId },
-      { title: 1, body: 1, tags: 1 },
-    );
+    const queryOptions = {
+      projection: "title body tags",
+    };
+    const blog = await BlogService.findOne({ _id: blogId }, queryOptions);
+    console.log(blog);
     res.status(200).json({ message: "Operation successful", blog });
   } else {
     res.status(403).redirect("/");
@@ -69,7 +69,7 @@ module.exports.getBlogInPrivateMode = async (req, res) => {
 
 module.exports.addBlog = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
-  const categories = await CategoryService.find();
+  const categories = await CategoryService.getCategories();
   res.render("blog/add-blog", {
     title: "افزودن پست جدید",
     headerTitle: "افزودن پست جدید",
@@ -110,10 +110,6 @@ module.exports.updateBlog = async (req, res) => {
 
 module.exports.handleUpdateBlog = async (req, res) => {
   const { blogId } = req.body;
-  const validate = blogValidation.blog.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(402, validate.error.message, "back");
-  }
   const blog = await BlogService.findOne({ _id: blogId });
   ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
   const newValues = pick(req.body, ["title", "category", "body"]);
@@ -127,7 +123,9 @@ module.exports.handleUpdateBlog = async (req, res) => {
 
 module.exports.handleDeleteBlog = async (req, res) => {
   const { blogId } = req.body;
-  await BlogService.deleteBlog(blogId, { ability: req.ability });
+  const blog = await BlogService.findOne(blogId);
+  ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
+  await BlogService.deleteBlog(blogId);
   req.flash("success", "پست مورد نظر با موفقیت حذف گردید!");
   res.redirect("back");
 };
@@ -146,14 +144,16 @@ module.exports.likeBlog = async (req, res) => {
 
 module.exports.approveBlog = async (req, res) => {
   const { blogId } = req.body;
-  await BlogService.approve(blogId, { ability: req.ability });
+  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
+  await BlogService.approve(blogId);
   req.flash("success", "تغییرات با موفقیت اعمال شد!");
   res.redirect("back");
 };
 
 module.exports.unApproveBlog = async (req, res) => {
   const { blogId } = req.body;
-  await BlogService.unApprove(blogId, { ability: req.ability });
+  ForbiddenError.from(req.ability).throwUnlessCan("publish", "Blog");
+  await BlogService.unApprove(blogId);
   req.flash("success", "تغییرات با موفقیت اعمال شد!");
   res.redirect("back");
 };
@@ -176,18 +176,20 @@ module.exports.downloadBlogImg = async (req, res) => {
 
 module.exports.addNewCategory = async (req, res) => {
   const { categoryNameInPersian, categoryNameInEnglish } = req.body;
+  ForbiddenError.from(req.ability).throwUnlessCan("create", "Category");
   const categoryDto = {
     name: categoryNameInPersian,
     enName: categoryNameInEnglish,
   };
-  await CategoryService.create(categoryDto, { ability: req.ability });
+  await CategoryService.create(categoryDto);
   req.flash("success", "دسته بندی با موفقیت افزوده شد!");
   res.status(200).redirect("back");
 };
 
 module.exports.deleteCategory = async (req, res) => {
   const { categoryId } = req.body;
-  await CategoryService.delete(categoryId, { ability: req.ability });
+  ForbiddenError.from(req.ability).throwUnlessCan("delete", "Category");
+  await CategoryService.delete(categoryId);
   req.flash("success", "دسته بندی مورد نظر حذف گردید");
   res.status(200).redirect("back");
 };

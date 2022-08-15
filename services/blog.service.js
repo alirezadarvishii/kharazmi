@@ -4,7 +4,6 @@ const { Types } = require("mongoose");
 
 const Blog = require("../model/blog");
 const ErrorResponse = require("../utils/ErrorResponse");
-const { ForbiddenError } = require("@casl/ability");
 const downloadFile = require("../shared/download-file");
 
 class BlogService {
@@ -46,8 +45,8 @@ class BlogService {
     return blogs;
   }
 
-  async findOne(blogId, projection = {}, options = {}) {
-    const blog = await Blog.findOne({ _id: blogId }, projection, options);
+  async findOne(blogId, queryOptions) {
+    const blog = await Blog.findOne({ _id: blogId }, null, queryOptions);
     return blog;
   }
 
@@ -90,9 +89,8 @@ class BlogService {
     await Blog.updateOne({ _id: blogId }, { ...blogDto, tags });
   }
 
-  async deleteBlog(blogId, auth) {
+  async deleteBlog(blogId) {
     const blog = await Blog.findOne({ _id: blogId });
-    ForbiddenError.from(auth.ability).throwUnlessCan("update", blog);
     if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
     await Blog.deleteOne({ _id: blogId });
   }
@@ -122,13 +120,11 @@ class BlogService {
     };
   }
 
-  async approve(blogId, auth) {
-    ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
+  async approve(blogId) {
     await Blog.updateOne({ _id: blogId }, { $set: { status: "approved" } });
   }
 
-  async unApprove(blogId, auth) {
-    ForbiddenError.from(auth.ability).throwUnlessCan("publish", "Blog");
+  async unApprove(blogId) {
     await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
   }
 

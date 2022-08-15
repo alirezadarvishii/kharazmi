@@ -6,6 +6,8 @@ const asyncHandler = require("../middleware/asyncHandler");
 const blogController = require("../controller/blog.controller");
 const { isAuth } = require("../middleware/authMiddleware");
 const filterQuery = require("../middleware/filter-query");
+const validate = require("../middleware/validate");
+const blogValidation = require("../validation/blog.validation");
 
 // ---------------------- GET ROUTES ----------------------
 
@@ -47,7 +49,11 @@ router.post("/new", isAuth, asyncHandler(blogController.handleAddBlog));
 router.post("/blogImg", asyncHandler(blogController.downloadBlogImg));
 
 // Route and Method: /blog/update & POST
-router.post("/update", asyncHandler(blogController.handleUpdateBlog));
+router.post(
+  "/update",
+  validate(blogValidation.blog),
+  asyncHandler(blogController.handleUpdateBlog),
+);
 
 router.post("/new-category", asyncHandler(blogController.addNewCategory));
 

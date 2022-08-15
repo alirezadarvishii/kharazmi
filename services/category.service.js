@@ -1,5 +1,3 @@
-const { ForbiddenError } = require("@casl/ability");
-
 const BlogCategory = require("../model/blog.categories");
 
 class CategoryService {
@@ -8,13 +6,11 @@ class CategoryService {
     return category;
   }
 
-  async create(categoryDto, auth) {
-    ForbiddenError.from(auth.ability).throwUnlessCan("create", "Category");
+  async create(categoryDto) {
     await BlogCategory.create(categoryDto);
   }
 
-  async delete(categoryId, auth) {
-    ForbiddenError.from(auth.ability).throwUnlessCan("delete", "Category");
+  async delete(categoryId) {
     await BlogCategory.deleteOne({ _id: categoryId });
   }
 }

@@ -1,6 +1,5 @@
 const Comment = require("../model/blogs.comment");
 
-const { ForbiddenError } = require("@casl/ability");
 const ErrorResponse = require("../utils/errorResponse");
 
 class CommentService {
@@ -52,10 +51,9 @@ class CommentService {
     await comment.save();
   }
 
-  async deleteComment(commentId, ability) {
+  async deleteComment(commentId) {
     try {
-      const comment = await Comment.findOne({ _id: commentId });
-      ForbiddenError.from(ability).throwUnlessCan("delete", comment);
+      await Comment.findOne({ _id: commentId });
       // if (!comment) {
       //   return res.status(404).json({ message: "Comment not founded!" });
       // }
@@ -67,15 +65,13 @@ class CommentService {
     }
   }
 
-  async deleteReplyComment(replyId, ability) {
+  async deleteReplyComment(replyId) {
     const parentCm = await Comment.findOne({ "replies._id": replyId });
     const replyIndex = parentCm.replies.findIndex((cm) => {
       return cm._id.toString() === replyId.toString();
     });
-    const replyCm = parentCm.replies[replyIndex];
-    const comment = new Comment(replyCm);
+    parentCm.replies[replyIndex];
     try {
-      ForbiddenError.from(ability).throwUnlessCan("delete", comment);
       parentCm.replies.splice(replyIndex, 1);
       const result = await parentCm.save();
       return result;

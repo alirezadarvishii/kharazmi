@@ -6,6 +6,8 @@ const commentController = require("../controller/comment.controller");
 const asyncHandler = require("../middleware/asyncHandler");
 const { isAuth } = require("../middleware/authMiddleware");
 const recaptchaVerification = require("../middleware/captcha-verification");
+const validate = require("../middleware/validate");
+const commentValidation = require("../validation/comment.validation");
 
 router.get("/:blogId", asyncHandler(commentController.getComments));
 
@@ -15,10 +17,19 @@ router.get("/read/:commentId", asyncHandler(commentController.readComment));
 
 // Add a new comment
 // TODO: add recaptcha verification to this route
-router.post("/add", isAuth, asyncHandler(commentController.addComment));
+router.post(
+  "/add",
+  validate(commentValidation.comment),
+  isAuth,
+  asyncHandler(commentController.addComment),
+);
 
 // Update a comment
-router.post("/update", asyncHandler(commentController.updateComment));
+router.post(
+  "/update",
+  validate(commentValidation.comment),
+  asyncHandler(commentController.updateComment),
+);
 
 // API
 // Delete a comment

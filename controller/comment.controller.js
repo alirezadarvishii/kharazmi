@@ -1,6 +1,7 @@
 const path = require("path");
 
 const ejs = require("ejs");
+const { ForbiddenError } = require("@casl/ability");
 
 const CommentService = require("../services/comment.service");
 const ErrorResponse = require("../utils/errorResponse");
@@ -22,17 +23,12 @@ module.exports.getComments = async (req, res) => {
     },
   );
   const commentsLength = await CommentService.commentsLength(blogId);
-  // TODO Fix constants
   res.status(200).json({ commentsUI, commentsLength, commentsPerPage: 10 });
 };
 
 module.exports.addComment = async (req, res) => {
   const { comment: commentBody, blogId, replyId } = req.body;
   const { user } = req;
-  const validate = commentValidation.comment.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   // eslint-disable-next-line fp/no-let
   let authorModel;
   if (user.role === "admin") {
@@ -66,10 +62,14 @@ module.exports.deleteComment = async (req, res) => {
   const { commentId, replyComment, replyId } = req.body;
   // If target was comment, not reply comment
   if (!replyComment && !replyId) {
-    await CommentService.deleteComment(commentId, req.ability);
+    const comment = await CommentService.getComment(commentId);
+    ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+    await CommentService.deleteComment(commentId);
   } else if (replyComment === true && replyId) {
-    await CommentService.deleteReplyComment(replyId, req.ability);
-    // TODO Fix error handling
+    const comment = await CommentService.getReplyComment(commentId, replyId);
+    ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+    await CommentService.deleteReplyComment(replyId);
+    // TODO: Fix error handling
     res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   }
 };
@@ -100,10 +100,6 @@ module.exports.readComment = async (req, res) => {
 
 module.exports.updateComment = async (req, res) => {
   const { commentId, comment: commentBody, replyId } = req.body;
-  const validate = commentValidation.comment.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   if (!replyId.length) {
     const commentDto = {
       commentBody,

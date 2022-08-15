@@ -10,7 +10,9 @@ const CommentService = require("../services/comment.service");
 const pick = require("../utils/pick");
 
 module.exports.adminPanel = async (req, res) => {
-  const notApprovedAdmins = await AdminService.getAdmins({ status: "notApproved" });
+  const notApprovedAdmins = await AdminService.getAdmins({
+    status: "notApproved",
+  });
   const notApprovedTeachers = await TeacherService.getTeachers({
     status: "notApproved",
   });
@@ -59,9 +61,11 @@ module.exports.manageAdmins = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const admins = await AdminService.getAdmins({ ...filters })
-    .sort(sort)
-    .select("-password");
+  const queryOptions = {
+    sort,
+    projection: "-password",
+  };
+  const admins = await AdminService.getAdmins({ ...filters }, queryOptions);
   res.render("dashboard/manage-admins", {
     title: "مدیریت ادمین های وبسایت",
     admins,
@@ -77,9 +81,14 @@ module.exports.manageTeachers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const teachers = await TeacherService.getTeachers({ ...filters })
-    .sort(sort)
-    .select("-password");
+  const queryOptions = {
+    sort,
+    projection: "-password",
+  };
+  const teachers = await TeacherService.getTeachers(
+    { ...filters },
+    queryOptions,
+  );
   res.render("dashboard/manage-teachers", {
     title: "مدیریت معلم های وبسایت",
     teachers,
@@ -95,9 +104,11 @@ module.exports.manageNormalUsers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const users = await UserService.getUsers({ ...filters })
-    .sort(sort)
-    .select("-password");
+  const queryOptions = {
+    sort,
+    projection: "-password",
+  };
+  const users = await UserService.getUsers({ ...filters }, queryOptions);
   res.render("dashboard/manage-normalusers", {
     title: "مدیریت کاربران وبسایت",
     users,
@@ -113,13 +124,11 @@ module.exports.manageBlogs = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const blogs = await BlogService.getBlogs(
-    { ...filters },
-    {
-      sort,
-      populate: "author",
-    },
-  );
+  const queryOptions = {
+    sort,
+    populate: "author",
+  };
+  const blogs = await BlogService.getBlogs({ ...filters }, queryOptions);
   res.render("dashboard/manage-blogs", {
     title: "مدیریت بلاگ های وبسایت",
     blogs,

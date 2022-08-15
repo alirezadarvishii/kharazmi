@@ -8,12 +8,12 @@ const ErrorResponse = require("../utils/ErrorResponse");
 const contactValidation = require("../validation/contact.validation");
 
 module.exports.indexPage = async (req, res) => {
-  const galleryImages = await GalleryService.find({});
+  const galleryImages = await GalleryService.getImages({});
   const blogs = await BlogService.getBlogs({ status: "approved" });
-  const teachers = await TeacherService.find({ status: "approved" });
-  const admins = await AdminService.find({ status: "approved" });
+  const teachers = await TeacherService.getTeachers({ status: "approved" });
+  const admins = await AdminService.getAdmins({ status: "approved" });
   const departman = [...admins, ...teachers];
-  const events = await EventService.find();
+  const events = await EventService.getEvents();
   res.render("index", {
     title: "هنرستان کاردانش خوارزمی | ناحیه فیروزآباد",
     galleryImages,

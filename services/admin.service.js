@@ -11,8 +11,8 @@ class AdminService {
     return result;
   }
 
-  async getAdmins(query, select) {
-    const admins = await Admin.find({ ...query }).select(select);
+  async getAdmins(query, queryOptions) {
+    const admins = await Admin.find({ ...query }, null, queryOptions);
     return admins;
   }
 

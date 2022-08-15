@@ -11,6 +11,11 @@ class UserService {
     return result;
   }
 
+  async getUsers(query, queryOptions) {
+    const users = await User.find({ ...query }, null, queryOptions);
+    return users;
+  }
+
   async findOne(userId) {
     const user = await User.findOne({ _id: userId });
     return user;

@@ -6,10 +6,6 @@ const galleryValidation = require("../validation/gallery.validation");
 
 module.exports.addNewImageToGallery = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "GalleryImage");
-  const validate = galleryValidation.addNewImgToGallery.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   const imgDto = {
     buffer: req.files.galleryImg[0].buffer,
     caption: req.body.caption,
@@ -22,10 +18,6 @@ module.exports.addNewImageToGallery = async (req, res) => {
 module.exports.editGalleryImg = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("update", "GalleryImage");
   const { caption, imgId } = req.body;
-  const validate = galleryValidation.editGalleryImg.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   const imgDto = {
     caption,
     img: req.files.galleryImg[0].buffer,
@@ -36,8 +28,8 @@ module.exports.editGalleryImg = async (req, res) => {
 };
 
 module.exports.deleteGalleryImg = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("delete", "GalleryImage");
   const { imgId } = req.body;
+  ForbiddenError.from(req.ability).throwUnlessCan("delete", "GalleryImage");
   await GalleryService.deleteImg(imgId);
   req.flash("success", "تصویر مورد نظر با موفقیت حذف گردید!");
   res.redirect("back");

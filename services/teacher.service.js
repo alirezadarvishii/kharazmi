@@ -11,7 +11,7 @@ class TeacherService {
     return result;
   }
 
-  async find(query) {
+  async getTeachers(query) {
     const teachers = await Teacher.find({ ...query });
     return teachers;
   }

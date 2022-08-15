@@ -8,7 +8,7 @@ const { ForbiddenError } = require("@casl/ability");
 const downloadFile = require("../shared/download-file");
 
 class BlogService {
-  async createBlog(blogDto) {
+  async create(blogDto) {
     const filename = `${Date.now()}.jpeg`;
     const options = {
       quality: 60,
@@ -30,16 +30,15 @@ class BlogService {
       author: blogDto.user,
       authorModel,
     };
-    const result = await Blog.create(blog);
-    console.log(result);
+    await Blog.create(blog);
   }
 
-  async find(filters, queryOption = {}) {
-    const { slide = 0, BLOGS_PER_PAGE = 0, sort } = queryOption;
-    const filter = { ...filters, status: "approved" };
+  async getBlogs(query, queryOption = {}) {
+    const { slide = 0, BLOGS_PER_PAGE = 0, sort, populate } = queryOption;
+    const filter = { ...query };
     const options = {
       sort,
-      populate: "author",
+      populate,
       skip: BLOGS_PER_PAGE * (slide - 1),
       limit: BLOGS_PER_PAGE,
     };

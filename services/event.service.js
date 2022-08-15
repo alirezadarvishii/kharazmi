@@ -6,7 +6,7 @@ const downloadFile = require("../shared/download-file");
 const deleteFile = require("../utils/deleteFile");
 
 class EventService {
-  async find(query) {
+  async getEvents(query) {
     const events = await Event.find({ ...query });
     return events;
   }

@@ -22,10 +22,10 @@ module.exports.blog = async (req, res) => {
     BLOGS_PER_PAGE,
     sort,
   };
-  const blogs = await BlogService.find(filters, queryOptions);
+  const blogs = await BlogService.getBlogs(filters, queryOptions);
   const blogsLength = await BlogService.countDocuments();
   const pagination = genPagination(BLOGS_PER_PAGE, blogsLength);
-  const categories = await CategoryService.getCategory();
+  const categories = await CategoryService.find();
   res.render("blog/blog", {
     title: "وبلاگ هنرستان",
     headerTitle: "وبـلـاگ هنرستان",
@@ -89,7 +89,7 @@ module.exports.handleAddBlog = async (req, res) => {
     authorModel: req.user.role,
     blogImg: req.files.blogImg[0],
   };
-  await BlogService.createBlog(blogDto);
+  await BlogService.create(blogDto);
   req.flash(
     "success",
     "پست جدید با موفقیت ساخته شد و با تأیید نهایی از سوی مدیریت در حالت عمومی قرار میگیرد!",

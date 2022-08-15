@@ -15,6 +15,7 @@ const { hash, compare } = require("bcrypt");
 class AuthService {
   async registerAdmin(adminDto) {
     const { email, password, profileImg } = adminDto;
+    // TODO: Remove check mails condition.
     const checkEmail = await checkEmailExist(email);
     if (checkEmail.includes(true)) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
@@ -185,4 +186,3 @@ class AuthService {
 }
 
 module.exports = new AuthService();
-

@@ -4,7 +4,7 @@ const Gallery = require("../model/gallery");
 const downloadFile = require("../shared/download-file");
 
 class GalleryService {
-  async find(query, queryOptions = {}) {
+  async getImages(query, queryOptions = {}) {
     const { slide, IMAGE_PER_PAGE } = queryOptions;
     const option = {
       skip: IMAGE_PER_PAGE * (slide - 1),

@@ -10,8 +10,8 @@ const CommentService = require("../services/comment.service");
 const pick = require("../utils/pick");
 
 module.exports.adminPanel = async (req, res) => {
-  const notApprovedAdmins = await AdminService.find({ status: "notApproved" });
-  const notApprovedTeachers = await TeacherService.find({
+  const notApprovedAdmins = await AdminService.getAdmins({ status: "notApproved" });
+  const notApprovedTeachers = await TeacherService.getTeachers({
     status: "notApproved",
   });
   const notApprovedUsers = [...notApprovedAdmins, ...notApprovedTeachers];
@@ -32,7 +32,7 @@ module.exports.adminPanel = async (req, res) => {
   // Comments length information.
   const lengthOfTotalComments = await CommentService.countDocuments({});
   // Waiting for approved blogs.
-  const waitingForApproveBlogs = await BlogService.find(
+  const waitingForApproveBlogs = await BlogService.getBlogs(
     {
       status: "notApproved",
     },
@@ -59,7 +59,7 @@ module.exports.manageAdmins = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const admins = await AdminService.find({ ...filters })
+  const admins = await AdminService.getAdmins({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-admins", {
@@ -77,7 +77,7 @@ module.exports.manageTeachers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const teachers = await TeacherService.find({ ...filters })
+  const teachers = await TeacherService.getTeachers({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-teachers", {
@@ -95,7 +95,7 @@ module.exports.manageNormalUsers = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const users = await UserService.find({ ...filters })
+  const users = await UserService.getUsers({ ...filters })
     .sort(sort)
     .select("-password");
   res.render("dashboard/manage-normalusers", {
@@ -113,7 +113,7 @@ module.exports.manageBlogs = async (req, res) => {
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }
-  const blogs = await BlogService.find(
+  const blogs = await BlogService.getBlogs(
     { ...filters },
     {
       sort,
@@ -130,7 +130,7 @@ module.exports.manageBlogs = async (req, res) => {
 };
 
 module.exports.manageGallery = async (req, res) => {
-  const images = await GalleryService.find({});
+  const images = await GalleryService.getImages();
   res.render("dashboard/manage-gallery.ejs", {
     title: "مدیریت گالری وبسایت",
     images,
@@ -138,7 +138,7 @@ module.exports.manageGallery = async (req, res) => {
 };
 
 module.exports.manageEvents = async (req, res) => {
-  const events = await EventService.find({});
+  const events = await EventService.getEvents({});
   res.render("dashboard/manage-events", {
     title: "مدیریت رویداد ها",
     events,
@@ -146,7 +146,7 @@ module.exports.manageEvents = async (req, res) => {
 };
 
 module.exports.blogsSettingPage = async (req, res) => {
-  const blogCategories = await CategoryService.find({});
+  const blogCategories = await CategoryService.getCategories({});
   res.render("dashboard/blog-settings", {
     title: "ناحیه تنظیمات بلاگ ها",
     blogCategories,

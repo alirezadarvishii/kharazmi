@@ -26,11 +26,13 @@ module.exports.indexPage = async (req, res) => {
 module.exports.departman = async (req, res) => {
   const { slide = 1 } = req.query;
   const DEPARTMAN_PER_PAGE = 12;
-  // TODO Check select parameter work later.
-  const admins = await AdminService.find({ status: "approved" }, "-password");
-  const teachers = await TeacherService.find(
+  const admins = await AdminService.getAdmins(
     { status: "approved" },
-    "-password",
+    { projection: "-password" },
+  );
+  const teachers = await TeacherService.getTeachers(
+    { status: "approved" },
+    { projection: "-password" },
   );
   const departman = [...admins, ...teachers];
   const startIndex = DEPARTMAN_PER_PAGE * (slide - 1);
@@ -49,8 +51,11 @@ module.exports.departman = async (req, res) => {
 module.exports.gallery = async (req, res) => {
   const { slide = 1 } = req.query;
   const IMAGE_PER_PAGE = 9;
-  const paginationConfig = { slide, IMAGE_PER_PAGE };
-  const images = await GalleryService.find({}, paginationConfig);
+  const queryOptions = {
+    skip: (slide - 1) * IMAGE_PER_PAGE,
+    limit: IMAGE_PER_PAGE,
+  };
+  const images = await GalleryService.getImages({}, queryOptions);
   const imagesLength = await GalleryService.countDocuments({});
   const pagination = genPagination(IMAGE_PER_PAGE, imagesLength);
   res.render("gallery", {
@@ -76,7 +81,7 @@ module.exports.about = (req, res) => {
   });
 };
 
-// TODO Fix it later
+// TODO Complete it later
 module.exports.handleContactUs = async (req, res) => {
   const { fullname, email, phone, subject, content } = req.body;
   const validate = contactValidation.comment.validate(req.body);

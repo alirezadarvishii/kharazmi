@@ -52,14 +52,8 @@ module.exports.handleEdit = async (req, res) => {
   const { fullname, bio } = req.body;
   const { role } = req.params;
 
-  const validate = authValidation.editUserValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
-
   // eslint-disable-next-line fp/no-let
   let user;
-
   const userDto = {
     fullname,
     bio,
@@ -79,10 +73,6 @@ module.exports.handleEdit = async (req, res) => {
 
 module.exports.handleChangePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
-  const validate = changePasswordValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   if (req.user.role === "admin") {
     await AdminService.changePassword(
       req.user._id,

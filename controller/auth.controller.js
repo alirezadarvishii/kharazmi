@@ -1,6 +1,5 @@
 const AuthService = require("../services/auth.service");
 const ErrorResponse = require("../utils/ErrorResponse");
-const authValidation = require("../validation/auth.validation");
 
 module.exports.regiserType = (req, res) => {
   res.render("register-type", {
@@ -66,10 +65,6 @@ module.exports.handleRegisterUser = async (req, res) => {
 };
 
 module.exports.handleLogin = async (req, res, next) => {
-  const validate = authValidation.loginValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "/login");
-  }
   const userDto = { ...req.body };
   const user = await AuthService.login(userDto);
   req.session.user = user;

@@ -6,6 +6,8 @@ const authController = require("../controller/auth.controller");
 const asyncHandler = require("../middleware/asyncHandler");
 const recaptchaVerification = require("../middleware/captcha-verification");
 const { isLoggedIn } = require("../middleware/authMiddleware");
+const validate = require("../middleware/validate");
+const authValidation = require("../validation/auth.validation");
 
 // ---------------------- GET ROUTES ----------------------
 
@@ -32,6 +34,7 @@ router.get("/reset-password/:token", isLoggedIn, authController.resetPassword);
 router.post(
   "/register/admin",
   isLoggedIn,
+  validate(authValidation.adminValidation),
   asyncHandler(authController.handleRegisterAdmin),
 );
 
@@ -39,6 +42,7 @@ router.post(
 router.post(
   "/register/teacher",
   isLoggedIn,
+  validate(authValidation.teacherValidation),
   asyncHandler(authController.handleRegisterTeacher),
 );
 
@@ -46,6 +50,7 @@ router.post(
 router.post(
   "/register/user",
   isLoggedIn,
+  validate(authValidation.normalUserValidation),
   asyncHandler(authController.handleRegisterUser),
 );
 
@@ -53,6 +58,7 @@ router.post(
 router.post(
   "/login",
   isLoggedIn,
+  validate(authValidation.loginValidation),
   asyncHandler(authController.handleLogin),
   authController.handleRememberMe,
 );
@@ -66,6 +72,7 @@ router.post(
 // Handle user account reset password
 router.post(
   "/reset-password",
+  validate(authValidation.resetPasswordValidation),
   asyncHandler(authController.handleResetPassword),
 );
 

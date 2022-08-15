@@ -23,10 +23,7 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.handleRegisterAdmin = async (req, res) => {
-  const validate = authValidation.adminValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
+  // TODO: Refactor this validation anyway OR Change bussines logic
   if (!req.files.profileImg) {
     throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }
@@ -40,10 +37,6 @@ module.exports.handleRegisterAdmin = async (req, res) => {
 };
 
 module.exports.handleRegisterTeacher = async (req, res) => {
-  const validate = authValidation.teacherValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   if (!req.files.profileImg) {
     throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
   }
@@ -60,10 +53,6 @@ module.exports.handleRegisterTeacher = async (req, res) => {
 };
 
 module.exports.handleRegisterUser = async (req, res) => {
-  const validate = authValidation.normalUserValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   if (!req.files.profileImg) {
     throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
   }

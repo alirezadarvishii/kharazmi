@@ -4,7 +4,7 @@ const EventService = require("../services/event.service");
 const ErrorResponse = require("../utils/errorResponse");
 const eventValidation = require("../validation/event.validation");
 
-// Public API for any type of users.
+// API
 module.exports.getEvent = async (req, res) => {
   const { eventId } = req.params;
   const event = await EventService.findOne(eventId);
@@ -13,10 +13,6 @@ module.exports.getEvent = async (req, res) => {
 
 module.exports.newEvent = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Event");
-  const validate = eventValidation.eventSchema.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   if (!req.files.eventImg) {
     throw new ErrorResponse(404, "فیلد تصویر رویداد الزامی است!", "back");
   }
@@ -32,10 +28,6 @@ module.exports.newEvent = async (req, res) => {
 module.exports.editEvent = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("update", "Event");
   const { eventId } = req.body;
-  const validate = eventValidation.eventSchema.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(402, validate.error.message, "back");
-  }
   // TODO Check update mechanism
   const eventDto = {
     ...req.body,

@@ -4,6 +4,8 @@ const router = Router();
 
 const schoolController = require("../controller/event.controller");
 const asyncHandler = require("../middleware/asyncHandler");
+const validate = require("../middleware/validate");
+const eventValidation = require("../validation/event.validation");
 
 // ---------------------- GET ROUTES ----------------------
 
@@ -14,10 +16,18 @@ router.get("/:eventId", asyncHandler(schoolController.getEvent));
 // ---------------------- POST ROUTES ----------------------
 
 // Add a new event handler.
-router.post("/new", asyncHandler(schoolController.newEvent));
+router.post(
+  "/new",
+  validate(eventValidation.event),
+  asyncHandler(schoolController.newEvent),
+);
 
 // Edit a event handler.
-router.post("/edit", asyncHandler(schoolController.editEvent));
+router.post(
+  "/edit",
+  validate(eventValidation.event),
+  asyncHandler(schoolController.editEvent),
+);
 
 // delete a event handler
 router.post("/delete", asyncHandler(schoolController.deleteEvent));

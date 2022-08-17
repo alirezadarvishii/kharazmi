@@ -9,7 +9,10 @@ const contactValidation = require("../validation/contact.validation");
 
 module.exports.indexPage = async (req, res) => {
   const galleryImages = await GalleryService.getImages({});
-  const blogs = await BlogService.getBlogs({ status: "approved" });
+  const blogs = await BlogService.getBlogs(
+    { status: "approved" },
+    { populate: "author" },
+  );
   const teachers = await TeacherService.getTeachers({ status: "approved" });
   const admins = await AdminService.getAdmins({ status: "approved" });
   const departman = [...admins, ...teachers];

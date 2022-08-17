@@ -21,6 +21,7 @@ module.exports.blog = async (req, res) => {
     slide,
     BLOGS_PER_PAGE,
     sort,
+    populate: "author",
   };
   const blogs = await BlogService.getBlogs(filters, queryOptions);
   const blogsLength = await BlogService.countDocuments();

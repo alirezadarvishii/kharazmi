@@ -1,8 +1,6 @@
 const { ForbiddenError } = require("@casl/ability");
 
 const GalleryService = require("../services/gallery.service");
-const ErrorResponse = require("../utils/errorResponse");
-const galleryValidation = require("../validation/gallery.validation");
 
 module.exports.addNewImageToGallery = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "GalleryImage");

@@ -3,8 +3,6 @@ const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const BlogService = require("../services/blog.service");
 const ErrorResponse = require("../utils/ErrorResponse");
-const authValidation = require("../validation/auth.validation");
-const { changePasswordValidation } = require("../validation/auth.validation");
 
 module.exports.userPanel = (req, res) => {
   res.render("user/me", {

@@ -2,7 +2,6 @@ const { ForbiddenError } = require("@casl/ability");
 
 const EventService = require("../services/event.service");
 const ErrorResponse = require("../utils/errorResponse");
-const eventValidation = require("../validation/event.validation");
 
 // API
 module.exports.getEvent = async (req, res) => {

@@ -4,8 +4,6 @@ const ejs = require("ejs");
 const { ForbiddenError } = require("@casl/ability");
 
 const CommentService = require("../services/comment.service");
-const ErrorResponse = require("../utils/errorResponse");
-const commentValidation = require("../validation/comment.validation");
 const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
 

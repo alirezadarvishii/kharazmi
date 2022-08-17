@@ -16,7 +16,7 @@ class TeacherService {
     return teachers;
   }
 
-  async findOne(teacherId) {
+  async getTeacher(teacherId) {
     const teacher = await Teacher.findOne({ _id: teacherId });
     return teacher;
   }

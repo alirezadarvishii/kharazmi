@@ -9,11 +9,11 @@ module.exports.profile = async (req, res) => {
   // eslint-disable-next-line fp/no-let
   let user;
   if (role === "admin") {
-    user = await AdminService.getAdmin(role, userId);
+    user = await AdminService.getAdmin(userId);
   } else if (role === "teacher") {
-    user = await TeacherService.getTeacher(role, userId);
+    user = await TeacherService.getTeacher(userId);
   } else if (role === "user") {
-    user = await UserService.getUser(role, userId);
+    user = await UserService.getUser(userId);
   }
   res.render("user/profile", {
     title: `پروفایل ${user.fullname}`,

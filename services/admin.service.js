@@ -16,7 +16,7 @@ class AdminService {
     return admins;
   }
 
-  async findOne(adminId) {
+  async getAdmin(adminId) {
     const user = await Admin.findOne({ _id: adminId });
     return user;
   }

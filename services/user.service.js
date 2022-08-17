@@ -34,7 +34,7 @@ class UserService {
     await User.updateOne({ _id: userId }, { $set: { status: "unApproved" } });
   }
 
-  async updateOne(userId, userDto) {
+  async updateProfile(userId, userDto) {
     const user = await User.findOne({ _id: userId });
     if (!user)
       throw new ErrorResponse(
@@ -53,6 +53,10 @@ class UserService {
     user.bio = userDto.bio;
     await user.save();
     return user;
+  }
+
+  async updateOne(userId, query) {
+    await User.updateOne({ _id: userId }, { ...query });
   }
 
   async changePassword(userId, currentPassword, newPassword) {

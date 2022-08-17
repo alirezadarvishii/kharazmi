@@ -26,7 +26,7 @@ class AdminService {
     return admin;
   }
 
-  async update(adminId, adminDto) {
+  async updateProfile(adminId, adminDto) {
     const admin = await Admin.findOne({ _id: adminId });
     if (!admin)
       throw new ErrorResponse(
@@ -39,6 +39,7 @@ class AdminService {
         quality: 60,
         filename: admin.profileImg,
         path: path.join(__dirname, "..", "public", "users", admin.profileImg),
+        buffer: adminDto.buffer,
       });
     }
     admin.fullname = adminDto.fullname;
@@ -57,6 +58,10 @@ class AdminService {
       return admin;
     }
     throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
+  }
+
+  async updateOne(adminId, query) {
+    await Admin.updateOne({ _id: adminId }, { ...query });
   }
 
   async deleteAccount(userId) {

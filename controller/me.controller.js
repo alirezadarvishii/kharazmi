@@ -58,11 +58,11 @@ module.exports.handleEdit = async (req, res) => {
     buffer: req.files?.profileImg[0].buffer,
   };
   if (role === "admin") {
-    user = await AdminService.updateOne(req.user._id, userDto);
+    user = await AdminService.updateProfile(req.user._id, userDto);
   } else if (role === "teacher") {
-    user = await TeacherService.updateOne(req.user._id, userDto);
+    user = await TeacherService.updateProfile(req.user._id, userDto);
   } else if (role === "user") {
-    user = await UserService.updateOne(req.user._id, userDto);
+    user = await UserService.updateProfile(req.user._id, userDto);
   }
   req.session.user = user;
   req.flash("success", "تغییرات شما با موفقیت اعمال شد!");

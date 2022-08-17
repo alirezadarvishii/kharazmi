@@ -37,7 +37,7 @@ class TeacherService {
     );
   }
 
-  async updateOne(teacherId, teacherDto) {
+  async updateProfile(teacherId, teacherDto) {
     const teacher = await Teacher.findOne({ _id: teacherId });
     if (!teacher)
       throw new ErrorResponse(
@@ -50,12 +50,17 @@ class TeacherService {
         quality: 60,
         filename: teacher.profileImg,
         path: path.join(__dirname, "..", "public", "users", teacher.profileImg),
+        buffer: teacherDto.buffer,
       });
     }
     teacher.fullname = teacherDto.fullname;
     teacher.bio = teacherDto.bio;
     await teacher.save();
     return teacher;
+  }
+
+  async updateOne(teacherId, query) {
+    await Teacher.updateOne({ _id: teacherId }, { ...query });
   }
 
   async changePassword(teacherId, currentPassword, newPassword) {

@@ -128,8 +128,8 @@ class BlogService {
     await Blog.updateOne({ _id: blogId }, { $set: { status: "notApproved" } });
   }
 
-  async countDocuments() {
-    const length = await Blog.countDocuments({ status: "approved" });
+  async countDocuments(query) {
+    const length = await Blog.countDocuments({ ...query });
     return length;
   }
 

@@ -295,7 +295,7 @@
           <div class="swiper-wrapper py-1">
             <% departman.forEach(departman => { %>
             <div class="swiper-slide">
-              <a href="/profile/teacher/<%= departman._id %>">
+              <a href="/user/profile/<%= departman.role %>/<%= departman._id %>">
                 <div class="card h-100 border-0 position-relative">
                   <div class="master-img position-relative overflow-hidden">
                     <img src="http://localhost:3000/users/<%= departman.profileImg %>" class="card-img-top p-2 rounded-8 fit-cover" alt="" />

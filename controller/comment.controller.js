@@ -81,7 +81,7 @@ module.exports.readComment = async (req, res) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not founded!" });
     }
-    if (req.user._id.toString() !== comment.user.toString()) {
+    if (req.user._id.toString() !== comment.author.toString()) {
       return res.status(402).json({ message: "Forbidden!" });
     }
     res.status(200).json({ message: "Get comment successful!", comment });

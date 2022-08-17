@@ -197,7 +197,6 @@ const getCommentForEdit = async () => {
   const commentId = document.querySelector("#editComment input[name=commentId]");
   const replyId = document.querySelector("#editComment input[name=replyId]");
   let url;
-  console.log(replyId);
   if (!replyId.value) {
     url = `http://localhost:3000/comment/read/${commentId.value}`;
   } else {

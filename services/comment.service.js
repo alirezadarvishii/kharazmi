@@ -44,7 +44,7 @@ class CommentService {
     const comment = await Comment.findOne({ _id: replyId });
     const replyDoc = {
       comment: commentDto.commentBody,
-      authorModel: commentDto.author,
+      authorModel: commentDto.authorModel,
       author: commentDto.author,
     };
     comment.replies.push(replyDoc);
@@ -82,7 +82,7 @@ class CommentService {
 
   async updateComment(commentId, commentDto, auth) {
     const comment = await Comment.findOne({ _id: commentId });
-    if (comment.user.toString() !== auth.user.toString()) {
+    if (comment.author.toString() !== auth.user.toString()) {
       throw new ErrorResponse(402, "Forbidden!", "back");
     }
     comment.comment = commentDto.commentBody;
@@ -100,7 +100,7 @@ class CommentService {
     const [replyComment] = comment.replies.filter(
       (cm) => cm._id.toString() === replyId.toString(),
     );
-    if (replyComment.user.toString() !== auth.user.toString()) {
+    if (replyComment.author.toString() !== auth.user.toString()) {
       throw new ErrorResponse(402, "Forbidden!", "back");
     }
     // Update comment body.

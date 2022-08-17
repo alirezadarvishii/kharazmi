@@ -233,7 +233,8 @@
               <% if(user._id.toString() === replyCm.author._id.toString()) { %>
               <button
                 class="btn btn-info py-1 px-1 edit-comment-modal-opener ms-2"
-                data-comment-id="<%= replyCm._id %>"
+                data-comment-id="<%= comment._id %>"
+                data-reply-id="<%= replyCm._id %>"
                 data-bs-toggle="modal"
                 data-bs-target="#editComment"
               >

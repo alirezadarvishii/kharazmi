@@ -261,7 +261,8 @@
               user.role === "admin") { %>
               <button
                 class="btn btn-danger py-1 px-1 d-flex align-items-center ms-2 delete-reply-comment"
-                data-comment-id="<%= replyCm._id %>"
+                data-comment-id="<%= comment._id %>"
+                data-reply-id="<%= replyCm._id %>"
               >
                 <svg
                   data-bs-toggle="tooltip"

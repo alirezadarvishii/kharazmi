@@ -149,14 +149,14 @@ const deleteReplyComment = async (e) => {
     cancelButtonText: "نه، لغو عملیات",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const { commentId } = e.target.closest("button").dataset;
-      console.log(commentId)
+      const { commentId, replyId } = e.target.closest("button").dataset;
       const csrfToken = document.querySelector("meta[name=csrfToken]").getAttribute("content");
       e.target.append(spinner());
       const fetchToDelete = await fetch("http://localhost:3000/comment/delete", {
         method: "DELETE",
         body: JSON.stringify({
-          replyId: commentId,
+          replyId: replyId,
+          commentId: commentId,
           replyComment: true,
         }),
         headers: {

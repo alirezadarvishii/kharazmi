@@ -52,17 +52,7 @@ class CommentService {
   }
 
   async deleteComment(commentId) {
-    try {
-      await Comment.findOne({ _id: commentId });
-      // if (!comment) {
-      //   return res.status(404).json({ message: "Comment not founded!" });
-      // }
-      const result = await Comment.deleteOne({ _id: commentId });
-      return result;
-    } catch (error) {
-      // TODO Send better result for error
-      return null;
-    }
+    await Comment.deleteOne({ _id: commentId });
   }
 
   async deleteReplyComment(replyId) {

@@ -20,7 +20,7 @@ module.exports.getComments = async (req, res) => {
       user: req.user,
     },
   );
-  const commentsLength = await CommentService.commentsLength(blogId);
+  const commentsLength = await CommentService.countDocuments(blogId);
   res.status(200).json({ commentsUI, commentsLength, commentsPerPage: 10 });
 };
 

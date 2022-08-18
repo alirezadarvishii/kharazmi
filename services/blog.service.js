@@ -132,11 +132,6 @@ class BlogService {
     const length = await Blog.countDocuments({ ...query });
     return length;
   }
-
-  async getSpecificUserBlog(authorId) {
-    const blogs = await Blog.find({ author: authorId, status: "approved" });
-    return blogs;
-  }
 }
 
 module.exports = new BlogService();

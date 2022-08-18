@@ -95,7 +95,7 @@ module.exports.handleChangePassword = async (req, res) => {
 };
 
 module.exports.manageOwnBlogs = async (req, res) => {
-  const blogs = await BlogService.getSpecificUserBlog(req.user._id);
+  const blogs = await BlogService.getBlogs({ author: req.user._id });
   res.render("user/manage-blogs", {
     title: "مدیریت مقاله های من",
     headerTitle: "مدیریت مقاله های من",

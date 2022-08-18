@@ -46,15 +46,17 @@ class AuthService {
 
   async registerTeacher(teacherDto) {
     const { email, password, profileImg } = teacherDto;
-    const checkEmail = await checkEmailExist(email);
-    if (checkEmail.includes(true)) {
+    const isExist = await TeacherService.getTeacherByEmail(email);
+    if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
-    await sharp(profileImg.buffer)
-      .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "users", filename));
+    await downloadFile({
+      quality: 60,
+      path: path.join(__dirname, "..", "public", "users", filename),
+      buffer: profileImg.buffer,
+    });
     const teacher = {
       teacherDto,
       profileImg: filename,
@@ -65,15 +67,17 @@ class AuthService {
 
   async registerUser(userDto) {
     const { email, password, profileImg } = userDto;
-    const checkEmail = await checkEmailExist(email);
-    if (checkEmail.includes(true)) {
+    const isExist = await UserService.getUserByEmail(email);
+    if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
-    await sharp(profileImg.buffer)
-      .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "users", filename));
+    await downloadFile({
+      quality: 60,
+      buffer: profileImg.buffer,
+      path: path.join(__dirname, "..", "public", "users", filename),
+    });
     const user = {
       userDto,
       profileImg: filename,

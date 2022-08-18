@@ -21,7 +21,7 @@ class TeacherService {
     return teacher;
   }
 
-  async getTeacherByEmail(email) {
+  async findByEmail(email) {
     const teacher = await Teacher.findOne({ email });
     return teacher;
   }

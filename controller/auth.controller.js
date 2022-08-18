@@ -22,7 +22,6 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.handleRegisterAdmin = async (req, res) => {
-  // TODO: Refactor this validation anyway OR Change bussines logic
   if (!req.files.profileImg) {
     throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
   }

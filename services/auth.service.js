@@ -3,28 +3,29 @@ const path = require("path");
 const ejs = require("ejs");
 const sharp = require("sharp");
 const jwt = require("jsonwebtoken");
+const { hash, compare } = require("bcrypt");
 
 const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const EmailService = require("./email.service");
 const ErrorResponse = require("../utils/ErrorResponse");
-const checkEmailExist = require("../utils/checkEmailExist");
-const { hash, compare } = require("bcrypt");
+const downloadFile = require("../shared/download-file");
 
 class AuthService {
   async registerAdmin(adminDto) {
     const { email, password, profileImg } = adminDto;
-    // TODO: Remove check mails condition.
-    const checkEmail = await checkEmailExist(email);
-    if (checkEmail.includes(true)) {
+    const isExist = await AdminService.getAdminByEmail(email);
+    if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
-    await sharp(profileImg.buffer)
-      .jpeg({ quality: 60 })
-      .toFile(path.join(__dirname, "..", "public", "users", filename));
+    await downloadFile({
+      buffer: profileImg.buffer,
+      quality: 60,
+      path: path.join(__dirname, "..", "public", "users", filename),
+    });
 
     const adminUsersLength = await AdminService.countDocuments();
     if (adminUsersLength < 1) {

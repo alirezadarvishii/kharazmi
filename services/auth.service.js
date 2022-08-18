@@ -1,7 +1,6 @@
 const path = require("path");
 
 const ejs = require("ejs");
-const sharp = require("sharp");
 const jwt = require("jsonwebtoken");
 const { hash, compare } = require("bcrypt");
 

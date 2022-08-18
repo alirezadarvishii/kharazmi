@@ -14,7 +14,7 @@ const downloadFile = require("../shared/download-file");
 class AuthService {
   async registerAdmin(adminDto) {
     const { email, password, profileImg } = adminDto;
-    const isExist = await AdminService.getAdminByEmail(email);
+    const isExist = await AdminService.findByEmail(email);
     if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
@@ -45,7 +45,7 @@ class AuthService {
 
   async registerTeacher(teacherDto) {
     const { email, password, profileImg } = teacherDto;
-    const isExist = await TeacherService.getTeacherByEmail(email);
+    const isExist = await TeacherService.findByEmail(email);
     if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
@@ -57,7 +57,7 @@ class AuthService {
       buffer: profileImg.buffer,
     });
     const teacher = {
-      teacherDto,
+      ...teacherDto,
       profileImg: filename,
       password: hashPassword,
     };
@@ -66,7 +66,7 @@ class AuthService {
 
   async registerUser(userDto) {
     const { email, password, profileImg } = userDto;
-    const isExist = await UserService.getUserByEmail(email);
+    const isExist = await UserService.findByEmail (email);
     if (isExist) {
       return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
     }
@@ -78,7 +78,7 @@ class AuthService {
       path: path.join(__dirname, "..", "public", "users", filename),
     });
     const user = {
-      userDto,
+      ...userDto,
       profileImg: filename,
       password: hashPassword,
     };

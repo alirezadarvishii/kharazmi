@@ -21,7 +21,7 @@ class AdminService {
     return user;
   }
 
-  async getAdminByEmail(email) {
+  async findByEmail(email) {
     const admin = await Admin.findOne({ email });
     return admin;
   }

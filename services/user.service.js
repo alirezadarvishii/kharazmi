@@ -76,8 +76,8 @@ class UserService {
     return result;
   }
 
-  async countDocuments() {
-    const length = await User.countDocuments();
+  async countDocuments(query) {
+    const length = await User.countDocuments({ ...query });
     return length;
   }
 }

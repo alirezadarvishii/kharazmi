@@ -79,8 +79,8 @@ class TeacherService {
     await Teacher.deleteOne({ _id: userId });
   }
 
-  async countDocuments() {
-    const length = await Teacher.countDocuments();
+  async countDocuments(query) {
+    const length = await Teacher.countDocuments({ ...query });
     return length;
   }
 }

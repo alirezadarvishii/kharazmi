@@ -76,8 +76,8 @@ class AdminService {
     await Admin.updateOne({ _id: userId }, { $set: { status: "unApproved" } });
   }
 
-  async countDocuments() {
-    const length = await Admin.countDocuments();
+  async countDocuments(query) {
+    const length = await Admin.countDocuments({ ...query });
     return length;
   }
 }

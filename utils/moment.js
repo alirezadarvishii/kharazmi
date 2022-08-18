@@ -5,5 +5,5 @@ module.exports.moment = (date) => {
 };
 
 module.exports.momentTime = (time) => {
-  return jalaliMoment(time).locale("fa").format("HH:mm:ss");
+  return jalaliMoment(time).locale("fa").format("HH:mm");
 };

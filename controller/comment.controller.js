@@ -58,10 +58,13 @@ module.exports.addComment = async (req, res) => {
 
 module.exports.deleteComment = async (req, res) => {
   const { commentId, replyComment, replyId } = req.body;
-  // If target was comment, not reply comment
   if (!replyComment && !replyId) {
     const comment = await CommentService.getComment(commentId);
-    ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+    try {
+      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
+    } catch (error) {
+      return res.status(403).json({ message: "forbidden!" });
+    }
     await CommentService.deleteComment(commentId);
     res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   } else if (replyComment === true && replyId) {

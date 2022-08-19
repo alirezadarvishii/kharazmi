@@ -5,6 +5,7 @@ const mongoStore = require("connect-mongo");
 const session = require("express-session");
 const csrf = require("csurf");
 const compression = require("compression");
+const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 
@@ -43,6 +44,7 @@ function createApp() {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
   app.use(express.static(path.join(__dirname, "public")));
+  app.use(helmet());
   app.use(compression());
   // Cookie & Session configuation
   app.use(

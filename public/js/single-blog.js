@@ -13,12 +13,42 @@ const ckEditorConfig = {
   heading: {
     options: [
       { model: "paragraph", title: "پاراگراف", class: "ck-heading_paragraph" },
-      { model: "heading1", view: "h1", title: "تیتر نویس 1", class: "ck-heading_heading1" },
-      { model: "heading2", view: "h2", title: "تیتر نویس 2", class: "ck-heading_heading2" },
-      { model: "heading3", view: "h3", title: "تیتر نویس 3", class: "ck-heading_heading3" },
-      { model: "heading4", view: "h4", title: "تیتر نویس 4", class: "ck-heading_heading3" },
-      { model: "heading5", view: "h5", title: "تیتر نویس 5", class: "ck-heading_heading3" },
-      { model: "heading6", view: "h6", title: "تیتر نویس 6", class: "ck-heading_heading3" },
+      {
+        model: "heading1",
+        view: "h1",
+        title: "تیتر نویس 1",
+        class: "ck-heading_heading1",
+      },
+      {
+        model: "heading2",
+        view: "h2",
+        title: "تیتر نویس 2",
+        class: "ck-heading_heading2",
+      },
+      {
+        model: "heading3",
+        view: "h3",
+        title: "تیتر نویس 3",
+        class: "ck-heading_heading3",
+      },
+      {
+        model: "heading4",
+        view: "h4",
+        title: "تیتر نویس 4",
+        class: "ck-heading_heading3",
+      },
+      {
+        model: "heading5",
+        view: "h5",
+        title: "تیتر نویس 5",
+        class: "ck-heading_heading3",
+      },
+      {
+        model: "heading6",
+        view: "h6",
+        title: "تیتر نویس 6",
+        class: "ck-heading_heading3",
+      },
     ],
   },
 };
@@ -94,19 +124,24 @@ const deleteComment = (e) => {
     cancelButtonText: "نه، لغو عملیات",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const csrfToken = document.querySelector("meta[name=csrfToken]").getAttribute("content");
+      const csrfToken = document
+        .querySelector("meta[name=csrfToken]")
+        .getAttribute("content");
       const { commentId } = e.target.closest("button").dataset;
       e.target.append(spinner());
-      const fetchToDelete = await fetch(`http://localhost:3000/comment/delete`, {
-        method: "DELETE",
-        body: JSON.stringify({
-          commentId,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          "CSRF-Token": csrfToken,
+      const fetchToDelete = await fetch(
+        `http://localhost:3000/comment/delete`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            commentId,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       if (fetchToDelete.status === 200) {
         const response = await fetchToDelete.json();
         console.log(response);
@@ -150,20 +185,25 @@ const deleteReplyComment = async (e) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       const { commentId, replyId } = e.target.closest("button").dataset;
-      const csrfToken = document.querySelector("meta[name=csrfToken]").getAttribute("content");
+      const csrfToken = document
+        .querySelector("meta[name=csrfToken]")
+        .getAttribute("content");
       e.target.append(spinner());
-      const fetchToDelete = await fetch("http://localhost:3000/comment/delete", {
-        method: "DELETE",
-        body: JSON.stringify({
-          replyId: replyId,
-          commentId: commentId,
-          replyComment: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          "CSRF-Token": csrfToken,
+      const fetchToDelete = await fetch(
+        "http://localhost:3000/comment/delete",
+        {
+          method: "DELETE",
+          body: JSON.stringify({
+            replyId: replyId,
+            commentId: commentId,
+            replyComment: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "CSRF-Token": csrfToken,
+          },
         },
-      });
+      );
       if (fetchToDelete.status === 200) {
         const response = await fetchToDelete.json();
         e.target.closest("li").remove();
@@ -194,7 +234,9 @@ const deleteReplyComment = async (e) => {
 
 // API: Get comment for edit it.
 const getCommentForEdit = async () => {
-  const commentId = document.querySelector("#editComment input[name=commentId]");
+  const commentId = document.querySelector(
+    "#editComment input[name=commentId]",
+  );
   const replyId = document.querySelector("#editComment input[name=replyId]");
   let url;
   if (!replyId.value) {
@@ -214,13 +256,17 @@ const getCommentForEdit = async () => {
 
 const openEditCommentModal = (e) => {
   const { commentId, replyId } = e.target.closest("button").dataset;
-  document.querySelector("#editComment input[name=commentId]").value = commentId;
-  if (replyId) document.querySelector("#editComment input[name=replyId]").value = replyId;
+  document.querySelector("#editComment input[name=commentId]").value =
+    commentId;
+  if (replyId)
+    document.querySelector("#editComment input[name=replyId]").value = replyId;
 };
 
 const changeReplyCommentInputValue = (e) => {
   const { commentId } = e.target.closest("button").dataset;
-  const commentIdInput = document.querySelector("#replyComment input[name=replyId]");
+  const commentIdInput = document.querySelector(
+    "#replyComment input[name=replyId]",
+  );
   commentIdInput.value = commentId;
 };
 
@@ -231,16 +277,25 @@ const editComment = (e) => {
 let currentCommentsPage = 1;
 const loadComments = async () => {
   const blogId = window.location.pathname.split("/")[3];
-  const fetchComments = await fetch(`http://localhost:3000/comment/${blogId}?slide=${currentCommentsPage}`);
+  const fetchComments = await fetch(
+    `http://localhost:3000/comment/${blogId}?slide=${currentCommentsPage}`,
+  );
   if (fetchComments.status === 200) {
     const response = await fetchComments.json();
-    const commentsContainer = document.querySelector(".comments-area .comments");
+    const commentsContainer = document.querySelector(
+      ".comments-area .comments",
+    );
     const parser = new DOMParser();
     commentsContainer.innerHTML = "";
     if (response.commentsLength >= 1) {
-      const cmDOC = parser.parseFromString(response.commentsUI, "text/html").querySelector("ul");
+      const cmDOC = parser
+        .parseFromString(response.commentsUI, "text/html")
+        .querySelector("ul");
       commentsContainer.append(cmDOC);
-      if (response.commentsPerPage * currentCommentsPage < response.commentsLength) {
+      if (
+        response.commentsPerPage * currentCommentsPage <
+        response.commentsLength
+      ) {
         const button = document.createElement("button");
         button.classList = "btn btn-secondary mb-4 d-block";
         button.id = "paginate-comments";
@@ -253,24 +308,41 @@ const loadComments = async () => {
       }
       const replyCommentBtns = document.querySelectorAll(".reply-comment");
       const deleteCommentBtns = document.querySelectorAll(".delete-comment");
-      const deleteReplyCommentBtns = document.querySelectorAll(".delete-reply-comment");
+      const deleteReplyCommentBtns = document.querySelectorAll(
+        ".delete-reply-comment",
+      );
       const editCommentBtn = document.querySelector(".edit-comment");
-      const editCommentModalOpener = document.querySelectorAll(".edit-comment-modal-opener");
+      const editCommentModalOpener = document.querySelectorAll(
+        ".edit-comment-modal-opener",
+      );
 
-      deleteCommentBtns.forEach((el) => el.addEventListener("click", deleteComment));
-      deleteReplyCommentBtns.forEach((el) => el.addEventListener("click", deleteReplyComment));
+      deleteCommentBtns.forEach((el) =>
+        el.addEventListener("click", deleteComment),
+      );
+      deleteReplyCommentBtns.forEach((el) =>
+        el.addEventListener("click", deleteReplyComment),
+      );
       editCommentBtn.addEventListener("click", editComment);
-      editCommentModalOpener.forEach((el) => el.addEventListener("click", openEditCommentModal));
-      replyCommentBtns.forEach((el) => el.addEventListener("click", changeReplyCommentInputValue));
-      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      editCommentModalOpener.forEach((el) =>
+        el.addEventListener("click", openEditCommentModal),
+      );
+      replyCommentBtns.forEach((el) =>
+        el.addEventListener("click", changeReplyCommentInputValue),
+      );
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+      );
       tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
       });
     } else {
-      const cmDOC = parser.parseFromString(response.commentsUI, "text/html").querySelector("div");
+      const cmDOC = parser
+        .parseFromString(response.commentsUI, "text/html")
+        .querySelector("div");
       commentsContainer.append(cmDOC);
     }
-    document.querySelector(".blog-feedbacks .comments span").textContent = response.commentsLength;
+    document.querySelector(".blog-feedbacks .comments span").textContent =
+      response.commentsLength;
   } else {
     console.log("Something went wrong!");
   }

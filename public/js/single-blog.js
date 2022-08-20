@@ -74,7 +74,11 @@ const spinner = () => {
 // Like blog function
 const like = async () => {
   const { blogId } = likeBtn.dataset;
-  const likeBlog = await fetch(`http://localhost:3000/blog/like/${blogId}`);
+  const likeBlog = await fetch(`http://localhost:3000/blog/like/${blogId}`, {
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
+  });
   if (likeBlog.status === 200) {
     const response = await likeBlog.json();
     likeNumber.textContent = response.blogLikesLength;
@@ -139,6 +143,7 @@ const deleteComment = (e) => {
           headers: {
             "Content-Type": "application/json",
             "CSRF-Token": csrfToken,
+            "X-Requested-With": "XMLHttpRequest",
           },
         },
       );
@@ -201,6 +206,7 @@ const deleteReplyComment = async (e) => {
           headers: {
             "Content-Type": "application/json",
             "CSRF-Token": csrfToken,
+            "X-Requested-With": "XMLHttpRequest",
           },
         },
       );
@@ -244,7 +250,11 @@ const getCommentForEdit = async () => {
   } else {
     url = `http://localhost:3000/comment/read/${commentId.value}?replyId=${replyId.value}`;
   }
-  const getComment = await fetch(url);
+  const getComment = await fetch(url, {
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
+  });
   if (getComment.status === 200) {
     const response = await getComment.json();
     editCommentCK.setData(response.comment.comment);
@@ -279,6 +289,11 @@ const loadComments = async () => {
   const blogId = window.location.pathname.split("/")[3];
   const fetchComments = await fetch(
     `http://localhost:3000/comment/${blogId}?slide=${currentCommentsPage}`,
+    {
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    },
   );
   if (fetchComments.status === 200) {
     const response = await fetchComments.json();

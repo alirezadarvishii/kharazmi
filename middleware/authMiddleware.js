@@ -1,10 +1,16 @@
+const httpStatus = require("http-status");
 const { ForbiddenError } = require("@casl/ability");
 
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 
 module.exports.isAuth = (req, res, next) => {
   if (!req.user) {
-    throw new ErrorResponse(422, "ابتدا وارد حساب کاربری خود شوید!", "/login");
+    throw new ApiError({
+      code: httpStatus[401],
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: "لطفا ابتدا وارد حساب کاربری خود شوید!",
+      redirectionPath: "/",
+    });
   }
   next();
 };

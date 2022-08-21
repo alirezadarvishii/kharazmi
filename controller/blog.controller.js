@@ -5,8 +5,6 @@ const { ForbiddenError } = require("@casl/ability");
 
 const BlogService = require("../services/blog.service");
 const CategoryService = require("../services/category.service");
-const ErrorResponse = require("../utils/ErrorResponse");
-const blogValidation = require("../validation/blog.validation");
 const pick = require("../utils/pick");
 const genPagination = require("../utils/pagination");
 
@@ -44,7 +42,7 @@ module.exports.blog = async (req, res) => {
 module.exports.getBlog = async (req, res) => {
   const { blogId } = req.params;
   const { ip } = req;
-  const blog = await BlogService.getBlog(blogId, req.user._id);
+  const blog = await BlogService.getBlog(blogId, req.user?._id);
   await BlogService.increamentViews(blogId, ip);
   const otherBlogs = await BlogService.getBlogs();
   res.render("blog/single-blog", {
@@ -61,7 +59,6 @@ module.exports.getBlogInPrivateMode = async (req, res) => {
       projection: "title body tags",
     };
     const blog = await BlogService.findOne({ _id: blogId }, queryOptions);
-    console.log(blog);
     res.status(200).json({ message: "Operation successful", blog });
   } else {
     res.status(403).redirect("/");
@@ -80,10 +77,6 @@ module.exports.addBlog = async (req, res) => {
 
 module.exports.handleAddBlog = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Blog");
-  const validate = blogValidation.validate(req.body);
-  if (validate.error) {
-    throw new ErrorResponse(422, validate.error.message, "back");
-  }
   const blogDto = {
     ...req.body,
     user: req.user._id,
@@ -133,9 +126,6 @@ module.exports.handleDeleteBlog = async (req, res) => {
 
 module.exports.likeBlog = async (req, res) => {
   const { blogId } = req.params;
-  if (!req.user) {
-    throw new ErrorResponse(403, "Authentication error!");
-  }
   const result = await BlogService.like(blogId, req.user._id);
   res.status(200).json({
     blogLikesLength: result.likesLength,
@@ -163,6 +153,7 @@ module.exports.downloadBlogImg = async (req, res) => {
   // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
   // Handle download image with sharp.
+  // TODO: Use download file helper function.
   await sharp(req.files.upload[0].buffer)
     .jpeg({ quality: 60 })
     .toFile(path.join(__dirname, "..", "public", "blogs", filename))

@@ -1,5 +1,7 @@
+const httpStatus = require("http-status");
+
 const AuthService = require("../services/auth.service");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 
 module.exports.regiserType = (req, res) => {
   res.render("register-type", {
@@ -23,7 +25,12 @@ module.exports.login = (req, res) => {
 
 module.exports.handleRegisterAdmin = async (req, res) => {
   if (!req.files.profileImg) {
-    throw new ErrorResponse(402, "عکس پروفایل الزامی است", "back");
+    throw new ApiError({
+      code: httpStatus[400],
+      statusCode: httpStatus.BAD_REQUEST,
+      message: "عکس پروفایل الزامی است!",
+      redirectionPath: "back",
+    });
   }
   const adminDto = {
     ...req.body,
@@ -36,7 +43,12 @@ module.exports.handleRegisterAdmin = async (req, res) => {
 
 module.exports.handleRegisterTeacher = async (req, res) => {
   if (!req.files.profileImg) {
-    throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
+    throw new ApiError({
+      code: httpStatus[400],
+      statusCode: httpStatus.BAD_REQUEST,
+      message: "عکس پروفایل الزامی است!",
+      redirectionPath: "back",
+    });
   }
   const teacherDto = {
     ...req.body,
@@ -52,7 +64,12 @@ module.exports.handleRegisterTeacher = async (req, res) => {
 
 module.exports.handleRegisterUser = async (req, res) => {
   if (!req.files.profileImg) {
-    throw new ErrorResponse(404, "عکس پروفایل الزامی است", "back");
+    throw new ApiError({
+      code: httpStatus[400],
+      statusCode: httpStatus.BAD_REQUEST,
+      message: "عکس پروفایل الزامی است!",
+      redirectionPath: "back",
+    });
   }
   const userDto = { ...req.body, profileImg: req.files.profileImg[0] };
   await AuthService.registerUser(userDto);
@@ -81,7 +98,14 @@ module.exports.handleRememberMe = (req, res) => {
 
 module.exports.logout = (req, res) => {
   req.session.destroy((err) => {
-    if (err) throw new ErrorResponse(500, "Something went wrong!", "/");
+    if (err) {
+      throw new ApiError({
+        code: httpStatus[400],
+        statusCode: httpStatus.BAD_REQUEST,
+        message: "مشکلی پیش آمده است!F",
+        redirectionPath: "/",
+      });
+    }
     res.redirect("/");
   });
 };

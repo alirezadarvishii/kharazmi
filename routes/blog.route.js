@@ -30,7 +30,7 @@ router.get("/read/:blogId/:slug", asyncHandler(blogController.getBlog));
 router.get("/update/:blogId", asyncHandler(blogController.updateBlog));
 
 // Route and Method: /blog/like/:blogId & GET
-router.get("/like/:blogId", asyncHandler(blogController.likeBlog));
+router.get("/like/:blogId", isAuth, asyncHandler(blogController.likeBlog));
 
 // ---------------------- POST ROUTES ----------------------
 
@@ -44,7 +44,12 @@ router.post("/unapprove", asyncHandler(blogController.unApproveBlog));
 router.post("/delete", asyncHandler(blogController.handleDeleteBlog));
 
 // Route and Method: /blog/new & POST
-router.post("/new", isAuth, asyncHandler(blogController.handleAddBlog));
+router.post(
+  "/new",
+  validate(blogValidation.blog),
+  isAuth,
+  asyncHandler(blogController.handleAddBlog),
+);
 
 router.post("/blogImg", asyncHandler(blogController.downloadBlogImg));
 

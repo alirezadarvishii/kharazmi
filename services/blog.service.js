@@ -1,9 +1,10 @@
 const path = require("path");
 
+const httpStatus = require("http-status");
 const { Types } = require("mongoose");
 
 const Blog = require("../model/blog");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 const downloadFile = require("../shared/download-file");
 
 class BlogService {
@@ -70,7 +71,14 @@ class BlogService {
         },
       },
     ]);
-    if (!blog) throw new ErrorResponse(404, "Not founded!", "/notFounded");
+    if (!blog) {
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        redirectionPath: "/notFounded",
+        message: "مشکلی پیش آمده است!",
+      });
+    }
     await Blog.populate(blog, ["author", "category"]);
     return blog;
   }
@@ -91,7 +99,14 @@ class BlogService {
 
   async deleteBlog(blogId) {
     const blog = await Blog.findOne({ _id: blogId });
-    if (!blog) throw new ErrorResponse(404, "پست مورد نظر یافت نشد!", "back");
+    if (!blog) {
+      throw new ApiError({
+        message: "پست مورد نظر یافت نشد!",
+        code: httpStatus[404],
+        statusCode: httpStatus.NOT_FOUND,
+        redirectionPath: "back",
+      });
+    }
     await Blog.deleteOne({ _id: blogId });
   }
 

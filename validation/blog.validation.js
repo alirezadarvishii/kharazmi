@@ -26,4 +26,5 @@ module.exports.blog = {
     blogId: joi.allow(),
     _csrf: joi.allow(),
   }),
+  files: joi.object().length(1).required(),
 };

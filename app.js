@@ -28,7 +28,8 @@ const eventRoutes = require("./routes/event.route");
 const galleryRoutes = require("./routes/gallery.route");
 const dashboardRoutes = require("./routes/dashboard.route");
 const userRoutes = require("./routes/user.route");
-const errorHandler = require("./controller/error.controller");
+const { errorHandler, pageNotFound } = require("./middleware/errorHandler");
+const logErrors = require("./middleware/logError");
 
 function createApp() {
   const app = express();
@@ -89,8 +90,9 @@ function createApp() {
   app.use("/dashboard", dashboardRoutes);
 
   // ---- Error handling middleware --------
-  app.use(errorHandler.notFound);
-  app.use(errorHandler.serverError);
+  app.use(logErrors);
+  app.use(errorHandler);
+  app.use(pageNotFound);
 
   return app;
 }

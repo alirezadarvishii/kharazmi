@@ -134,7 +134,7 @@ module.exports.handleDeleteBlog = async (req, res) => {
 module.exports.likeBlog = async (req, res) => {
   const { blogId } = req.params;
   if (!req.user) {
-    return res.status(401).json({ message: "Authentication ERROR!" });
+    throw new ErrorResponse(403, "Authentication error!");
   }
   const result = await BlogService.like(blogId, req.user._id);
   res.status(200).json({

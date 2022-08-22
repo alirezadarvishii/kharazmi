@@ -16,6 +16,7 @@ module.exports.event = {
       .required()
       .messages({ "string.empty": "فیلد توضیحات رویداد الزامی است!" }),
     eventId: joi.allow(),
+    files: joi.object().length(1).required(),
     _csrf: joi.allow(),
   }),
 };

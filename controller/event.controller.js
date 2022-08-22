@@ -1,7 +1,6 @@
 const { ForbiddenError } = require("@casl/ability");
 
 const EventService = require("../services/event.service");
-const ErrorResponse = require("../utils/errorResponse");
 
 // API
 module.exports.getEvent = async (req, res) => {
@@ -12,9 +11,6 @@ module.exports.getEvent = async (req, res) => {
 
 module.exports.newEvent = async (req, res) => {
   ForbiddenError.from(req.ability).throwUnlessCan("create", "Event");
-  if (!req.files.eventImg) {
-    throw new ErrorResponse(404, "فیلد تصویر رویداد الزامی است!", "back");
-  }
   const eventDto = {
     ...req.body,
     eventImg: req.files.eventImg[0].buffer,

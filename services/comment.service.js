@@ -1,6 +1,7 @@
-const Comment = require("../model/blogs.comment");
+const httpStatus = require("http-status");
 
-const ErrorResponse = require("../utils/errorResponse");
+const Comment = require("../model/blogs.comment");
+const ApiError = require("../errors/ApiError");
 
 class CommentService {
   async getComments(blogId, slide) {
@@ -70,28 +71,32 @@ class CommentService {
     }
   }
 
-  async updateComment(commentId, commentDto, auth) {
+  async updateComment(commentId, commentDto) {
     const comment = await Comment.findOne({ _id: commentId });
-    if (comment.author.toString() !== auth.user.toString()) {
-      throw new ErrorResponse(402, "Forbidden!", "back");
-    }
     comment.comment = commentDto.commentBody;
     await comment.save();
   }
 
   async updateReplyComment(commentId, replyId, commentDto, auth) {
     const comment = await Comment.findOne({ _id: commentId });
-    if (!comment)
-      throw new ErrorResponse(
-        422,
-        "مشکلی پیش آمده، لطفا بعدا دوباره تلاش کنید!",
-        "back",
-      );
+    if (!comment) {
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        message: "کامنت یافت نشد!",
+        redirectionPath: "back",
+      });
+    }
     const [replyComment] = comment.replies.filter(
       (cm) => cm._id.toString() === replyId.toString(),
     );
     if (replyComment.author.toString() !== auth.user.toString()) {
-      throw new ErrorResponse(402, "Forbidden!", "back");
+      throw new ApiError({
+        statusCode: httpStatus.FORBIDDEN,
+        code: httpStatus[403],
+        message: "FORBIDDEN",
+        redirectionPath: "back",
+      });
     }
     // Update comment body.
     replyComment.comment = commentDto.commentBody;

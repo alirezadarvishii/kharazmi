@@ -7,6 +7,7 @@ const BlogService = require("../services/blog.service");
 const CategoryService = require("../services/category.service");
 const pick = require("../utils/pick");
 const genPagination = require("../utils/pagination");
+const downloadFile = require("../shared/download-file");
 
 module.exports.blog = async (req, res) => {
   const { slide = 1, q = "", sort, category } = req.query;
@@ -150,17 +151,13 @@ module.exports.unApproveBlog = async (req, res) => {
 };
 
 module.exports.downloadBlogImg = async (req, res) => {
-  // generate a name for image.
   const filename = `${Date.now()}.jpeg`;
-  // Handle download image with sharp.
-  // TODO: Use download file helper function.
-  await sharp(req.files.upload[0].buffer)
-    .jpeg({ quality: 60 })
-    .toFile(path.join(__dirname, "..", "public", "blogs", filename))
-    .catch((err) => {
-      console.log("SHARP ERROR: ", err);
-      return res.status(400).json({ message: "Error in image downloading" });
-    });
+  await downloadFile({
+    quality: 60,
+    filename,
+    path: path.join(__dirname, "..", "public", "blogs", filename),
+    buffer: req.files.upload[0].buffer,
+  });
   return res
     .status(200)
     .json({ url: `http://localhost:3000/blogs/${filename}` });

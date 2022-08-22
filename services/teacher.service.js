@@ -1,9 +1,11 @@
-const { compare, hash } = require("bcrypt");
 const path = require("path");
+
+const httpStatus = require("http-status");
+const { compare, hash } = require("bcrypt");
 
 const Teacher = require("../model/teacher");
 const downloadFile = require("../shared/download-file");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 
 class TeacherService {
   async create(teacherDto) {
@@ -39,12 +41,14 @@ class TeacherService {
 
   async updateProfile(teacherId, teacherDto) {
     const teacher = await Teacher.findOne({ _id: teacherId });
-    if (!teacher)
-      throw new ErrorResponse(
-        402,
-        "مشکلی پیش آمده، لطفا بعدا تلاش کنید!",
-        "back",
-      );
+    if (!teacher) {
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        message: "کاربر یافت نشد!",
+        redirectionPath: "back",
+      });
+    }
     if (teacherDto.buffer !== undefined) {
       await downloadFile({
         quality: 60,
@@ -67,12 +71,17 @@ class TeacherService {
     const teacher = await Teacher.findOne({ _id: teacherId });
     const isMatchPassword = await compare(currentPassword, teacher.password);
     if (isMatchPassword) {
-      const hashPassword = await hash(newPassword, 12);
-      teacher.password = hashPassword;
-      await teacher.save();
-      return teacher;
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "رمزعبور فعلی نادرست است!",
+        redirectionPath: "back",
+      });
     }
-    throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
+    const hashPassword = await hash(newPassword, 12);
+    teacher.password = hashPassword;
+    await teacher.save();
+    return teacher;
   }
 
   async deleteAccount(userId) {

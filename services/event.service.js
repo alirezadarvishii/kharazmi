@@ -1,7 +1,9 @@
 const path = require("path");
 
+const httpStatus = require("http-status");
+
 const Event = require("../model/event");
-const ErrorResponse = require("../utils/errorResponse");
+const ApiError = require("../errors/ApiError");
 const downloadFile = require("../shared/download-file");
 const deleteFile = require("../utils/deleteFile");
 
@@ -45,7 +47,12 @@ class EventService {
   async deleteEvent(eventId) {
     const result = await Event.findOneAndDelete({ _id: eventId });
     if (!result) {
-      throw new ErrorResponse(404, "رویدادی با چنین مشخصاتی یافت نشد!", "/404");
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        message: "رویدادی با چنین مشخصاتی یافت نشد!",
+        redirectionPath: "back",
+      });
     }
     deleteFile(path.join(__dirname, "..", "public", "events", result.eventImg));
     return result;

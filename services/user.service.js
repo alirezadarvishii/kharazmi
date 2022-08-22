@@ -1,7 +1,9 @@
 const path = require("path");
 
+const httpStatus = require("http-status");
+
 const User = require("../model/user");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 const downloadFile = require("../shared/download-file");
 const { compare, hash } = require("bcrypt");
 
@@ -36,12 +38,14 @@ class UserService {
 
   async updateProfile(userId, userDto) {
     const user = await User.findOne({ _id: userId });
-    if (!user)
-      throw new ErrorResponse(
-        402,
-        "مشکلی پیش آمده، لطفا بعدا تلاش کنید!",
-        "back",
-      );
+    if (!user) {
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        message: "کاربر یافت نشد!",
+        redirectionPath: "back",
+      });
+    }
     if (userDto.buffer !== undefined) {
       await downloadFile({
         quality: 60,
@@ -63,12 +67,17 @@ class UserService {
     const user = await User.findOne({ _id: userId });
     const isMatchPassword = await compare(currentPassword, user.password);
     if (isMatchPassword) {
-      const hashPassword = await hash(newPassword, 12);
-      user.password = hashPassword;
-      await user.save();
-      return user;
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "رمزعبور فعلی نادرست است!",
+        redirectionPath: "back",
+      });
     }
-    throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
+    const hashPassword = await hash(newPassword, 12);
+    user.password = hashPassword;
+    await user.save();
+    return user;
   }
 
   async deleteAccount(userId) {

@@ -109,6 +109,8 @@ module.exports.readComment = async (req, res) => {
 module.exports.updateComment = async (req, res) => {
   const { commentId, comment: commentBody, replyId } = req.body;
   if (!replyId.length) {
+    const comment = await CommentService.getComment(commentId);
+    ForbiddenError.from(req.ability).throwUnlessCan("update", comment);
     const commentDto = {
       commentBody,
     };

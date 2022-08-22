@@ -4,8 +4,6 @@ const BlogService = require("../services/blog.service");
 const GalleryService = require("../services/gallery.service");
 const EventService = require("../services/event.service");
 const genPagination = require("../utils/pagination");
-const ErrorResponse = require("../utils/ErrorResponse");
-const contactValidation = require("../validation/contact.validation");
 
 module.exports.indexPage = async (req, res) => {
   const galleryImages = await GalleryService.getImages({});
@@ -84,12 +82,6 @@ module.exports.about = (req, res) => {
   });
 };
 
-// TODO Complete it later
 module.exports.handleContactUs = async (req, res) => {
   const { fullname, email, phone, subject, content } = req.body;
-  const validate = contactValidation.comment.validate(req.body);
-  // Validation process.
-  if (validate.error) {
-    throw new ErrorResponse(401, validate.error.message, "back");
-  }
 };

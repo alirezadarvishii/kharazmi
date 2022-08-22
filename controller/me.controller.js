@@ -1,8 +1,10 @@
+const httpStatus = require("http-status");
+
 const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const BlogService = require("../services/blog.service");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 
 module.exports.userPanel = (req, res) => {
   res.render("user/me", {
@@ -33,15 +35,16 @@ module.exports.deleteAccount = async (req, res) => {
     await TeacherService.deleteAccount(user._id);
   } else if (user.role === "user") {
     await UserService.deleteAccount(user._id);
-  } else {
-    throw new ErrorResponse(
-      404,
-      "مشکلی پیش آمده لطفا دوباره تلاش کنید!",
-      "back",
-    );
   }
   req.session.destroy((err) => {
-    if (err) throw new ErrorResponse(500, "Something went wrong!");
+    if (err) {
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "مشکلی پیش آمده است!",
+        redirectionPath: "/",
+      });
+    }
     res.redirect("/");
   });
 };

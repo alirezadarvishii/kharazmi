@@ -3,12 +3,13 @@ const path = require("path");
 const ejs = require("ejs");
 const jwt = require("jsonwebtoken");
 const { hash, compare } = require("bcrypt");
+const httpStatus = require("http-status");
 
 const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const EmailService = require("./email.service");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 const downloadFile = require("../shared/download-file");
 
 class AuthService {
@@ -16,7 +17,12 @@ class AuthService {
     const { email, password, profileImg } = adminDto;
     const isExist = await AdminService.findByEmail(email);
     if (isExist) {
-      return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "یک کاربر با این ایمیل موجود است!",
+        redirectionPath: "back",
+      });
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
@@ -47,7 +53,12 @@ class AuthService {
     const { email, password, profileImg } = teacherDto;
     const isExist = await TeacherService.findByEmail(email);
     if (isExist) {
-      return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "یک کاربر با این ایمیل موجود است!",
+        redirectionPath: "back",
+      });
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
@@ -66,9 +77,14 @@ class AuthService {
 
   async registerUser(userDto) {
     const { email, password, profileImg } = userDto;
-    const isExist = await UserService.findByEmail (email);
+    const isExist = await UserService.findByEmail(email);
     if (isExist) {
-      return new ErrorResponse(402, "یک کاربر با این ایمیل موجود است!", "back");
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "یک کاربر با این ایمیل موجود است!",
+        redirectionPath: "back",
+      });
     }
     const hashPassword = await hash(password, 12);
     const filename = `${Date.now()}.jpeg`;
@@ -97,26 +113,30 @@ class AuthService {
       user = await UserService.findByEmail(email);
     }
     if (!user) {
-      throw new ErrorResponse(
-        400,
-        "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!",
-        "/login",
-      );
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "ایمیل یا پسورد نادرست است!",
+        redirectionPath: "/login",
+      });
     }
     const isPasswordMatch = await compare(password, user.password);
     if (!isPasswordMatch) {
-      throw new ErrorResponse(
-        400,
-        "ایمیل با پسوورد اشتباه است، بیشتر دقت کنید!",
-        "/login",
-      );
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "ایمیل یا پسورد نادرست است!",
+        redirectionPath: "/login",
+      });
     }
     if (user.status !== "approved") {
-      throw new ErrorResponse(
-        403,
-        "کاربر گرامی، حساب کاربری شما در حالت تعلیق قرار دارد و باید از سوی مدیریت تأیید شود!",
-        "/",
-      );
+      throw new ApiError({
+        statusCode: httpStatus.FORBIDDEN,
+        code: httpStatus[403],
+        message:
+          "کاربر گرامی، حساب کاربری شما در حالت تعلیق قرار دارد و باید از سوی مدیریت تأیید شود!",
+        redirectionPath: "/",
+      });
     }
     delete user._doc.password;
     return user;
@@ -134,7 +154,12 @@ class AuthService {
       user = await UserService.findByEmail(email);
     }
     if (!user) {
-      throw new ErrorResponse(404, "کاربری با این ایمیل یافت نشد!", "back");
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        code: httpStatus[404],
+        message: "کاربری با این مشخصات یافت نشد!",
+        redirectionPath: "back",
+      });
     }
     const token = jwt.sign(
       {
@@ -167,11 +192,12 @@ class AuthService {
     try {
       jwtToken = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
-      throw new ErrorResponse(
-        422,
-        "توکن نامعتبر، لطفا دوباره از ابتدا تلاش کنید!",
-        "/forget-password",
-      );
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "توکن نامعتبر است!",
+        redirectionPath: "/forget-password",
+      });
     }
     const { email, userRole } = jwtToken;
     // eslint-disable-next-line fp/no-let

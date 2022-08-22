@@ -1,7 +1,9 @@
 const path = require("path");
 
+const httpStatus = require("http-status");
+
 const Admin = require("../model/admin");
-const ErrorResponse = require("../utils/ErrorResponse");
+const ApiError = require("../errors/ApiError");
 const downloadFile = require("../shared/download-file");
 const { compare, hash } = require("bcrypt");
 
@@ -29,11 +31,12 @@ class AdminService {
   async updateProfile(adminId, adminDto) {
     const admin = await Admin.findOne({ _id: adminId });
     if (!admin)
-      throw new ErrorResponse(
-        402,
-        "مشکلی پیش آمده، لطفا بعدا تلاش کنید!",
-        "back",
-      );
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "مشکلی پیش آمده، لطفا بعدا تلاش کنید!",
+        redirectionPath: "back",
+      });
     if (adminDto.buffer !== undefined) {
       await downloadFile({
         quality: 60,
@@ -51,13 +54,18 @@ class AdminService {
   async changePassword(adminId, currentPassword, newPassword) {
     const admin = await Admin.findOne({ _id: adminId });
     const isMatchPassword = await compare(currentPassword, admin.password);
-    if (isMatchPassword) {
-      const hashPassword = await hash(newPassword, 12);
-      admin.password = hashPassword;
-      await admin.save();
-      return admin;
+    if (!isMatchPassword) {
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "رمز عبور فعلی نادرست است!",
+        redirectionPath: "back",
+      });
     }
-    throw new ErrorResponse(401, "رمز عبور فعلی نادرست است!", "back");
+    const hashPassword = await hash(newPassword, 12);
+    admin.password = hashPassword;
+    await admin.save();
+    return admin;
   }
 
   async updateOne(adminId, query) {

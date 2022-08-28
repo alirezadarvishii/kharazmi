@@ -1,20 +1,31 @@
 const axios = require("axios");
+const httpStatus = require("http-status");
+
+const ApiError = require("../errors/ApiError");
 
 module.exports = async (req, res, next) => {
   const { "g-recaptcha-response": recaptchaResponse } = req.body;
   let captchaVerification;
   try {
     captchaVerification = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`,
     );
     if (captchaVerification && captchaVerification.data.success) {
       next();
     } else {
-      req.flash("error", "خطا  در کپچا، گزینه من ربات نیستم را فراموش نکنید!");
-      res.redirect("back");
+      throw new ApiError({
+        statusCode: httpStatus.FORBIDDEN,
+        code: httpStatus[403],
+        message: "خطا در احراز هویت کپچا، گزینه من ربات نیستم را فراموش نکنید!",
+        redirectionPath: "back",
+      });
     }
   } catch (error) {
-    req.flash("error", "خطا  در کپچا، گزینه من ربات نیستم را فراموش نکنید!");
-    res.redirect("back");
+    throw new ApiError({
+      statusCode: httpStatus.FORBIDDEN,
+      code: httpStatus[403],
+      message: "خطادر احراز هویت کپچا، گزینه من ربات نیستم را فراموش نکنید!",
+      redirectionPath: "back",
+    });
   }
 };

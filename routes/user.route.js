@@ -10,7 +10,6 @@ const asyncHandler = require("../middleware/asyncHandler");
 // Get a user profile.
 router.get("/profile/:role/:userId", userController.profile);
 
-//TODO: NEW ROUTES SCRENARIOS.
 router.post("/approve", asyncHandler(userController.approve));
 
 router.post("/unapprove", asyncHandler(userController.unApprove));

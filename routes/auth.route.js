@@ -33,6 +33,7 @@ router.get("/reset-password/:token", isLoggedIn, authController.resetPassword);
 // Handle register admins.
 router.post(
   "/register/admin",
+  asyncHandler(recaptchaVerification),
   isLoggedIn,
   validate(authValidation.adminValidation),
   asyncHandler(authController.handleRegisterAdmin),
@@ -41,6 +42,7 @@ router.post(
 // Handle register teachers.
 router.post(
   "/register/teacher",
+  asyncHandler(recaptchaVerification),
   isLoggedIn,
   validate(authValidation.teacherValidation),
   asyncHandler(authController.handleRegisterTeacher),
@@ -49,6 +51,7 @@ router.post(
 // Handle register normal users.
 router.post(
   "/register/user",
+  asyncHandler(recaptchaVerification),
   isLoggedIn,
   validate(authValidation.normalUserValidation),
   asyncHandler(authController.handleRegisterUser),
@@ -57,6 +60,7 @@ router.post(
 // Login all of the user types.
 router.post(
   "/login",
+  asyncHandler(recaptchaVerification),
   isLoggedIn,
   validate(authValidation.loginValidation),
   asyncHandler(authController.handleLogin),
@@ -66,12 +70,14 @@ router.post(
 // Handle forget password and send token email to user for reset his password
 router.post(
   "/forget-password",
+  asyncHandler(recaptchaVerification),
   asyncHandler(authController.handleForgetPassword),
 );
 
 // Handle user account reset password
 router.post(
   "/reset-password",
+  asyncHandler(recaptchaVerification),
   validate(authValidation.resetPasswordValidation),
   asyncHandler(authController.handleResetPassword),
 );

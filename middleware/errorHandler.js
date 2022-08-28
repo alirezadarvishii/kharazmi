@@ -10,6 +10,7 @@ module.exports.pageNotFound = (req, res) => {
 module.exports.errorHandler = (err, req, res, next) => {
   const { statusCode = 500, redirectionPath, message } = err;
   if (err instanceof ForbiddenError) {
+    if (req.xhr) return res.status(403).json({ message: "Forbidden" });
     return res.status(403).redirect("/");
   } else if (err.code === "EBADCSRFTOKEN") {
     return res.send("Csrf Token is invalid! <a href='/'>Back to Home</a>");

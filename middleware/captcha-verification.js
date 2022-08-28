@@ -5,9 +5,8 @@ const ApiError = require("../errors/ApiError");
 
 module.exports = async (req, res, next) => {
   const { "g-recaptcha-response": recaptchaResponse } = req.body;
-  let captchaVerification;
   try {
-    captchaVerification = await axios.post(
+    const captchaVerification = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.GOOGLE_RECAPTCHA_SECRET_KEY}&response=${recaptchaResponse}`,
     );
     if (captchaVerification && captchaVerification.data.success) {

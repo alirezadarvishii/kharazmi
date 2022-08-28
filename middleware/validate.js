@@ -5,7 +5,6 @@ const ApiError = require("../errors/ApiError");
 const pick = require("../utils/pick");
 
 const validate = (schema) => (req, res, next) => {
-  console.log(req.files);
   const validSchema = pick(schema, ["params", "query", "body", "files"]);
   const object = pick(req, Object.keys(validSchema));
 

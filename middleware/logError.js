@@ -1,7 +1,10 @@
+const logger = require("../config/winston");
+
 const logErrors = (err, req, res, next) => {
-  console.log("Message: ", err.message);
-  console.log("Code:", err.code);
-  console.log("Status Code:  ", err.statusCode);
+  logger.info(err.message, {
+    Code: err.code,
+    StatusCode: err.statusCode,
+  });
   next(err);
 };
 

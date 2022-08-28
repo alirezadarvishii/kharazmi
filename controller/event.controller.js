@@ -21,9 +21,8 @@ module.exports.newEvent = async (req, res) => {
 };
 
 module.exports.editEvent = async (req, res) => {
-  ForbiddenError.from(req.ability).throwUnlessCan("update", "Event");
   const { eventId } = req.body;
-  // TODO Check update mechanism
+  ForbiddenError.from(req.ability).throwUnlessCan("update", "Event");
   const eventDto = {
     ...req.body,
   };

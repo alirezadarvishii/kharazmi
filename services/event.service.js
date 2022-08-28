@@ -28,16 +28,14 @@ class EventService {
     await Event.create({ ...eventDto, eventImg: filename });
   }
 
-  // TODO Check update mechanism
   async editEvent(eventId, eventDto) {
-    const event = await Event.findOne({ _id: eventId }, { ...eventDto });
+    const event = await Event.findOne({ _id: eventId });
     if (eventDto.eventImg) {
       await downloadFile({
         path: path.join(__dirname, "..", "public", "events", event.eventImg),
         quality: 60,
         buffer: eventDto.eventImg,
       });
-      // TODO Fix this shit
       delete eventDto.eventImg;
     }
     const result = await Event.updateOne({ _id: eventId }, { ...eventDto });

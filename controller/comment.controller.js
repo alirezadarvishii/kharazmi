@@ -1,12 +1,15 @@
 const path = require("path");
 
 const ejs = require("ejs");
+const httpStatus = require("http-status");
 const { ForbiddenError } = require("@casl/ability");
 
 const CommentService = require("../services/comment.service");
 const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
+const ApiError = require("../errors/ApiError");
 
+// API
 module.exports.getComments = async (req, res) => {
   const { blogId } = req.params;
   const { slide = 1 } = req.query;
@@ -56,29 +59,30 @@ module.exports.addComment = async (req, res) => {
   res.redirect("back");
 };
 
+// API
 module.exports.deleteComment = async (req, res) => {
   const { commentId, replyComment, replyId } = req.body;
   if (!replyComment && !replyId) {
     const comment = await CommentService.getComment(commentId);
-    try {
-      ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
-    } catch (error) {
-      return res.status(403).json({ message: "forbidden!" });
-    }
+    ForbiddenError.from(req.ability).throwUnlessCan("delete", comment);
     await CommentService.deleteComment(commentId);
     res.status(200).json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   } else if (replyComment === true && replyId) {
     const comment = await CommentService.getReplyComment(commentId, replyId);
     if (
-      req.user._id.toString() === comment.author.toString() ||
-      req.user.role === "admin"
+      req.user._id.toString() !== comment.author.toString() ||
+      req.user.role !== "admin"
     ) {
-      await CommentService.deleteReplyComment(replyId);
-      return res
-        .status(200)
-        .json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
+      throw new ApiError({
+        statusCode: httpStatus.FORBIDDEN,
+        status: httpStatus[403],
+        message: "Forbidden!",
+      });
     }
-    res.status(403).json({ message: "forbidden!" });
+    await CommentService.deleteReplyComment(replyId);
+    return res
+      .status(200)
+      .json({ message: "کامنت مورد نظر با موفقیت حذف گردید!" });
   }
 };
 
@@ -89,10 +93,18 @@ module.exports.readComment = async (req, res) => {
   if (!replyId) {
     const comment = await CommentService.getComment(commentId);
     if (!comment) {
-      return res.status(404).json({ message: "Comment not founded!" });
+      throw new ApiError({
+        statusCode: httpStatus.NOT_FOUND,
+        status: httpStatus[404],
+        message: "Comment not found!",
+      });
     }
     if (req.user._id.toString() !== comment.author.toString()) {
-      return res.status(402).json({ message: "Forbidden!" });
+      throw new ApiError({
+        statusCode: httpStatus.FORBIDDEN,
+        status: httpStatus[403],
+        message: httpStatus["403_MESSAGE"],
+      });
     }
     res.status(200).json({ message: "Get comment successful!", comment });
   } else {

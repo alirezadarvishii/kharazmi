@@ -15,10 +15,7 @@ class BlogService {
       buffer: blogDto.blogImg.buffer,
       path: path.join(__dirname, "..", "public", "blogs", filename),
     };
-    const downloadResult = await downloadFile(options);
-    // TODO Complete this section
-    // if (downloadResult) {
-    // }
+    await downloadFile(options);
     const authorModel = blogDto.authorModel === "admin" ? "Admin" : "Teacher";
     const tags = blogDto.tags.split("/");
     const slug = blogDto.title.split(" ").join("-");

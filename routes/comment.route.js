@@ -16,9 +16,9 @@ router.get("/:blogId", asyncHandler(commentController.getComments));
 router.get("/read/:commentId", asyncHandler(commentController.readComment));
 
 // Add a new comment
-// TODO: add recaptcha verification to this route
 router.post(
   "/add",
+  asyncHandler(recaptchaVerification),
   validate(commentValidation.comment),
   isAuth,
   asyncHandler(commentController.addComment),
@@ -33,6 +33,6 @@ router.post(
 
 // API
 // Delete a comment
-router.delete("/delete", commentController.deleteComment);
+router.delete("/delete", asyncHandler(commentController.deleteComment));
 
 module.exports = router;

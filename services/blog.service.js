@@ -5,7 +5,7 @@ const { Types } = require("mongoose");
 
 const Blog = require("../model/blog");
 const ApiError = require("../errors/ApiError");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 
 class BlogService {
   async create(blogDto) {

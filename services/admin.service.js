@@ -4,7 +4,7 @@ const httpStatus = require("http-status");
 
 const Admin = require("../model/admin");
 const ApiError = require("../errors/ApiError");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 const { compare, hash } = require("bcrypt");
 
 class AdminService {

@@ -10,7 +10,7 @@ const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const EmailService = require("./email.service");
 const ApiError = require("../errors/ApiError");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 
 class AuthService {
   async registerAdmin(adminDto) {

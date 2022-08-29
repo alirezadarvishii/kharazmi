@@ -1,7 +1,7 @@
 const path = require("path");
 
 const Gallery = require("../model/gallery");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 
 class GalleryService {
   async getImages(query, queryOptions = {}) {

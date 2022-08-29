@@ -4,7 +4,7 @@ const httpStatus = require("http-status");
 
 const User = require("../model/user");
 const ApiError = require("../errors/ApiError");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 const { compare, hash } = require("bcrypt");
 
 class UserService {

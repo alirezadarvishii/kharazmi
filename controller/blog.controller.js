@@ -1,13 +1,12 @@
 const path = require("path");
 
-const sharp = require("sharp");
 const { ForbiddenError } = require("@casl/ability");
 
 const BlogService = require("../services/blog.service");
 const CategoryService = require("../services/category.service");
 const pick = require("../utils/pick");
 const genPagination = require("../utils/pagination");
-const downloadFile = require("../shared/download-file");
+const downloadFile = require("../lib/download-file");
 
 module.exports.blog = async (req, res) => {
   const { slide = 1, q = "", sort, category } = req.query;

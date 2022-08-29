@@ -3,9 +3,9 @@ const path = require("path");
 const httpStatus = require("http-status");
 
 const Event = require("../model/event");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 const downloadFile = require("../lib/download-file");
-const deleteFile = require("../lib/deleteFile");
+const deleteFile = require("../utils/deleteFile");
 
 class EventService {
   async getEvents(query) {

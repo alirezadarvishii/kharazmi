@@ -4,7 +4,7 @@ const httpStatus = require("http-status");
 const { Types } = require("mongoose");
 
 const Blog = require("../model/blog");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 const downloadFile = require("../lib/download-file");
 
 class BlogService {

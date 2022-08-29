@@ -3,7 +3,7 @@ const path = require("path");
 const httpStatus = require("http-status");
 
 const User = require("../model/user");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 const downloadFile = require("../lib/download-file");
 const { compare, hash } = require("bcrypt");
 

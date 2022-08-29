@@ -9,7 +9,7 @@ const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const EmailService = require("./email.service");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 const downloadFile = require("../lib/download-file");
 
 class AuthService {

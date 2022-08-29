@@ -5,7 +5,7 @@ const { compare, hash } = require("bcrypt");
 
 const Teacher = require("../model/teacher");
 const downloadFile = require("../lib/download-file");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 class TeacherService {
   async create(teacherDto) {

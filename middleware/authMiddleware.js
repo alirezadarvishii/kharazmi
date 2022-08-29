@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const { ForbiddenError } = require("@casl/ability");
 
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 module.exports.isAuth = (req, res, next) => {
   if (!req.user) {

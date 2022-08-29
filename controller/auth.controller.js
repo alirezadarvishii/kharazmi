@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 
 const AuthService = require("../services/auth.service");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 module.exports.regiserType = (req, res) => {
   res.render("register-type", {

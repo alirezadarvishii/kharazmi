@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 
 const Comment = require("../model/blogs.comment");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 class CommentService {
   async getComments(blogId, slide) {

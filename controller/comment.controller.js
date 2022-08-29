@@ -7,7 +7,7 @@ const { ForbiddenError } = require("@casl/ability");
 const CommentService = require("../services/comment.service");
 const { moment } = require("../utils/moment");
 const { momentTime } = require("../utils/moment");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 // API
 module.exports.getComments = async (req, res) => {

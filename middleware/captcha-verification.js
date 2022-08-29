@@ -1,7 +1,7 @@
 const axios = require("axios");
 const httpStatus = require("http-status");
 
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 module.exports = async (req, res, next) => {
   const { "g-recaptcha-response": recaptchaResponse } = req.body;

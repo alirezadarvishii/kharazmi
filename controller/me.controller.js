@@ -4,7 +4,7 @@ const AdminService = require("../services/admin.service");
 const TeacherService = require("../services/teacher.service");
 const UserService = require("../services/user.service");
 const BlogService = require("../services/blog.service");
-const ApiError = require("../errors/ApiError");
+const ApiError = require("../lib/ApiError");
 
 module.exports.userPanel = (req, res) => {
   res.render("user/me", {

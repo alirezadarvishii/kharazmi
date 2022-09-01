@@ -1,11 +1,1 @@
-const filterForm = document.querySelector("form#filter-form");
-const paginationItems = document.querySelectorAll(".pagination li a");
-const filterInputs = filterForm.querySelectorAll(".filter-form-input");
-
-const filter = () => {
-  filterForm.submit();
-};
-
-filterInputs.forEach((el) => {
-  el.addEventListener("change", filter);
-});
+(()=>{const e=document.querySelector("form#filter-form"),r=(document.querySelectorAll(".pagination li a"),e.querySelectorAll(".filter-form-input")),t=()=>{e.submit()};r.forEach((e=>{e.addEventListener("change",t)}))})();

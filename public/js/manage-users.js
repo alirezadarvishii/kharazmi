@@ -1,22 +1,2 @@
-//! Variables
-const deleteUserForm = document.querySelectorAll("form.delete-user");
-
-//! Functions
-const deleteUser = (e) => {
-  e.preventDefault();
-  Swal.fire({
-    title: "احتیاط!",
-    text: "از حذف این پست مطمئن هستی؟",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "بله، مطمئنم",
-    cancelButtonText: "لغو عملیات",
-  }).then(async (result) => {
-    if (result.isConfirmed) e.target.closest("form").submit();
-  });
-};
-
-//! Eventlisteners
-deleteUserForm.forEach((el) => el.addEventListener("submit", deleteUser));
+/*! For license information please see manage-users.js.LICENSE.txt */
+(()=>{const t=document.querySelectorAll("form.delete-user"),e=t=>{t.preventDefault(),Swal.fire({title:"احتیاط!",text:"از حذف این پست مطمئن هستی؟",icon:"warning",showCancelButton:!0,confirmButtonColor:"#3085d6",cancelButtonColor:"#d33",confirmButtonText:"بله، مطمئنم",cancelButtonText:"لغو عملیات"}).then((async e=>{e.isConfirmed&&t.target.closest("form").submit()}))};t.forEach((t=>t.addEventListener("submit",e)))})();

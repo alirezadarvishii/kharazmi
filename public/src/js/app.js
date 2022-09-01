@@ -1,3 +1,6 @@
+import "../styles/app.css"
+import "../styles/dashboard.css"
+
 const openGalleryModalBtns = document.querySelectorAll(".gallery-slider .swiper-slide");
 const galleryModal = document.querySelector("#galleryImg");
 const modalImg = document.querySelector("#galleryImg img");

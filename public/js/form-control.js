@@ -1,1 +1,1 @@
-(()=>{const e=document.querySelector("form#filter-form"),r=(document.querySelectorAll(".pagination li a"),e.querySelectorAll(".filter-form-input")),t=()=>{e.submit()};r.forEach((e=>{e.addEventListener("change",t)}))})();
+(()=>{var e=document.querySelector("form#filter-form"),r=(document.querySelectorAll(".pagination li a"),e.querySelectorAll(".filter-form-input")),t=function(){e.submit()};r.forEach((function(e){e.addEventListener("change",t)}))})();

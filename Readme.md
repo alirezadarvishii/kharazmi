@@ -1,1 +1,28 @@
-School Project, I will complete this readme soon. (:
+<div align="center">
+    <img src="./public/images/kharazmi.png" height="100px" />
+    <h1> KHARAZMI SCHOOL </h1>
+</div>
+
+# Description
+This project is for school which has some interesting features.
+* Blog
+* Admin Panel
+* User Panel
+* Gallery 
+* Event
+
+## Prerequisite
+* NodeJs
+* MongoDB
+
+### ` npm install `
+with this command we install all dependencies of this project for running project.
+
+### ` npm run start:prod `
+after install dependencies, with this command we can run project on *production mode* and [port 3000](http://localhost:3000).
+
+### ` npm run start:dev `
+with this command we can run project on *development mode* and [port 3000](http://localhost:3000).
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

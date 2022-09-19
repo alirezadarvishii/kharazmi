@@ -1,5 +1,7 @@
 <div align="center">
-    <img src="./public/images/kharazmi.png" height="100px" />
+    <div style="width: 120px; height: 120px; background: #fff; display: flex; align-items: center; justify-content: center;border-radius: .5rem">
+        <img src="./public/images/kharazmi.png" height="100px" />
+    </div>
     <h1> KHARAZMI SCHOOL </h1>
 </div>
 

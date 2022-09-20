@@ -58,7 +58,7 @@ module.exports.handleEdit = async (req, res) => {
   const userDto = {
     fullname,
     bio,
-    buffer: req.files?.profileImg[0].buffer,
+    buffer: req.files.profileImg ? req.files.profileImg[0].buffer : undefined,
   };
   if (role === "admin") {
     user = await AdminService.updateProfile(req.user._id, userDto);

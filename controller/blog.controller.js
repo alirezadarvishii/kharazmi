@@ -94,11 +94,13 @@ module.exports.handleAddBlog = async (req, res) => {
 module.exports.updateBlog = async (req, res) => {
   const { blogId } = req.params;
   const blog = await BlogService.findOne({ _id: blogId });
+  const categories = await CategoryService.getCategories();
   ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
   res.render("blog/update-blog", {
     title: `ویرایش بلاگ ${blog.title}`,
     headerTitle: `ویرایش ${blog.title}`,
     blog,
+    categories,
   });
 };
 
@@ -106,11 +108,17 @@ module.exports.handleUpdateBlog = async (req, res) => {
   const { blogId } = req.body;
   const blog = await BlogService.findOne({ _id: blogId });
   ForbiddenError.from(req.ability).throwUnlessCan("update", blog);
-  const newValues = pick(req.body, ["title", "category", "body"]);
+  const newValues = pick(req.body, [
+    "title",
+    "category",
+    "body",
+    "tags",
+    "description",
+  ]);
   const blogDto = {
     ...newValues,
   };
-  await BlogService.update(blogId, blogDto);
+  await BlogService.updateBlog(blogId, blogDto);
   req.flash("success", "پست شما با موفقیت ویرایش گردید!");
   res.redirect("/me/blogs");
 };

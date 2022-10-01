@@ -22,10 +22,14 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">دسته بندی پست</label>
-            <select class="form-control p-2" name="category">
-              <option value="">گزینه ای را انتخاب کنید</option>
-              <option value="shitCat">شت</option>
-            </select>
+              <select class="form-control p-2" name="category">
+                <option value="">گزینه ای را انتخاب کنید</option>
+                <% if(categories.length) { %>
+                <!--  -->
+                <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name %></option>
+                <% }) %> <% } %>
+              </select>
           </div>
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">تصویر کاور پست</label>
@@ -34,6 +38,10 @@
           <div class="col-12 col-md-6 col-lg-4 my-3">
             <label class="mb-2 text-secondary">تگ های پست <span class="font-regular">( با "/" تگ ها را جدا کنید )</span></label>
             <input type="text" name="tags" class="form-control p-2" value="<%= blog.tags.join("/") %>" />
+          </div>
+          <div class="col-12">
+            <label class="mb-2 text-secondary">خلاصه <span class="font-regular">( حدااقل 20 کاراکتر و حدااکثر 50 کاراکتر )</span></label>
+            <textarea name="description" rows="2" class="w-100 form-control p-2"><%= blog.description %></textarea>
           </div>
           <div class="col-12 mt-4">
             <label class="mb-2 text-secondary">متن پست</label>

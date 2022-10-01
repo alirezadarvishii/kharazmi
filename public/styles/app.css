@@ -90,7 +90,8 @@ body {
   width: 0;
   height: 2px;
   background: #0d6efd;
-  -webkit-animation: titleAnimation 2s forwards infinite cubic-bezier(1, 0, 0, 1);
+  -webkit-animation: titleAnimation 2s forwards infinite
+    cubic-bezier(1, 0, 0, 1);
   animation: titleAnimation 2s forwards infinite cubic-bezier(1, 0, 0, 1);
 }
 @-webkit-keyframes titleAnimation {
@@ -165,10 +166,12 @@ nav.navbar {
   height: 200px;
   background: url(../js/../images/box-bg.jpg) center;
   background-size: contain;
-  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  -webkit-transition: -webkit-transform 0.4s
+    cubic-bezier(0.895, 0.03, 0.685, 0.22);
   transition: -webkit-transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
   transition: transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
-  transition: transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22), -webkit-transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  transition: transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22),
+    -webkit-transform 0.4s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 }
 .services > div:nth-child(2) .service {
   -webkit-transform: translateY(-15px);
@@ -345,12 +348,22 @@ footer ul li:hover::before {
   margin-top: 6.5em;
 }
 .signup-form .form-img {
-  background: linear-gradient(45deg, rgba(60, 65, 198, 0.85882), rgba(87, 95, 207, 0.54902)), url(../js/../images/pic.jpg) center no-repeat;
+  background: linear-gradient(
+      45deg,
+      rgba(60, 65, 198, 0.85882),
+      rgba(87, 95, 207, 0.54902)
+    ),
+    url(../js/../images/pic.jpg) center no-repeat;
   background-size: cover;
   height: 200px;
 }
 .login-form .form-img {
-  background: linear-gradient(45deg, rgba(60, 65, 198, 0.85882), rgba(87, 95, 207, 0.54902)), url(../js/../images/pic-2.jpg) center no-repeat;
+  background: linear-gradient(
+      45deg,
+      rgba(60, 65, 198, 0.85882),
+      rgba(87, 95, 207, 0.54902)
+    ),
+    url(../js/../images/pic-2.jpg) center no-repeat;
   background-size: cover;
   height: 200px;
 }
@@ -397,6 +410,9 @@ header.header-small {
 }
 .blog .blog-img {
   height: 550px;
+}
+.blog .blog-body {
+  word-break: break-all;
 }
 .blog .blog-img img {
   -o-object-fit: cover;

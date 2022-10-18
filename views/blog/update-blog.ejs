@@ -27,7 +27,7 @@
                 <% if(categories.length) { %>
                 <!--  -->
                 <% categories.forEach(category => { %>
-                <option value="<%= category._id %>"><%= category.name %></option>
+                <option value="<%= category._id %>" <%= blog.category.toString() === category._id.toString() ? "selected" : null %> ><%= category.name %></option>
                 <% }) %> <% } %>
               </select>
           </div>

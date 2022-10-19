@@ -42,7 +42,6 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     tags: [{ type: String, required: true }],
-    comments: [{ type: mongoose.Types.ObjectId }],
     likes: [{ type: mongoose.Types.ObjectId }],
     visit: [{ type: String }],
   },

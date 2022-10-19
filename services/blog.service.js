@@ -83,13 +83,14 @@ class BlogService {
   async updateBlog(blogId, blogDto) {
     const tags = blogDto.tags.split("/");
     const blog = await Blog.findOne({ _id: blogId });
-    if (blogDto.blogImg) {
+    if (blogDto.buffer) {
       const option = {
         quality: 60,
         path: path.join(__dirname, "..", "public", "blogs", blog.blogImg),
-        buffer: blogDto.blogImg,
+        buffer: blogDto.buffer,
       };
       await downloadFile(option);
+      delete blogDto.buffer;
     }
     await Blog.updateOne({ _id: blogId }, { ...blogDto, tags });
   }

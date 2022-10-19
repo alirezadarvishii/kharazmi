@@ -117,6 +117,7 @@ module.exports.handleUpdateBlog = async (req, res) => {
   ]);
   const blogDto = {
     ...newValues,
+    buffer: req.files.blogImg[0] ? req.files.blogImg[0].buffer : undefined,
   };
   await BlogService.updateBlog(blogId, blogDto);
   req.flash("success", "پست شما با موفقیت ویرایش گردید!");

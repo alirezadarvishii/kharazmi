@@ -38,7 +38,7 @@ module.exports.adminPanel = async (req, res) => {
     {
       status: "notApproved",
     },
-    { limit: 3 },
+    { limit: 3, populate: "author" },
   );
   res.render("dashboard/admin-panel", {
     title: "پنل ادمین",

@@ -9,7 +9,7 @@ const config = {
     gallery: "./src/js/gallery.js",
     login: "./src/js/login.js",
     me: "./src/js/me.js",
-    siginup: "./src/js/signup.js",
+    signup: "./src/js/signup.js",
     "form-control": "./src/js/form-control.js",
     "add-blog": "./src/js/add-blog.js",
     "manage-blogs": "./src/js/manage-blogs.js",

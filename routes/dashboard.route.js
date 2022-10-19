@@ -26,6 +26,7 @@ router.get(
   "/users/teachers",
   isAuth,
   isAdmin,
+  filterQuery,
   asyncHandler(dashboardController.manageTeachers),
 );
 
@@ -34,6 +35,7 @@ router.get(
   "/users/normal-users",
   isAuth,
   isAdmin,
+  filterQuery,
   asyncHandler(dashboardController.manageNormalUsers),
 );
 

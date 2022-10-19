@@ -33,7 +33,7 @@ class UserService {
   }
 
   async unApprove(userId) {
-    await User.updateOne({ _id: userId }, { $set: { status: "unApproved" } });
+    await User.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
   }
 
   async updateProfile(userId, userDto) {

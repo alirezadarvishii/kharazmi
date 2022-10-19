@@ -35,7 +35,7 @@ class TeacherService {
   async unApprove(userId) {
     await Teacher.updateOne(
       { _id: userId },
-      { $set: { status: "unApproved" } },
+      { $set: { status: "notApproved" } },
     );
   }
 

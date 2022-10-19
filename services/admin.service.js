@@ -81,7 +81,7 @@ class AdminService {
   }
 
   async unApprove(userId) {
-    await Admin.updateOne({ _id: userId }, { $set: { status: "unApproved" } });
+    await Admin.updateOne({ _id: userId }, { $set: { status: "notApproved" } });
   }
 
   async countDocuments(query) {

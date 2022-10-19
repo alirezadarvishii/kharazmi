@@ -11,7 +11,8 @@ const downloadFile = require("../lib/download-file");
 module.exports.blog = async (req, res) => {
   const { slide = 1, q = "", sort, category } = req.query;
   const BLOGS_PER_PAGE = 9;
-  const filters = pick(req.query, ["category"]);
+  const query = { ...req.query, status: "approved" };
+  const filters = pick(query, ["category", "status"]);
   if (q.length) {
     Object.assign(filters, { $text: { $search: q } });
   }

@@ -39,6 +39,7 @@ class AuthService {
         status: "approved",
         profileImg: filename,
         password: hashPassword,
+        superadmin: true,
       });
     } else {
       await AdminService.create({

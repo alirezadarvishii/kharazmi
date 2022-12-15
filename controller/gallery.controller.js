@@ -18,7 +18,7 @@ module.exports.editGalleryImg = async (req, res) => {
   const { caption, imgId } = req.body;
   const imgDto = {
     caption,
-    img: req.files.galleryImg[0].buffer,
+    img: req.files.galleryImg ? req.files.galleryImg[0].buffer : null,
   };
   await GalleryService.editImg(imgId, imgDto);
   req.flash("success", "ویرایش با موفقیت انجام گردید!");

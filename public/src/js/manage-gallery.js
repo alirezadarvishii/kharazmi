@@ -29,15 +29,28 @@ const genErrorFeedback = (message) => {
   return errorFeedback;
 };
 
-const formValidation = (e) => {
-  const image = e.target.closest("form").querySelector("input[name=galleryImg]");
-  const caption = e.target.closest("form").querySelector("textarea[name=caption]");
+const formValidation = (e, editImageOperation = false) => {
+  const image = e.target
+    .closest("form")
+    .querySelector("input[name=galleryImg]");
+  const caption = e.target
+    .closest("form")
+    .querySelector("textarea[name=caption]");
 
   const validator = new FastestValidator();
   const schema = {
-    galleryImg: { type: "string", empty: false, messages: { stringEmpty: "آپلود تصویر الزامی است!" } },
-    caption: { type: "string", empty: false, messages: { stringEmpty: "توضیحات الزامی است!" } },
+    galleryImg: {
+      type: "string",
+      empty: false,
+      messages: { stringEmpty: "آپلود تصویر الزامی است!" },
+    },
+    caption: {
+      type: "string",
+      empty: false,
+      messages: { stringEmpty: "توضیحات الزامی است!" },
+    },
   };
+  if (editImageOperation) schema.galleryImg.empty = true;
   const check = validator.compile(schema);
   const validate = check({ galleryImg: image.value, caption: caption.value });
   document.querySelectorAll(".invalid-feedback").forEach((el) => el.remove());
@@ -49,7 +62,9 @@ const formValidation = (e) => {
   if (validate !== true) {
     e.preventDefault();
     validate.forEach((err) => {
-      const input = e.target.closest("form").querySelector(`[name=${err.field}]`);
+      const input = e.target
+        .closest("form")
+        .querySelector(`[name=${err.field}]`);
       input.classList.add("border-danger");
       const errorFeedback = genErrorFeedback(err.message);
       input.closest("div").appendChild(errorFeedback);
@@ -59,11 +74,13 @@ const formValidation = (e) => {
 
 const changeImgIdInputValue = (e) => {
   const { imgId } = e.target.dataset;
-  document.querySelector("form#editImageForm input[name=imgId]").value = imgId
+  document.querySelector("form#editImageForm input[name=imgId]").value = imgId;
 };
 
 //! EventListeners
 addNewImageForm.addEventListener("submit", formValidation);
-editImageForm.addEventListener("submit", formValidation);
+editImageForm.addEventListener("submit", (e) => formValidation(e, true));
 deleteImageForm.forEach((el) => el.addEventListener("submit", deleteImage));
-editImageBtn.forEach(el => el.addEventListener("click", changeImgIdInputValue));
+editImageBtn.forEach((el) =>
+  el.addEventListener("click", changeImgIdInputValue),
+);

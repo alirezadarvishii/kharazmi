@@ -100,14 +100,13 @@ class AuthService {
       password: hashPassword,
     };
     const user = await UserService.create(finalyUserDto);
-    const emailActivationFilePath = path.join(
+    const emailTemplate = path.join(
       __dirname,
       "..",
       "/views/includes/email-active-account.ejs",
     );
     const token = jwt.sign(
       {
-        email,
         userId: user._id,
         role: "user",
       },
@@ -115,7 +114,7 @@ class AuthService {
       { expiresIn: "24h" },
     );
     const emailActivationTemplate = await ejs.renderFile(
-      emailActivationFilePath,
+      emailTemplate,
       {
         token,
       },
@@ -243,7 +242,7 @@ class AuthService {
   async activeAccount(token) {
     try {
       const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-      const { email, userId, role } = verifyToken;
+      const { userId, role } = verifyToken;
       await UserService.updateOne(userId, { active: true });
     } catch (err) {
       throw new ApiError({

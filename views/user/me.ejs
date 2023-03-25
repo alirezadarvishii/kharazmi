@@ -29,8 +29,13 @@
               <li class="col-12 col-md-6 my-3 font-regular text-dark">تاریخ عضویت: <span class="text-secondary"><%= moment(user.createdAt) %> / <%= momentTime(user.createdAt) %></span></li>
               <li class="col-12 col-md-6 my-3 font-regular text-dark">تاریخ آخرین بروزرسانی: <span class="text-secondary"><%= moment(user.updatedAt) %> / <%= momentTime(user.updatedAt) %></span></li>
               <li class="col-12 my-3 font-regular text-dark d-flex flex-wrap align-items-center">
-                <p class="text-dark text-justify lh-lg m-0 ms-2">بیوگرافی: <span class="text-secondary"><%= user.bio ? user.bio : "بیوگرافی تنظیم نشده!" %></span></p>
+                <p class="text-dark text-justify lh-lg m-0">بیوگرافی: <span class="text-secondary"><%= user.bio ? user.bio : "بیوگرافی تنظیم نشده!" %></span></p>
               </li>
+              <% if(user.active === false) { %>
+                <li class="col-12 my-3 font-regular text-dark d-flex flex-wrap align-items-center border-top pt-3">
+                  <a class="text-white bg-danger py-1 px-2 rounded-3" href="">لطفا حساب خود را فعال کنید</a>
+                </li>
+              <% } %>
             </ul>
             <div class="text-end">
               <form action="/me/delete-account" method="POST" id="delete-account">

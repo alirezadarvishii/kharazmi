@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reset-Password</title>
+    <link
+      href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      body {
+        direction: rtl;
+        font-family: "Vazir";
+      }
+      header {
+        border-radius: 5px;
+        background: #0d6efd;
+        margin: 1.5em 0;
+      }
+      header h1 {
+        text-align: center;
+        padding: 2em 0;
+        color: #fff;
+      }
+      .container p {
+        color: #6c757d;
+      }
+      .container a {
+        text-decoration: none;
+        padding: 0.8em 0.5em;
+        border-radius: 5px;
+        background: #0064e7;
+        margin: 1em auto;
+        color: #fff;
+        display: block;
+        width: fit-content;
+      }
+      footer p {
+        color: #6c757d;
+        border-top: 1px solid #6c757d;
+        text-align: center;
+        padding: 1em 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>فعال سازی حساب</h1>
+    </header>
+    <div class="container">
+      <p>
+        کاربر گرامی لطفا برای فعال سازی حساب خود روی لینک زیر کلیک کنید!
+      </p>
+      <a target="_self" href="http://localhost:3000/active/<%= token %>">فعال سازی</a>
+    </div>
+    <footer>
+      <p>هنرستان خوارزمی فیروزآباد</p>
+    </footer>
+  </body>
+</html>

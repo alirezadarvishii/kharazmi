@@ -5,7 +5,7 @@ const router = Router();
 const authController = require("../controller/auth.controller");
 const asyncHandler = require("../middleware/asyncHandler");
 const recaptchaVerification = require("../middleware/captcha-verification");
-const { isLoggedIn } = require("../middleware/authMiddleware");
+const { isLoggedIn, isAuth } = require("../middleware/authMiddleware");
 const validate = require("../middleware/validate");
 const authValidation = require("../validation/auth.validation");
 
@@ -28,6 +28,8 @@ router.get("/forget-password", isLoggedIn, authController.forgetPassword);
 
 // Reset user password page
 router.get("/reset-password/:token", isLoggedIn, authController.resetPassword);
+
+router.get("/active/:token", asyncHandler(authController.handleActiveUserAccount));
 
 // ---------------------- POST ROUTES ----------------------
 // Handle register admins.

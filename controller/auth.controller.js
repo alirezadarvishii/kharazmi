@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 
 const AuthService = require("../services/auth.service");
+const UserService = require("../services/user.service");
 const ApiError = require("../lib/ApiError");
 
 module.exports.regiserType = (req, res) => {
@@ -75,7 +76,7 @@ module.exports.handleRegisterUser = async (req, res) => {
   await AuthService.registerUser(userDto);
   req.flash(
     "success",
-    "ثبت نام شما با موفقیت انجام شد و میتوانید وارد اکانت خود شوید!",
+    "ثبت نام با موفقیت انجام شد، ایمیل حاوی لینک فعال سازی حساب برای شما ارسال شد!",
   );
   res.redirect("/login");
 };
@@ -136,4 +137,11 @@ module.exports.handleResetPassword = async (req, res) => {
   await AuthService.resetPassword(userDto);
   req.flash("success", "رمز عبور شما با موفقیت تعویض شد!");
   res.redirect("/login");
+};
+
+module.exports.handleActiveUserAccount = async (req, res) => {
+  const { token } = req.params;
+  await AuthService.activeAccount(token);
+  req.flash("success", "اکانت شما با موفقیت تأیید و فعال شد.");
+  res.redirect("/");
 };

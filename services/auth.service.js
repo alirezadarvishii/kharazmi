@@ -94,12 +94,37 @@ class AuthService {
       buffer: profileImg.buffer,
       path: path.join(__dirname, "..", "public", "users", filename),
     });
-    const user = {
+    const finalyUserDto = {
       ...userDto,
       profileImg: filename,
       password: hashPassword,
     };
-    await UserService.create(user);
+    const user = await UserService.create(finalyUserDto);
+    const emailActivationFilePath = path.join(
+      __dirname,
+      "..",
+      "/views/includes/email-active-account.ejs",
+    );
+    const token = jwt.sign(
+      {
+        email,
+        userId: user._id,
+        role: "user",
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" },
+    );
+    const emailActivationTemplate = await ejs.renderFile(
+      emailActivationFilePath,
+      {
+        token,
+      },
+    );
+    await new EmailService(
+      email,
+      "ایمیل فعال سازی حساب",
+      emailActivationTemplate,
+    ).sendEmail();
   }
 
   async login(userDto) {
@@ -213,6 +238,21 @@ class AuthService {
     const hashedPassword = await hash(password, 12);
     user.password = hashedPassword;
     await user.save();
+  }
+
+  async activeAccount(token) {
+    try {
+      const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
+      const { email, userId, role } = verifyToken;
+      await UserService.updateOne(userId, { active: true });
+    } catch (err) {
+      throw new ApiError({
+        statusCode: httpStatus.BAD_REQUEST,
+        code: httpStatus[400],
+        message: "توکن نامعتبر است!",
+        redirectionPath: "/",
+      });
+    }
   }
 }
 

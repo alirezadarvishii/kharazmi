@@ -29,7 +29,15 @@ router.get("/forget-password", isLoggedIn, authController.forgetPassword);
 // Reset user password page
 router.get("/reset-password/:token", isLoggedIn, authController.resetPassword);
 
-router.get("/active/:token", asyncHandler(authController.handleActiveUserAccount));
+router.get(
+  "/active/:token",
+  asyncHandler(authController.handleActiveUserAccount),
+);
+
+router.get(
+  "/send-activation-email",
+  asyncHandler(authController.sendActivationEmail),
+);
 
 // ---------------------- POST ROUTES ----------------------
 // Handle register admins.

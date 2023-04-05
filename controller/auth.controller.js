@@ -145,3 +145,10 @@ module.exports.handleActiveUserAccount = async (req, res) => {
   req.flash("success", "اکانت شما با موفقیت تأیید و فعال شد.");
   res.redirect("/");
 };
+
+module.exports.sendActivationEmail = async (req, res) => {
+  const { email, _id: userId, role } = req.user;
+  await AuthService.sendActivationEmail(email, userId, role);
+  req.flash("success", "ایمیل فعال سازی حساب با موفقیت برای شما ارسال شد!");
+  res.redirect("/me");
+};

@@ -113,12 +113,9 @@ class AuthService {
       process.env.JWT_SECRET,
       { expiresIn: "24h" },
     );
-    const emailActivationTemplate = await ejs.renderFile(
-      emailTemplate,
-      {
-        token,
-      },
-    );
+    const emailActivationTemplate = await ejs.renderFile(emailTemplate, {
+      token,
+    });
     await new EmailService(
       email,
       "ایمیل فعال سازی حساب",
@@ -252,6 +249,30 @@ class AuthService {
         redirectionPath: "/",
       });
     }
+  }
+
+  async sendActivationEmail(email, userId, role) {
+    const emailTemplate = path.join(
+      __dirname,
+      "..",
+      "/views/includes/email-active-account.ejs",
+    );
+    const token = jwt.sign(
+      {
+        userId,
+        role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" },
+    );
+    const emailActivationTemplate = await ejs.renderFile(emailTemplate, {
+      token,
+    });
+    await new EmailService(
+      email,
+      "ایمیل فعال سازی حساب",
+      emailActivationTemplate,
+    ).sendEmail();
   }
 }
 

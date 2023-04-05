@@ -66,6 +66,7 @@
                       <li class="col">نام و نام خانوادگی</li>
                       <li class="col">ایمیل</li>
                       <li class="col text-center">وضعیت</li>
+                      <li class="col text-center">وضعیت ایمیل</li>
                       <li class="col text-end">مدیریت</li>
                     </ul>
                     <ul class="list-unstyled">
@@ -79,6 +80,13 @@
                           <span class="badge bg-success">تأیید شده</span>
                           <% } else { %>
                           <span class="badge bg-danger">در انتظار</span>
+                          <% } %>
+                        </div>
+                        <div class="col text-center">
+                          <% if(user.active) { %>
+                            <span class="badge bg-success">تأیید شده</span>
+                          <% } else { %>
+                            <span class="badge bg-danger">در انتظار</span>
                           <% } %>
                         </div>
                         <div class="col text-end">

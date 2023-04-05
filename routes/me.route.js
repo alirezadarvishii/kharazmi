@@ -11,13 +11,13 @@ const authValidation = require("../validation/auth.validation");
 // ---------------------- GET ROUTES ----------------------
 
 // Get user panel page
-router.get("/", asyncHandler(meController.userPanel));
+router.get("/", isAuth, asyncHandler(meController.userPanel));
 
 // Get user edit information page.
-router.get("/edit", meController.edit);
+router.get("/edit", isAuth, meController.edit);
 
 // Get user change password page.
-router.get("/change-password", meController.changePassword);
+router.get("/change-password", isAuth, meController.changePassword);
 
 // Get user blogs management page.
 router.get("/blogs", isAuth, asyncHandler(meController.manageOwnBlogs));
@@ -27,6 +27,7 @@ router.get("/blogs", isAuth, asyncHandler(meController.manageOwnBlogs));
 // Handle user edit information.
 router.post(
   "/edit/:role",
+  isAuth,
   validate(authValidation.editUserValidation),
   asyncHandler(meController.handleEdit),
 );
@@ -34,6 +35,7 @@ router.post(
 // Handle user change password
 router.post(
   "/change-password",
+  isAuth,
   validate(authValidation.resetPasswordValidation),
   asyncHandler(meController.handleChangePassword),
 );
